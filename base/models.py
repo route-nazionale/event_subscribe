@@ -13,14 +13,14 @@ class ScoutGroup(models.Model):
         return self.name
 
     def n_chiefs(self):
-        return self.chief_set.count()
+        return self.scoutchief_set.count()
     n_chiefs.short_description = "num. capi"
 
     n_objs = n_chiefs
 
 #--------------------------------------------------------------------------------
 
-class Chief(models.Model):
+class ScoutChief(models.Model):
 
     code_membership = models.CharField(max_length=128, unique=True,
         verbose_name="codice censimento"
@@ -29,11 +29,11 @@ class Chief(models.Model):
 
     class Meta:
 
-        verbose_name = "capo"
-        verbose_name_plural = "capi"
+        verbose_name = "capo scout"
+        verbose_name_plural = "capi scout"
 
     def __unicode__(self):
-        return "<%s> - %s" % (self.scout_group, self.code_membership)
+        return "%s - %s" % (self.scout_group, self.code_membership)
 
 #--------------------------------------------------------------------------------
 
@@ -57,6 +57,19 @@ class SubCamp(models.Model):
     n_events.short_description = "num. eventi"
 
     n_objs = n_events
+
+#--------------------------------------------------------------------------------
+
+class EventTimeSlot(models.Model):
+
+    name = models.CharField(max_length=32, unique=True)
+    dt_start = models.DateTimeField()
+    dt_stop = models.DateTimeField()
+
+    class Meta:
+        ordering = ('dt_start',)
+        verbose_name = "slot temporale"
+        verbose_name_plural = "slot temporali"
 
 #--------------------------------------------------------------------------------
 
@@ -89,8 +102,7 @@ class Event(models.Model):
     is_handicap_compatible = models.BooleanField(default=True)
     subcamp = models.ForeignKey(SubCamp)
 
-    dt_start = models.DateTimeField()
-    dt_stop = models.DateTimeField()
+    timeslot = models.ForeignKey(EventTimeSlot)
 
     class Meta:
 
