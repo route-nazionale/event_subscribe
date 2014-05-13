@@ -19,6 +19,7 @@ mkvirtualenv rn-django17
 pip install https://www.djangoproject.com/download/1.7b3/tarball/
 git clone git@github.com:route-nazionale/event_subscribe.git
 cd event_subscribe
+cp event_subscribe/settings_dist.py event_subscribe/settings.py
 ```
 Procedura di sviluppo/test:
 
