@@ -1,11 +1,11 @@
 from django.db import models
 
-from base.models import ScoutChief, Event, ScoutGroup
+from base.models import ScoutChief, EventHappening
 
-class ScoutChiefEventSubscribe(models.Model):
+class ScoutChiefEventHappeningSubscription(models.Model):
 
     scout_chief = models.ForeignKey(ScoutChief)
-    event = models.ForeignKey(Event)
+    event_happening = models.ForeignKey(EventHappening)
 
     subscribed_on = models.DateTimeField(auto_now_add=True)
     unsubscribed_on = models.DateTimeField(null=True, blank=True)
@@ -15,5 +15,6 @@ class ScoutChiefEventSubscribe(models.Model):
 
     class Meta:
 
+        db_table = "subscriptions"
         verbose_name = "iscrizione evento"
         verbose_name_plural = "iscrizioni eventi"
