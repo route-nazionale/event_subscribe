@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from base.models import ScoutChief, SubCamp, ScoutGroup, Event
+from base.models import ScoutChief, District, Unit, Event
 
 class ScoutChiefAdmin(admin.ModelAdmin):
 
-    list_display = ('__unicode__', 'scout_group', 'code_membership')
-    list_filter = ('scout_group',)
+    list_display = ('__unicode__', 'scout_unit', 'code')
+    list_filter = ('scout_unit',)
 
 class GenericNameAdmin(admin.ModelAdmin):
 
@@ -14,15 +14,17 @@ class GenericNameAdmin(admin.ModelAdmin):
 class EventAdmin(admin.ModelAdmin):
 
     list_display = (
-        '__unicode__', 'name', 'timeslot', 'subcamp', 'n_seats', 'tot_seats'
+        '__unicode__', 'name', 'district', 
+        'seats_n_boys', 'seats_n_chiefs', 'seats_tot'
     )
     list_editable = (
-        'name', 'timeslot', 'subcamp', 'n_seats', 'tot_seats'
+        'name', 'district', 
+        'seats_n_boys', 'seats_tot'
     )
 
 admin.site.register(ScoutChief, ScoutChiefAdmin)
-admin.site.register(SubCamp, GenericNameAdmin)
-admin.site.register(ScoutGroup, GenericNameAdmin)
+admin.site.register(District, GenericNameAdmin)
+admin.site.register(Unit, GenericNameAdmin)
 admin.site.register(Event, EventAdmin)
 
 
