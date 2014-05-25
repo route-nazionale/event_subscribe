@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', 'subscribe.views.index', name='index'),
     url(r'^iscrizione-laboratori/', 'subscribe.views.subscribe', name='subscribe'),
     url(r'^scelta-laboratori/', 'subscribe.views.choose', name='choose'),
-    url(r'^eventi/', 'base.views.events', name='events'),
+    url(r'^events/', 'base.views.events', name='events'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

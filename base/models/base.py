@@ -37,7 +37,7 @@ class ScoutChief(models.Model):
         verbose_name_plural = "capi scout"
 
     def __unicode__(self):
-        return "%s - %s" % (self.scout_unit, self.code_membership)
+        return "%s - %s" % (self.scout_unit, self.code)
 
 #--------------------------------------------------------------------------------
 
@@ -98,4 +98,7 @@ class HeartBeat(models.Model):
 
     name = models.CharField(max_length=128, unique=True)
     description = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.name
 
