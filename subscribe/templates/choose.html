@@ -13,7 +13,7 @@
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script>
       $(document).ready(function(){
-        $.get('/eventi', function(data){
+        $.get('/event', function(data){
           $.each(data, function(i, item){
             console.log(item.fields);
           });

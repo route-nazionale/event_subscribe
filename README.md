@@ -10,13 +10,14 @@ Requisiti:
 * virtualenv (consigliato ma non obbligatorio)
 * python 2
 * django 1.7
+* recaptcha-client
 
 Procedura di installazione:
 
 ```sh
 sudo apt-get install virtualenvwrapper
 mkvirtualenv rn-django17
-pip install https://www.djangoproject.com/download/1.7b3/tarball/
+pip install -r requirements.txt
 git clone git@github.com:route-nazionale/event_subscribe.git
 cd event_subscribe
 cp event_subscribe/settings_dist.py event_subscribe/settings.py

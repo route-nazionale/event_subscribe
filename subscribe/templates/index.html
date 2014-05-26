@@ -23,9 +23,6 @@
         width: 40%;
       }
       
-      label, input {
-        display: block;
-      }
     </style>
 
   </head>
@@ -33,14 +30,24 @@
     <div id="content">
       <form>
         {% csrf_token %}
-        <label>Gruppo Scout</label>
-        <input name="scout-unit" type="text" placeholder="Gruppo Scout">
-        <label>Codice Socio</label>
-        <input name="code" type="text" placeholder="Codice Socio">
-        <label>Data di Nascita</label>
-        <input name="birthday" type="date">
-        <label>Ricopia la scritta nell'immagine</label>
-        <input name="captcha" type="text">
+        <label>Gruppo Scout</label><br />
+        <input name="scout-unit" type="text" placeholder="Gruppo Scout"><br />
+        <label>Codice Socio</label><br />
+        <input name="code" type="text" placeholder="Codice Socio"><br />
+        <label>Data di Nascita</label><br />
+        <input name="birthday" type="date"><br />
+        <label>Ricopia la scritta nell'immagine</label><br />
+        <script type="text/javascript"
+           src="http://www.google.com/recaptcha/api/challenge?k={{ recaptcha_public_key }}">
+        </script>
+        <noscript>
+           <iframe src="http://www.google.com/recaptcha/api/noscript?k={{ recaptcha_public_key }}"
+               height="300" width="500" frameborder="0"></iframe><br>
+           <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+           </textarea>
+           <input type="hidden" name="recaptcha_response_field"
+               value="manual_challenge">
+        </noscript>
       </form>
       <button id="send">Valida nell'archivio AGESCI</button>
     </div>
@@ -57,10 +64,17 @@
             data: data,
             success: function(data){
               console.log(data);
+              if(data.status == 'ERROR') {
+                alert(data.message);
+              }
+              if(data.status == 'OK') {
+                window.location.href = '/scelta-laboratori/'
+              }
             },
             error: function(data){
               console.log(data)
-            }
+            },
+            dataType: 'json'
           });  
         });
       });
