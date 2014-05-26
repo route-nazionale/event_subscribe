@@ -7,8 +7,63 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>AGESCI Route Nazionale 2014</title>
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <style>
+      #content {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+      }
+      
+      label, input {
+        display: block;
+      }
+    </style>
+
   </head>
   <body>
-    <h1>Welcome!</h1>
+    <div id="content">
+      <form>
+        {% csrf_token %}
+        <label>Gruppo Scout</label>
+        <input name="scout-unit" type="text" placeholder="Gruppo Scout">
+        <label>Codice Socio</label>
+        <input name="code" type="text" placeholder="Codice Socio">
+        <label>Data di Nascita</label>
+        <input name="birthday" type="date">
+        <label>Ricopia la scritta nell'immagine</label>
+        <input name="captcha" type="text">
+      </form>
+      <button id="send">Valida nell'archivio AGESCI</button>
+    </div>
+    <script>
+      window.csrf_token = '{{ csrf_token }}';
+      $(document).ready(function(){
+        $('#send').click(function(){
+          console.log('Submit button clicked.');
+          var data = $('form').serialize();
+          console.log('data sent:', data);
+          $.ajax({
+            type: "POST",
+            url: '/validate-chief/',
+            data: data,
+            success: function(data){
+              console.log(data);
+            },
+            error: function(data){
+              console.log(data)
+            }
+          });  
+        });
+      });
+    </script>
   </body>
 </html>
