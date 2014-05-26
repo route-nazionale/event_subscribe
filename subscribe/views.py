@@ -3,7 +3,7 @@ from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.conf import settings
 
-from recaptcha.client import captcha 
+from recaptcha.client import captcha
 
 # simple redirect to landing page
 def index(request):
@@ -20,12 +20,14 @@ def subscribe(request):
 # API view, used to validate chief
 def validate(request):
     if request.method == 'POST':
-       
-        # get POST data 
+
+        # get POST data
         scout_unit = request.POST.get('scout-unit')
         code = request.POST.get('code')
-        birthday = request.POST.get('birthday')
-        recaptcha_challenge_field = request.POST.get('recaptcha_challenge_field') 
+        gg = request.POST.get('gg')
+        mm = request.POST.get('mm')
+        aaaa = request.POST.get('aaaa')
+        recaptcha_challenge_field = request.POST.get('recaptcha_challenge_field')
         recaptcha_response_field = request.POST.get('recaptcha_response_field')
 
         # check scout_unit
@@ -37,9 +39,9 @@ def validate(request):
             return HttpResponse('{"status": "ERROR", "message": "Devi inserire il codice socio"}')
 
         # check birthday
-        if not birthday:
-            return HttpResponse('{"status": "ERROR", "message": "Devi inserire la data di nascita"}')         
-        
+        if not gg or not mm or not aaaa:
+            return HttpResponse('{"status": "ERROR", "message": "Devi inserire la data di nascita"}')
+
         # check captcha
         if not recaptcha_challenge_field:
             return HttpResponse('{"status": "ERROR", "message": "RECAPTCHA non inizializzato correttamente"}')
@@ -53,7 +55,7 @@ def validate(request):
             recaptcha_response_field,
             settings.RECAPTCHA_PRIVATE_KEY,
             request.META['REMOTE_ADDR'],)
-        
+
         # see if the user correctly entered CAPTCHA information
         # and handle it accordingly.
         if not response.is_valid:
@@ -65,11 +67,10 @@ def validate(request):
 
     else:
         return HttpResponse('')
-    
+
 # validated chief view and subscribe to events
 def choose(request):
     if not 'valid' in request.session or not request.session['valid']:
-        return redirect('/iscrizione-laboratori/') 
+        return redirect('/iscrizione-laboratori/')
     else:
         return render_to_response('choose.html')
-
