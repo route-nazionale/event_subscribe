@@ -9,18 +9,78 @@
     <title>AGESCI Route Nazionale 2014</title>
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<!--
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <!-- Optional theme -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+-->
+    <!-- typeahead -->
+    <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.min.js"></script>
 
     <style>
       #content {
         margin-left: auto;
         margin-right: auto;
         width: 40%;
+      }
+
+      /* Typeahead style */
+      .tt-query,
+      .tt-hint {
+          width: 396px;
+          height: 30px;
+          padding: 8px 12px;
+          font-size: 24px;
+          line-height: 30px;
+          border: 2px solid #ccc;
+          -webkit-border-radius: 8px;
+          -moz-border-radius: 8px;
+          border-radius: 8px;
+          outline: none;
+      }
+
+      .tt-query {
+          -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      }
+
+      .tt-hint {
+          color: #999
+      }
+
+      .tt-dropdown-menu {
+          width: 422px;
+          margin-top: 12px;
+          padding: 8px 0;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          -webkit-border-radius: 8px;
+          -moz-border-radius: 8px;
+          border-radius: 8px;
+          -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+      }
+
+      .tt-suggestion {
+          padding: 3px 20px;
+          font-size: 18px;
+          line-height: 24px;
+      }
+
+      .tt-suggestion.tt-is-under-cursor { /* UPDATE: newer versions use .tt-suggestion.tt-cursor */
+          color: #fff;
+          background-color: #0097cf;
+
+      }
+
+      .tt-suggestion p {
+          margin: 0;
       }
       
     </style>
@@ -54,6 +114,33 @@
     <script>
       window.csrf_token = '{{ csrf_token }}';
       $(document).ready(function(){
+        
+        // typeahead initialitation
+        $.get('/units', function(data){
+          // constructs the suggestion engine
+          var units = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: $.map(data, function(state) { return { value: state }; })
+          });
+           
+          // kicks off the loading/processing of `local` and `prefetch`
+          units.initialize();
+           
+          $('input[name="scout-unit"]').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+          },
+          {
+            name: 'units',
+            displayKey: 'value',
+            source: units.ttAdapter()
+          });
+        },
+        'json');
+
+        // Send click trigger
         $('#send').click(function(){
           console.log('Submit button clicked.');
           var data = $('form').serialize();
