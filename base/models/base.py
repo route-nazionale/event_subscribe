@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
 
 from django.db import models
-from django.contrib.auth.models import User
 
 class Unit(models.Model):
 
@@ -26,12 +25,10 @@ class Unit(models.Model):
 
 class ScoutChief(models.Model):
 
-    user = models.OneToOneField(User)
     code = models.CharField(max_length=128, unique=True,
         verbose_name="codice censimento"
     )
     scout_unit = models.ForeignKey(Unit)
-    birth_date = models.DateTimeField()
 
     name = models.CharField(max_length=32, verbose_name="nome")
     surname = models.CharField(max_length=32, verbose_name="cognome")

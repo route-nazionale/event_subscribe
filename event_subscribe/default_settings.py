@@ -31,9 +31,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-AUTHENTICATION_BACKENDS = (
-    'base.chief_auth_backend.ScoutChiefAuthBackend',
-)
 
 INSTALLED_APPS = (
     'django.contrib.admin',
