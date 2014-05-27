@@ -55,7 +55,7 @@ class EventPerson(models.Model):
 
     person = models.ForeignKey(Person)
     event_happening = models.ForeignKey(EventHappening)
-    role = models.CharField(max_length=16, 
+    role = models.CharField(max_length=16,
         choices=ROLE_CHOICES, default=ROLE_ANIMATOR
     )
     contacts = models.CharField(max_length=512, blank=True,
@@ -94,11 +94,11 @@ class Event(models.Model):
     description = models.TextField(blank=True)
     timeslot_set = models.ManyToManyField(EventTimeSlot, through=EventHappening)
 
-    #--- code parts (i.e: LAB-A30123 or TAV-B20001 ---# 
+    #--- code parts (i.e: LAB-A30123 or TAV-B20001 ---#
     kind = models.CharField(max_length=32, choices=EVENT_KIND_CHOICES, default=EVENT_LAB)
     district = models.ForeignKey(District)
     topic = models.ForeignKey(HeartBeat, verbose_name="strada di coraggio")
-    num = models.IntegerField(verbose_name="codice numerico")
+    num = models.CharField(max_length=32, verbose_name="codice numerico")
 
     @property
     def code(self):
@@ -129,17 +129,17 @@ class Event(models.Model):
         (STATE_RESERVED, 'riservato'),
         (STATE_DISABLED, 'disabilitato'),
     )
-    
+
     STATE_TWOCHOICES = (
         (STATE_ENABLED, 'abilitato'),
         (STATE_DISABLED, 'disabilitato'),
     )
 
-    state_handicap = models.CharField(max_length=16, 
+    state_handicap = models.CharField(max_length=16,
         choices=STATE_TWOCHOICES, default=STATE_ENABLED,
         verbose_name="accessibilità ai diversamente abili"
     )
-    state_chief = models.CharField(max_length=16, 
+    state_chief = models.CharField(max_length=16,
         choices=STATE_THREECHOICES, default=STATE_ENABLED,
         verbose_name="rivolto ai capi"
     )
@@ -159,7 +159,7 @@ class Event(models.Model):
         choices=ACTIVATION_CHOICES, default=ACTIVATION_ACTIVE,
         verbose_name="stato di attivazione"
     )
-    
+
     #--- subscription states ---#
 
     SUBSCRIPTION_OPEN = "OPEN"
