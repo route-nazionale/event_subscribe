@@ -29,6 +29,7 @@
         </div>
         <div class="container" ng-view></div>
         <script type="text/javascript" src="/static/subscribe/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/jquery.cookie.js"></script>
         <!-- Bootstrap js -->
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <!--        <script type="text/javascript" src="//cdn.datatables.net/1.10-dev/js/jquery.dataTables.min.js"></script>
@@ -37,5 +38,14 @@
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.9/angular-route.min.js"></script>
         <script type="text/javascript" src="/static/subscribe/ng-table.min.js"></script>
         <script type="text/javascript" src="/static/subscribe/app.js"></script>
+        <script type="text/javascript">
+            var CSRF_TOKEN = '{{ csrftoken }}' || $.cookie('csrftoken');
+            var CHIEF = {
+                name: '{{chief.name}}',
+                surname: '{{chief.surname}}',
+                code: '{{chief.code}}',
+                group: '{{ chief.group}}'
+            };
+        </script>
     </body>
 </html>

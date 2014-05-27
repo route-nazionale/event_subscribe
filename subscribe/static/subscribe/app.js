@@ -15,6 +15,7 @@ EventSubscribeApp.config([
 EventSubscribeApp.controller('EventController', [
     '$scope', '$http', '$filter', 'ngTableParams',
     function($scope, $http, $filter, ngTableParams) {
+        $http.defaults.headers.post = { 'X-CSRFToken' : CSRF_TOKEN };
         $scope.events = [];
         $scope.order = 'name';
         $scope.alert = null;
@@ -37,7 +38,7 @@ EventSubscribeApp.controller('EventController', [
         };
         $scope.subscribe = function(event){
             var url = '/event/'+event.num+'/subscribe/';
-            $http.get(url).success(function(res){
+            $http.post(url).success(function(res){
                 if( res.status === 'OK' ){
                     $scope.subscribedEvents.push(event);
                 }else{
@@ -47,7 +48,7 @@ EventSubscribeApp.controller('EventController', [
         };
         $scope.unsubscribe = function(event){
             var url = '/event/'+event.num+'/unsubscribe/';
-            $http.get(url).success(function(res){
+            $http.post(url).success(function(res){
                 if( res.status === 'OK' ){
                     var id = $scope.subscribedEvents.indexOf(event);
                     if( id>=0 ){
