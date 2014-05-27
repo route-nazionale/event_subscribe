@@ -4,8 +4,11 @@ from base.models import ScoutChief, District, Unit, Event, HeartBeat
 
 class ScoutChiefAdmin(admin.ModelAdmin):
 
-    list_display = ('__unicode__', 'scout_unit', 'code')
-    list_filter = ('scout_unit',)
+    list_display = (
+        '__unicode__', 'scout_unit', 'code',
+        'name', 'surname', 'birthday'
+    )
+    list_filter = ('scout_unit', 'name', 'surname', 'birthday')
 
 class GenericNameAdmin(admin.ModelAdmin):
 
@@ -14,11 +17,11 @@ class GenericNameAdmin(admin.ModelAdmin):
 class EventAdmin(admin.ModelAdmin):
 
     list_display = (
-        '__unicode__', 'name', 'district', 
+        '__unicode__', 'name', 'district',
         'seats_n_boys', 'seats_n_chiefs', 'seats_tot'
     )
     list_editable = (
-        'name', 'district', 
+        'name', 'district',
         'seats_n_boys', 'seats_tot'
     )
 
@@ -31,5 +34,3 @@ admin.site.register(District, GenericNameAdmin)
 admin.site.register(Unit, GenericNameAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(HeartBeat, HeartBeatAdmin)
-
-

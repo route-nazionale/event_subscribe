@@ -30,6 +30,10 @@ class ScoutChief(models.Model):
     )
     scout_unit = models.ForeignKey(Unit)
 
+    name = models.CharField(max_length=32, verbose_name="nome")
+    surname = models.CharField(max_length=32, verbose_name="cognome")
+    birthday = models.DateField(verbose_name="data di nascita");
+
     class Meta:
 
         db_table = "scout_chiefs"
@@ -37,7 +41,7 @@ class ScoutChief(models.Model):
         verbose_name_plural = "capi scout"
 
     def __unicode__(self):
-        return "%s - %s" % (self.scout_unit, self.code)
+        return "%s - %s %s" % (self.scout_unit, self.name, self.surname)
 
 #--------------------------------------------------------------------------------
 
@@ -76,7 +80,7 @@ class District(models.Model):
 
     code = models.CharField(max_length=8, primary_key=True)
     name = models.CharField(max_length=128, unique=True)
-    
+
     class Meta:
 
         db_table = "camp_districts"
@@ -101,4 +105,3 @@ class HeartBeat(models.Model):
 
     def __unicode__(self):
         return self.name
-
