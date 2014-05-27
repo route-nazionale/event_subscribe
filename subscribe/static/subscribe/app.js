@@ -37,7 +37,7 @@ EventSubscribeApp.controller('EventController', [
             return res;
         };
         $scope.subscribe = function(event){
-            var url = '/event/'+event.num+'/subscribe/';
+            var url = '/event/'+event.code+'/subscribe/';
             $http.post(url).success(function(res){
                 if( res.status === 'OK' ){
                     $scope.subscribedEvents.push(event);
@@ -47,7 +47,7 @@ EventSubscribeApp.controller('EventController', [
             });
         };
         $scope.unsubscribe = function(event){
-            var url = '/event/'+event.num+'/unsubscribe/';
+            var url = '/event/'+event.code+'/unsubscribe/';
             $http.post(url).success(function(res){
                 if( res.status === 'OK' ){
                     var id = $scope.subscribedEvents.indexOf(event);
@@ -61,9 +61,7 @@ EventSubscribeApp.controller('EventController', [
         };
         
         $http.get('/events/').success(function(data) {
-            for( var e in data ){
-                $scope.events.push(data[e].fields);
-            }
+            $scope.events = data;
             
             $scope.tableParams = new ngTableParams({
                 page: 1, count: 10, sorting: { name: 'asc' }
