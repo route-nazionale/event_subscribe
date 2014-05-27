@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from django.shortcuts import render, redirect, render_to_response
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.conf import settings
@@ -51,9 +52,10 @@ def validate(request):
         # check AGESCI code
         if not code:
             return API_response("ERROR", "Devi inserire il codice socio")
-        chief = ScoutChief.objects.get(code=code)
         # check if ScoutChief code is valid
-        if not chief:
+        try:
+          chief = ScoutChief.objects.get(code=code)
+        except ObjectDoesNotExist:
             return API_response("ERROR", "Il codice socio che hai inserito non esiste")
         # check if ScoutChief is in the correct Unit
         if chief.scout_unit.name != scout_unit:
