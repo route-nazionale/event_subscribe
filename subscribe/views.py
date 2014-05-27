@@ -73,8 +73,10 @@ def validate(request):
 
         # chief is valid
         request.session['valid'] = True
+        request.session['chief_code'] = code
         return HttpResponse('{"status": "OK"}')
 
+    # method is GET
     else:
         return HttpResponse('')
 
@@ -83,4 +85,8 @@ def choose(request):
     if not 'valid' in request.session or not request.session['valid']:
         return redirect('/iscrizione-laboratori/')
     else:
-        return render_to_response('choose.html')
+        chief = ScoutChief.objects.get(code=request.session['chief_code'])
+        c = {}
+        c['chief_code'] = chief.code
+        c['chief_group'] = chief.scout_unit.name
+        return render_to_response('choose.html', c)
