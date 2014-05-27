@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.conf import settings
+from base.models import ScoutChief, Unit
 
 from recaptcha.client import captcha
 
@@ -33,10 +34,19 @@ def validate(request):
         # check scout_unit
         if not scout_unit:
             return HttpResponse('{"status": "ERROR", "message": "Devi inserire il gruppo scout"}')
+        # check if unit is valid
+        if not Unit.objects.filter(name=scout_unit):
+            return HttpResponse('{"status": "ERROR", "message": "Il gruppo scout che hai inserito non esiste"}')
 
-        # check code
+        # check AGESCI code
         if not code:
             return HttpResponse('{"status": "ERROR", "message": "Devi inserire il codice socio"}')
+        # check if ScoutChief code is valid
+        if not ScoutChief.objects.filter(code=code):
+            return HttpResponse('{"status": "ERROR", "message": "Il codice socio che hai inserito non esiste"}')
+        # check if ScoutChief is in the correct Unit
+        if not ScoutChief.objects.filter(scout_unit=scout_unit, code=code):
+            return HttpResponse('{"status": "ERROR", "message": "Il codice che hai fornito risulta censito in un altro gruppo"}')
 
         # check birthday
         if not gg or not mm or not aaaa:
