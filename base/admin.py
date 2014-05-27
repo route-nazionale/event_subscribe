@@ -10,14 +10,18 @@ class ScoutChiefAdmin(admin.ModelAdmin):
     )
     list_filter = ('scout_unit', 'name', 'surname', 'birthday')
 
-class GenericNameAdmin(admin.ModelAdmin):
+class DistrictAdmin(admin.ModelAdmin):
 
-    list_display = ('__unicode__', 'name', 'n_objs')
+    list_display = ('__unicode__', 'code', 'n_objs')
+
+class UnitAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'n_objs')
 
 class EventAdmin(admin.ModelAdmin):
 
     list_display = (
-        '__unicode__', 'name', 'district',
+        'code', 'num', 'name', 'district',
         'seats_n_boys', 'seats_n_chiefs', 'seats_tot'
     )
     list_editable = (
@@ -27,10 +31,10 @@ class EventAdmin(admin.ModelAdmin):
 
 class HeartBeatAdmin(admin.ModelAdmin):
 
-    list_display = ('__unicode__', 'name', 'description')
+    list_display = ('__unicode__', 'code')
 
 admin.site.register(ScoutChief, ScoutChiefAdmin)
-admin.site.register(District, GenericNameAdmin)
-admin.site.register(Unit, GenericNameAdmin)
+admin.site.register(District, DistrictAdmin)
+admin.site.register(Unit, UnitAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(HeartBeat, HeartBeatAdmin)

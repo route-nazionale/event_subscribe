@@ -98,12 +98,12 @@ class Event(models.Model):
     kind = models.CharField(max_length=32, choices=EVENT_KIND_CHOICES, default=EVENT_LAB)
     district = models.ForeignKey(District)
     topic = models.ForeignKey(HeartBeat, verbose_name="strada di coraggio")
-    num = models.CharField(max_length=32, verbose_name="codice numerico")
+    num = models.IntegerField(verbose_name="codice numerico")
 
     @property
     def code(self):
         return "%s-%s%s%s" % (
-            self.kind, self.district.code, self.topic, self.num_code
+            self.kind, self.district.code, self.topic.code, self.num
         )
 
     #--- constraints ---#
