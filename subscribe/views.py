@@ -16,6 +16,11 @@ def index(request):
 
 # landing page: chief validate through AGESCI code, unit name and birthday
 def subscribe(request):
+
+    # if user is logged, redirect to event choose view
+    if 'valid' in request.session and request.session['valid']:
+        return redirect('/scelta-laboratori/')
+
     c = {}
     c.update(csrf(request))
     c['recaptcha_public_key'] = settings.RECAPTCHA_PUBLIC_KEY
@@ -106,3 +111,11 @@ def choose(request):
         c['chief']['surname'] = chief.surname
         c['chief']['group'] = chief.scout_unit.name
         return render_to_response('choose.html', c)
+
+# logout view
+def logout(request):
+    if 'valid' in request.session:
+        request.session['valid'] = False
+        request.session['chief_code'] = None
+
+    return redirect('/iscrizione-laboratori/')
