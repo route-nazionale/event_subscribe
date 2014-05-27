@@ -13,7 +13,8 @@ urlpatterns = patterns('',
     url(r'^logout/', 'subscribe.views.logout', name='logout'),
 
     # API views
-    url(r'^event/', 'base.views.events', name='events'),
+    url(r'^events/', 'base.views.events', name='events'),
+    url(r'^event/(?P<event_code>\w+)/(?P<action>subscribe|unsubscribe)/$', 'subscribe.views.event', name='event'),
     url(r'^units/', 'base.views.units', name='units'),
     url(r'^validate-chief/', 'subscribe.views.validate', name='validate'),
 

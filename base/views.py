@@ -14,4 +14,4 @@ def units(request):
     for unit in Unit.objects.all():
         units.append(unit.name)
 
-    return HttpResponse(json.dumps(units))
+    return HttpResponse(json.dumps(units), content_type="application/json")

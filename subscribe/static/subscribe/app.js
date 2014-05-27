@@ -24,7 +24,7 @@ EventSubscribeApp.controller('EventController', [
             $scope.selectedEvent = event;
         };
         
-        $http.get('/event/').success(function(data) {
+        $http.get('/events/').success(function(data) {
             for( var e in data ){
                 $scope.events.push(data[e].fields);
             }
