@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it" ng-app="EventSubscribeApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Lista degli eventi</title>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Bootstrap css-->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.css">
+        <link rel="stylesheet" href="/static/subscribe/ng-table.min.css">
+    </head>
+    <body>
+        <div class="well">I tuoi eventi</div>
+        <div class="container">
+            <div class="alert alert-info">Benvenuto {{ chief_code}} del gruppo {{ chief_group}}</div>
+        </div>
+        <div class="container" ng-view></div>
+        <script type="text/javascript" src="/static/subscribe/jquery-1.11.0.min.js"></script>
+        <!-- Bootstrap js -->
+        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<!--        <script type="text/javascript" src="//cdn.datatables.net/1.10-dev/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>-->
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.9/angular.min.js"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.9/angular-route.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/ng-table.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/app.js"></script>
+    </body>
+</html>
