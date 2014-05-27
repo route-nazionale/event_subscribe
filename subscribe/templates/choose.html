@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Lista degli eventi</title>
+  </head>
+  <body>
+    <h1>Benvenuto {{ chief.name }} {{ chief.surname }}</h1>
+    <a href="/logout/">Esci</a>
+    <script src="/static/subscribe/jquery-1.11.0.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $.get('/event', function(data){
+          $.each(data, function(i, item){
+            console.log(item.fields);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
