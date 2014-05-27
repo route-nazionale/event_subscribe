@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 from django.shortcuts import render, redirect, render_to_response
 from django.core.context_processors import csrf
 from django.http import HttpResponse
@@ -6,12 +8,19 @@ from base.models import ScoutChief, Unit
 
 from recaptcha.client import captcha
 
+from datetime import *
+
 # simple redirect to landing page
 def index(request):
     return redirect('/iscrizione-laboratori/')
 
 # landing page: chief validate through AGESCI code, unit name and birthday
 def subscribe(request):
+
+    # if user is logged, redirect to event choose view
+    if 'valid' in request.session and request.session['valid']:
+        return redirect('/scelta-laboratori/')
+
     c = {}
     c.update(csrf(request))
     c['recaptcha_public_key'] = settings.RECAPTCHA_PUBLIC_KEY
@@ -41,16 +50,25 @@ def validate(request):
         # check AGESCI code
         if not code:
             return HttpResponse('{"status": "ERROR", "message": "Devi inserire il codice socio"}')
+        chief = ScoutChief.objects.get(code=code)
         # check if ScoutChief code is valid
-        if not ScoutChief.objects.filter(code=code):
+        if not chief:
             return HttpResponse('{"status": "ERROR", "message": "Il codice socio che hai inserito non esiste"}')
         # check if ScoutChief is in the correct Unit
-        if not ScoutChief.objects.filter(scout_unit=scout_unit, code=code):
+        if chief.scout_unit.name != scout_unit:
             return HttpResponse('{"status": "ERROR", "message": "Il codice che hai fornito risulta censito in un altro gruppo"}')
 
         # check birthday
         if not gg or not mm or not aaaa:
             return HttpResponse('{"status": "ERROR", "message": "Devi inserire la data di nascita"}')
+
+        try:
+            birthday = date(int(aaaa), int(mm), int(gg))
+        except ValueError:
+            return HttpResponse('{"status": "ERROR", "message": "Devi inserire una data di nascita valida (es: 24/09/1991)"}')
+
+        if chief.birthday != birthday:
+            return HttpResponse('{"status": "ERROR", "message": "La data di nascita inserita non corrisponde con quella del codice socio"}')
 
         # check captcha
         if not recaptcha_challenge_field:
@@ -69,7 +87,7 @@ def validate(request):
         # see if the user correctly entered CAPTCHA information
         # and handle it accordingly.
         if not response.is_valid:
-            return HttpResponse('{"status": "ERROR", "message": "Il codice che hai ricopiato non e corretto"}')
+            return HttpResponse('{"status": "ERROR", "message": "Il codice che hai ricopiato non è corretto"}')
 
         # chief is valid
         request.session['valid'] = True
@@ -87,6 +105,17 @@ def choose(request):
     else:
         chief = ScoutChief.objects.get(code=request.session['chief_code'])
         c = {}
-        c['chief_code'] = chief.code
-        c['chief_group'] = chief.scout_unit.name
+        c['chief'] = {}
+        c['chief']['code'] = chief.code
+        c['chief']['name'] = chief.name
+        c['chief']['surname'] = chief.surname
+        c['chief']['group'] = chief.scout_unit.name
         return render_to_response('choose.html', c)
+
+# logout view
+def logout(request):
+    if 'valid' in request.session:
+        request.session['valid'] = False
+        request.session['chief_code'] = None
+
+    return redirect('/iscrizione-laboratori/')

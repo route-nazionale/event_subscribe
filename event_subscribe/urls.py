@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     url(r'^$', 'subscribe.views.index', name='index'),
     url(r'^iscrizione-laboratori/', 'subscribe.views.subscribe', name='subscribe'),
     url(r'^scelta-laboratori/', 'subscribe.views.choose', name='choose'),
-    
+    url(r'^logout/', 'subscribe.views.logout', name='logout'),
+
     # API views
     url(r'^event/', 'base.views.events', name='events'),
     url(r'^units/', 'base.views.units', name='units'),
