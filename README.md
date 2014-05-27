@@ -24,6 +24,8 @@ cp event_subscribe/settings_dist.py event_subscribe/settings.py
 ```
 inserite nel file event_subscribe/settings.py le vostre chiavi RECAPTCHA Google
 
+https://www.google.com/recaptcha/admin#whyrecaptcha
+
 Procedura di sviluppo/test:
 
 ```sh
