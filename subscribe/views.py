@@ -108,6 +108,7 @@ def choose(request):
     else:
         chief = ScoutChief.objects.get(code=request.session['chief_code'])
         c = {}
+        c.update(csrf(request))
         c['chief'] = {}
         c['chief']['code'] = chief.code
         c['chief']['name'] = chief.name

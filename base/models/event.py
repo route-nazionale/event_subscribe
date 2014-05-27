@@ -191,8 +191,8 @@ class Event(models.Model):
 
     @property
     def n_seats(self):
-        return self.n_boys_seats + self.n_chiefs_seats
+        return self.seats_n_boys + self.seats_n_chiefs
 
     @property
     def available_seats(self):
-        return self.tot_seats - self.n_seats
+        return self.seats_tot - self.n_seats
