@@ -18,8 +18,8 @@ Procedura di installazione:
 sudo apt-get install virtualenvwrapper
 mkvirtualenv rn-django17
 git clone git@github.com:route-nazionale/event_subscribe.git
-pip install -r requirements.txt
 cd event_subscribe
+pip install -r requirements.txt
 cp event_subscribe/settings_dist.py event_subscribe/settings.py
 ```
 inserite nel file event_subscribe/settings.py le vostre chiavi RECAPTCHA Google
@@ -45,5 +45,3 @@ Per visualizzare e modificare i dati, utilizzate la comoda interfaccia di admin 
 http://localhost:8000/admin
 
 Potete accedere con nome utente 'admin' e password 'admin'
-
-

@@ -1,19 +1,19 @@
-RESTful API
-===========
+API
+===
 
 * POST login
-* GET /event/ - lista eventi con parametri
-   * user (utente): <user_id> -> server per filtro per età, e sapere a quali lui si è già iscritto
-   * can_subscribe (disponibilità): 0, 1
-   * kind (tipologia): 
-        * lab (laboratorio)
-        * tav (tavola rotonda)
-   * timeslot (fascia): 
-        * 0 (venerdì mattina), 
-        * 1 (venerdì pomeriggio), 
-        * 2 (sabato mattina)
-    * subcamp (quartiere) : <subcamp_id>
-    * is_handicap_enabled (accessibilità): 0, 1
-* GET /event/:event_code/ - singolo evento 
-* POST /event/:event_code/subscribe - iscrizione evento 
+* GET /events/
+    restituisce un JSON con la lista di tutti gli elementi disponibili
+* POST /event/<event_code>/subscribe
+    il capo viene iscritto all'evento specificato
+* POST /event/<event_code>/unsubscribe
+    il capo viene disiscritto all'evento specificato
 
+Alle POST viene restituito un JSON di conferma o di errore
+{status: 'OK'}
+{status: 'ERROR', message: 'Descrizione errore'}
+
+Le richieste devono essere accompagnate dal cookie "sessionid" che permette
+l'autenticazione del capo attraverso le sessioni.
+
+Ogni POST deve essere accompagnata dal csrftoken (come in index.html)
