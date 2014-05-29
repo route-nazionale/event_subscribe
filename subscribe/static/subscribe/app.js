@@ -26,7 +26,13 @@ EventSubscribeApp.controller('EventController', [
         $scope.slotEvents = {s0:null,s1:null,s2:null};
 
         $scope.removeSlotEvent = function(slotId, slotEvent){
-            $scope.slotEvents[slotId] = null;
+            if( confirm('Vuoi davvero cancellare la tua iscrizione a '+slotEvent.name+'?')){
+                $scope.slotEvents[slotId] = null;
+                $scope.unsubscribe(slotEvent);
+            }
+            $scope.tableParamsSlots0.reload();
+            $scope.tableParamsSlots1.reload();
+            $scope.tableParamsSlots2.reload();
         };
         $scope.getSlotEvent = function(slotId){
             var e = $scope.slotEvents[slotId];
@@ -45,11 +51,14 @@ EventSubscribeApp.controller('EventController', [
             var eid = $(dragEl).data('eventid');
             var sid = $(dropEl).data('slotid');
             var event = $scope.findEvent(eid);
-            $scope.slotEvents[sid] = event;
+            if( confirm('Vuoi davvero iscriverti a '+event.name+'?')){
+                $scope.slotEvents[sid] = event;
+                $scope.subscribe(event);
+            }
             
+            $scope.tableParamsSlots0.reload();
             $scope.tableParamsSlots1.reload();
             $scope.tableParamsSlots2.reload();
-            $scope.tableParamsSlots3.reload();
         };
         $scope.showAlert = function(title,message){
             $scope.alert = {title:title, message:message};
