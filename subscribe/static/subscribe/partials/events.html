@@ -3,23 +3,45 @@
     <strong>{{alert.title}}</strong><br>
     {{alert.message}}
 </div>
-<table id="events" ng-table="tableParams" class="table table-striped table-bordered" cellspacing="0" width="100%">
-    <tbody>
-        <tr ng-repeat="event in $data">
-            <td data-title="'Name'" sortable="'name'">{{event.name}}</td>
-            <td data-title="'Description'" sortable="'description'">{{event.description}}</td>
-            <td data-title="'Chief seats'" sortable="'seats_n_chiefs'">{{event.seats_n_chiefs}}/{{event.max_chiefs_seats}}</td>
-            <td data-title="'Boys seats'" sortable="'seats_n_boys'">{{event.seats_n_boys}}/{{event.max_boys_seats}}</td>
-            <td data-title="'Kind'" sortable="'kind'">{{event.kind}}</td>
-            <td style="white-space: nowrap;">
-                <span data-toggle="modal" data-target="#event-details" ng-click="selectEvent(event);
-                                        " class="btn btn-xs btn-default">Details</span>
-                <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event)" ng-click="subscribe(event)">Subscribe</span>
-                <span class="btn btn-xs btn-danger" ng-show="subscribedEvent(event)" ng-click="unsubscribe(event)">Unsubscribe</span>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Slot {{id}}</h4>
+            </div>
+            <div class="panel-body" data-slotid="{{id}}" x-lvl-drop-target="true" x-on-drop="dropped(dragEl, dropEl)">
+                <h4 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo slot temporale</h4>
+                <div style="pointer-events: none;" class="well" ng-show="slotEvent">
+                    <button style="pointer-events: auto;" class="close" ng-click="removeSlotEvent(id,slotEvent)" type="button">×</button>
+                    Sei iscritto a  {{slotEvent.name}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <h3>Eventi Slot {{id}}</h3>
+        <div class="well" ng-show="slotEvents[id]">Sei già iscritto ad un evento di questo slot</div>
+        <table id="events" ng-hide="slotEvents[id]" ng-table="tableParamsSlot{{id}}" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <tbody>
+                <tr ng-repeat="event in $data" data-eventid="{{event.num}}" x-lvl-draggable="true">
+                    <td data-title="'Name'" sortable="'name'">{{event.name}}</td>
+                    <!--<td data-title="'Description'" sortable="'description'">{{event.description}}</td>-->
+                    <td data-title="'Chief seats'" sortable="'seats_n_chiefs'">{{event.seats_n_chiefs}}/{{event.max_chiefs_seats}}</td>
+                    <td data-title="'Boys seats'" sortable="'seats_n_boys'">{{event.seats_n_boys}}/{{event.max_boys_seats}}</td>
+                    <td data-title="'Kind'" sortable="'kind'">{{event.kind}}</td>
+<!--                    <td style="white-space: nowrap;">
+                        <span data-toggle="modal" data-target="#event-details" ng-click="selectEvent(event);
+                                                " class="btn btn-xs btn-default">Details</span>
+                        <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event)" ng-click="subscribe(event)">Subscribe</span>
+                        <span class="btn btn-xs btn-danger" ng-show="subscribedEvent(event)" ng-click="unsubscribe(event)">Unsubscribe</span>
+                    </td>-->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 <div class="modal fade" id="event-details" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
