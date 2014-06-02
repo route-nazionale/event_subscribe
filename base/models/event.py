@@ -20,6 +20,11 @@ class EventTimeSlot(models.Model):
         verbose_name = "slot temporale"
         verbose_name_plural = "slot temporali"
 
+    def __unicode__(self):
+        return "%s alle %s" % (
+            self.dt_start.strftime("%A %d/%m dalle %H:%M"), self.dt_stop.strftime("%H:%M")
+        )
+
 #--------------------------------------------------------------------------------
 
 class EventHappening(models.Model):
