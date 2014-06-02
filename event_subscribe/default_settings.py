@@ -15,10 +15,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
-# GOOGLE RECAPTCHA KEYS
-RECAPTCHA_PUBLIC_KEY  = ''
-RECAPTCHA_PRIVATE_KEY = ''
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'o*4+4o2wia&n8_i02q9rxhhyjzzb_ueqcn=y!(ws2-z7pgydoi'
 

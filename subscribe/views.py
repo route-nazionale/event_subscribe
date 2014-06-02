@@ -27,6 +27,7 @@ def subscribe(request):
     c.update(csrf(request))
     c['recaptcha_public_key'] = settings.RECAPTCHA_PUBLIC_KEY
     c['recaptcha_private_key'] = settings.RECAPTCHA_PRIVATE_KEY
+    c['support_email'] = settings.SUPPORT_EMAIL
     return render_to_response('index.html', c)
 
 # API view, used to validate chief

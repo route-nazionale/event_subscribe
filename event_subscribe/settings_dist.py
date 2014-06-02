@@ -6,6 +6,13 @@ SECRET_KEY = 'o*4+4o2wia&n8_i02q9rxhhyjzzb_ueqcn=y!(ws2-z7pgydoi'
 DEBUG = True
 TEMPLATE_DEBUG = True
 
+# GOOGLE RECAPTCHA KEYS
+RECAPTCHA_PUBLIC_KEY  = ''
+RECAPTCHA_PRIVATE_KEY = ''
+
+# CONTACT EMAIL FOR ERROR SUPPORT
+SUPPORT_EMAIL = 'supporto@befair.it'
+
 ALLOWED_HOSTS = []
 
 WSGI_APPLICATION = 'event_subscribe.wsgi.application'
