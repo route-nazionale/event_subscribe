@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from django.shortcuts import render, redirect, render_to_response
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import PermissionDenied
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.conf import settings
@@ -20,7 +20,7 @@ def index(request):
 def subscribe(request):
 
     # if user is logged, redirect to event choose view
-    if 'valid' in request.session and request.session['valid']:
+    if request.session.get('valid'):
         return redirect('/scelta-laboratori/')
 
     c = {}
@@ -55,7 +55,7 @@ def validate(request):
         # check if ScoutChief code is valid
         try:
           chief = ScoutChief.objects.get(code=code)
-        except ObjectDoesNotExist:
+        except ScoutChief.DoesNotExist:
             return API_response("ERROR", "Il codice socio che hai inserito non esiste")
         # check if ScoutChief is in the correct Unit
         if chief.scout_unit.name != scout_unit:
@@ -99,7 +99,7 @@ def validate(request):
 
     # method is GET
     else:
-        return HttpResponse('')
+        raise PermissionDenied
 
 # validated chief view and subscribe to events
 def choose(request):
