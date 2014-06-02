@@ -3,9 +3,9 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.core.exceptions import PermissionDenied
 from django.core.context_processors import csrf
-from django.http import HttpResponse
 from django.conf import settings
 from base.models import ScoutChief, Unit
+from base.views_support import API_response, API_ERROR_response
 
 from recaptcha.client import captcha
 
@@ -44,41 +44,41 @@ def validate(request):
 
         # check scout_unit
         if not scout_unit:
-            return API_response("ERROR", "Devi inserire il gruppo scout")
+            return API_ERROR_response("Devi inserire il gruppo scout")
         # check if unit is valid
         if not Unit.objects.filter(name=scout_unit):
-            return API_response("ERROR", "Il gruppo scout che hai inserito non esiste")
+            return API_ERROR_response("Il gruppo scout che hai inserito non esiste")
 
         # check AGESCI code
         if not code:
-            return API_response("ERROR", "Devi inserire il codice socio")
+            return API_ERROR_response("Devi inserire il codice socio")
         # check if ScoutChief code is valid
         try:
           chief = ScoutChief.objects.get(code=code)
         except ScoutChief.DoesNotExist:
-            return API_response("ERROR", "Il codice socio che hai inserito non esiste")
+            return API_ERROR_response("Il codice socio che hai inserito non esiste")
         # check if ScoutChief is in the correct Unit
         if chief.scout_unit.name != scout_unit:
-            return API_response("ERROR", "Il codice che hai fornito risulta censito in un altro gruppo")
+            return API_ERROR_response("Il codice che hai fornito risulta censito in un altro gruppo")
 
         # check birthday
         if not gg or not mm or not aaaa:
-            return API_response("ERROR", "Devi inserire la data di nascita")
+            return API_ERROR_response("Devi inserire la data di nascita")
 
         try:
             birthday = date(int(aaaa), int(mm), int(gg))
         except ValueError:
-            return API_response("ERROR", "Devi inserire una data di nascita valida (es: 24/09/1991)")
+            return API_ERROR_response("Devi inserire una data di nascita valida (es: 24/09/1991)")
 
         if chief.birthday != birthday:
-            return API_response("ERROR", "La data di nascita inserita non corrisponde con quella del codice socio")
+            return API_ERROR_response("La data di nascita inserita non corrisponde con quella del codice socio")
 
         # check captcha
         if not recaptcha_challenge_field:
-            return API_response("ERROR", "RECAPTCHA non inizializzato correttamente")
+            return API_ERROR_response("RECAPTCHA non inizializzato correttamente")
 
         if not recaptcha_response_field:
-            return API_response("ERROR", "Devi inserire il codice che leggi nell immagine")
+            return API_ERROR_response("Devi inserire il codice che leggi nell immagine")
 
         # talk to the reCAPTCHA service
         response = captcha.submit(
@@ -90,12 +90,12 @@ def validate(request):
         # see if the user correctly entered CAPTCHA information
         # and handle it accordingly.
         if not response.is_valid:
-            return API_response("ERROR", "Il codice che hai ricopiato non è corretto")
+            return API_ERROR_response("Il codice che hai ricopiato non è corretto")
 
         # chief is valid
         request.session['valid'] = True
         request.session['chief_code'] = code
-        return API_response("OK")
+        return API_response()
 
     # method is GET
     else:
@@ -127,13 +127,7 @@ def logout(request):
 # subscribe and unsubscribe API view
 def event(request, event_code, action):
     if not 'valid' in request.session or not request.session['valid']:
-        API_response('ERROR', 'non hai effettuato il login')
+        API_ERROR_response('non hai effettuato il login')
 
-    return API_response('OK')
+    return API_response()
 
-# create a JSON response to POST
-def API_response(status, message=''):
-    response = {}
-    response['status'] = status
-    response['message'] = message
-    return HttpResponse(json.dumps(response), content_type="application/json")
