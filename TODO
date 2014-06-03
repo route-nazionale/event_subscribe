@@ -1,0 +1,36 @@
+*LZ1 -> s/tableParamsSlot<id>/table_slot_events[id]/g . Dovrebbe diventare un array invece di un attributo con l'indice nel nome della tabella
+*LZ2 -> vorrei vedere come viene il rendering delle 3 tabelle su 3 righe differenti
+*LZ3 -> per l'iscrizione è necessario un pulsante. Il drag&drop non possiamo considerarlo. Lo puoi lasciare se vuoi, ma mettici anche il pulsante per piacere.
+*LZ4 -> la tipologia di evento (TAV o LAB) potrebbe scomparire come colonna, ma apparire come colore della riga. Mettere una piccola legenda in alto.
+*LZ5 -> ci sono informazioni fondamentali che devono apparire a colpo d'occhio. Come colonna. Come ad esempio "sottocampo" (district) e "strada di coraggio" (heartbeat). Alcuni si possono fare anche con delle icone (simil camping) tipo: è abilitato ai disabili (state_handicap = ENABLED), è solo per capi (state_chief = RESERVED) o non per capi (state_chief = DISABLED. questo è esclusivo con state_chief = RESERVED).
+*LZ6 -> proprio perché ci sono tutte queste informazioni devono essere visualizzate molte colonne e immaginavo di vedere le tabelle come nel punto 2 (per righe insomma)
+*LZ7 -> è necessario poter FILTRARE gli eventi: voglio vedere solo quelli abilitati all'handicap. Oppure solo quelli che appartengono ad un determinato sottocampo. Oppure solo quelli appartenenti ad una strada di coraggio.
+*LZ8 -> per i nomi delle colonne ti diamo noi i valori in italiano (v. RS3) in modo che tu li usi e basta come fai ora, ma devi cambiare il parsing del formato di ritorno della events/ (v. RS2)
+
+#---------------------------------------------------------------------------------------
+
+*RS1 -> compila in italiano i `verbose_name` di tutti i campi che ci serve visualizzare nell'interfaccia grafica
+*RS2 -> la vista `events` deve restituire una lista siffatta:
+  [ 
+    { slot0 : <unicode(slot0), event_attrs : <quello che dai ora>, EventHappening1_attrs },
+    { slot0 : <unicode(slot0), event_attrs : <quello che dai ora>, EventHappening2_attrs },
+    { slot0 : <unicode(slot0), event_attrs : <quello che dai ora>, EventHappening3_attrs },
+  ], [
+    { slot1 : <unicode(slot1), event_attrs : <quello che dai ora>, EventHappening4_attrs },
+    { slot1 : <unicode(slot1), event_attrs : <quello che dai ora>, EventHappening5_attrs },
+    { slot1 : <unicode(slot1), event_attrs : <quello che dai ora>, EventHappening6_attrs },
+  ], [
+    { slot2 : <unicode(slot2), event_attrs : <quello che dai ora>, EventHappening7_attrs },
+    { slot2 : <unicode(slot2), event_attrs : <quello che dai ora>, EventHappening8_attrs },
+    { slot2 : <unicode(slot2), event_attrs : <quello che dai ora>, EventHappening9_attrs },
+  ]
+da gestire ovviamente in Angular
+*RS3 -> le chiavi $event_attrs sono umane (e questo lo fa se metti i verbose_name con l'accortezza che implementerò (v. LF2))
+*RS4 -> Implementa le viste (2 non una!) di iscrizione/eliminazione da evento prendendo in input nell'url non "event_code" ma "happening_id"
+
+#----------------------------------------------------------------------------------
+
+*LF1 -> spostare il numero di iscritti in EventHappening
+*LF2 -> restituire le chiavi di "events" in modo umano (= "verbose_name")
+*LF3 -> implementare lo stub delle form per i controlli
+*LF4 -> supervisionare anche l'import dei dati nel db
