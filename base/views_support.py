@@ -4,7 +4,7 @@ from django.http import HttpResponse
 import json
 
 HttpJSONResponse = lambda x : HttpResponse(
-    json.dumps(x), mimetype="application/json"
+    json.dumps(x), content_type="application/json"
 )
 
 # create a JSON response to POST

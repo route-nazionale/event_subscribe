@@ -20,7 +20,7 @@ def index(request):
 def subscribe(request):
 
     # if user is logged, redirect to event choose view
-    if request.session.get('valid'):
+    if request.session.get('valid') == True:
         return redirect('/scelta-laboratori/')
 
     c = {}
@@ -126,7 +126,7 @@ def logout(request):
 
 # subscribe and unsubscribe API view
 def event(request, event_code, action):
-    if not 'valid' in request.session or not request.session['valid']:
+    if request.session.get('valid') == True:
         API_ERROR_response('non hai effettuato il login')
 
     return API_response()
