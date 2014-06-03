@@ -20,23 +20,27 @@
     </div>
 </div>
 <div class="row">
-    <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h3>Eventi Slot {{id}}</h3>
         <div class="well" ng-show="slotEvents[id]">Sei già iscritto ad un evento di questo slot</div>
-        <table id="events" ng-hide="slotEvents[id]" ng-table="tableParamsSlot{{id}}" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <table id="events" ng-hide="slotEvents[id]" ng-table="getTableParams(id)" class="table table-bordered" cellspacing="0" width="100%">
             <tbody>
-                <tr ng-repeat="event in $data" data-eventid="{{event.num}}" x-lvl-draggable="true">
-                    <td data-title="'Name'" sortable="'name'">{{event.name}}</td>
+                <tr class="event" ng-class="{lab: event.kind==='LAB', tav: event.kind==='TAV'}" ng-repeat="event in $data" data-eventid="{{event.num}}" x-lvl-draggable="true">
+                    <td data-title="'Nome evento'" sortable="'name'">{{event.name}}</td>
                     <!--<td data-title="'Description'" sortable="'description'">{{event.description}}</td>-->
-                    <td data-title="'Chief seats'" sortable="'seats_n_chiefs'">{{event.seats_n_chiefs}}/{{event.max_chiefs_seats}}</td>
-                    <td data-title="'Boys seats'" sortable="'seats_n_boys'">{{event.seats_n_boys}}/{{event.max_boys_seats}}</td>
-                    <td data-title="'Kind'" sortable="'kind'">{{event.kind}}</td>
-<!--                    <td style="white-space: nowrap;">
+                    <td data-title="'Posti capi'" sortable="'seats_n_chiefs'">{{event.seats_n_chiefs}}/{{event.max_chiefs_seats}}</td>
+                    <td data-title="'Posti ragazzi'" sortable="'seats_n_boys'">{{event.seats_n_boys}}/{{event.max_boys_seats}}</td>
+                    <td data-title="'Sottocampo'" sortable="'district'">{{event.district}}</td>
+                    <td data-title="'Strada di coraggio'" sortable="'heartbeat'">{{event.heartbeat}}</td>
+                    <td data-title="'Dettagli evento'" style="white-space: nowrap;">
                         <span data-toggle="modal" data-target="#event-details" ng-click="selectEvent(event);
                                                 " class="btn btn-xs btn-default">Details</span>
+                        <span class="btn btn-xs btn-default" ng-show="event.state_handicap === 'ENABLED'" title="Evento accessibile anche per disabili">D</span>
+                        <span class="btn btn-xs btn-default" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>
+                        <span class="btn btn-xs btn-default" ng-show="event.state_chief === 'DISABLED'" title="Evento per soli ragazzi">&#571;</span>
                         <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event)" ng-click="subscribe(event)">Subscribe</span>
                         <span class="btn btn-xs btn-danger" ng-show="subscribedEvent(event)" ng-click="unsubscribe(event)">Unsubscribe</span>
-                    </td>-->
+                    </td>
                 </tr>
             </tbody>
         </table>

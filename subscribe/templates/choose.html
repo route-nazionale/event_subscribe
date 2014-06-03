@@ -15,8 +15,8 @@
         <![endif]-->
 
         <!-- Bootstrap css-->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.css">
+        <link rel="stylesheet" href="/static/subscribe/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/subscribe/dataTables.bootstrap.css">
         <link rel="stylesheet" href="/static/subscribe/ng-table.min.css">
 
 
@@ -35,6 +35,14 @@
                 background-color: #ddd;
                 opacity: .5;
             }
+            
+            .event.lab {
+                background-color: #FFEB99;
+            }
+            
+            .event.tav {
+                background-color: #E0C2FF;
+            }
 
             [draggable] {
                 /* not applied by the directive, but useful to indicate a draggable element */
@@ -52,18 +60,18 @@
             I tuoi eventi
             <a class="btn btn-info pull-right" href="/logout">Esci</a>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <div class="alert alert-info">Benvenuto <strong>{{chief.name}} {{chief.surname}}</strong> ({{chief.code}}) del gruppo <strong>{{ chief.group}}</strong></div>
         </div>
-        <div class="container-fluid" ng-view></div>
+        <div class="container" ng-view></div>
         <script type="text/javascript" src="/static/subscribe/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="/static/subscribe/jquery.cookie.js"></script>
         <!-- Bootstrap js -->
-        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/bootstrap.min.js"></script>
         <!--        <script type="text/javascript" src="//cdn.datatables.net/1.10-dev/js/jquery.dataTables.min.js"></script>
                 <script type="text/javascript" src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>-->
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.9/angular.min.js"></script>
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.9/angular-route.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular-route.min.js"></script>
         <script type="text/javascript" src="/static/subscribe/lvl-uuid.js"></script>
         <script type="text/javascript" src="/static/subscribe/lvl-drag-drop.js"></script>
         <script type="text/javascript" src="/static/subscribe/ng-table.min.js"></script>

@@ -24,19 +24,16 @@ EventSubscribeApp.controller('EventController', [
         $scope.selectedEvent = null;
         $scope.subscribedEvents = [];
         $scope.slotEvents = {s0:null,s1:null,s2:null};
+        $scope.tableParamsSlots = {};
 
         $scope.removeSlotEvent = function(slotId, slotEvent){
             if( confirm('Vuoi davvero cancellare la tua iscrizione a '+slotEvent.name+'?')){
                 $scope.slotEvents[slotId] = null;
                 $scope.unsubscribe(slotEvent);
             }
-            $scope.tableParamsSlots0.reload();
-            $scope.tableParamsSlots1.reload();
-            $scope.tableParamsSlots2.reload();
         };
         $scope.getSlotEvent = function(slotId){
             var e = $scope.slotEvents[slotId];
-            console.log('get',e);
             return e;
         };
         $scope.findEvent = function(id){
@@ -55,10 +52,6 @@ EventSubscribeApp.controller('EventController', [
                 $scope.slotEvents[sid] = event;
                 $scope.subscribe(event);
             }
-            
-            $scope.tableParamsSlots0.reload();
-            $scope.tableParamsSlots1.reload();
-            $scope.tableParamsSlots2.reload();
         };
         $scope.showAlert = function(title,message){
             $scope.alert = {title:title, message:message};
@@ -72,6 +65,11 @@ EventSubscribeApp.controller('EventController', [
         $scope.subscribedEvent = function(event){
             var res = $scope.subscribedEvents.indexOf(event) >= 0;
             return res;
+        };
+        $scope.reload = function(){
+            for( var s in $scope.tableParamsSlots ){
+                $scope.tableParamsSlots[s].reload();
+            }
         };
         $scope.subscribe = function(event){
             var url = '/event/'+event.code+'/subscribe/';
@@ -96,52 +94,29 @@ EventSubscribeApp.controller('EventController', [
                 }
             });
         };
+        $scope.getTableParams = function(id){
+            return $scope.tableParamsSlots[id];
+        };
         
         $http.get('/events/').success(function(data) {
             $scope.events = data;
             
-            $scope.tableParamsSlots0 = new ngTableParams({
-                page: 1, count: 10, sorting: { name: 'asc' }
-            }, {
-                total: $scope.events.length,
-                getData: function($defer, params) {
-                    var orderedData = params.sorting() ?
-                            $filter('orderBy')($scope.events, params.orderBy()) :
-                            $scope.events;
-                    var start = (params.page() - 1) * params.count();
-                    var stop = params.page() * params.count();
-                    var range = orderedData.slice(start, stop);
-                    $defer.resolve(range);
-                }
-            });
-            $scope.tableParamsSlots1 = new ngTableParams({
-                page: 1, count: 10, sorting: { name: 'asc' }
-            }, {
-                total: $scope.events.length,
-                getData: function($defer, params) {
-                    var orderedData = params.sorting() ?
-                            $filter('orderBy')($scope.events, params.orderBy()) :
-                            $scope.events;
-                    var start = (params.page() - 1) * params.count();
-                    var stop = params.page() * params.count();
-                    var range = orderedData.slice(start, stop);
-                    $defer.resolve(range);
-                }
-            });
-            $scope.tableParamsSlots2 = new ngTableParams({
-                page: 1, count: 10, sorting: { name: 'asc' }
-            }, {
-                total: $scope.events.length,
-                getData: function($defer, params) {
-                    var orderedData = params.sorting() ?
-                            $filter('orderBy')($scope.events, params.orderBy()) :
-                            $scope.events;
-                    var start = (params.page() - 1) * params.count();
-                    var stop = params.page() * params.count();
-                    var range = orderedData.slice(start, stop);
-                    $defer.resolve(range);
-                }
-            });
+            for( var s in $scope.slotEvents ){
+                $scope.tableParamsSlots[s] = new ngTableParams({
+                    page: 1, count: 10, sorting: { name: 'asc' }
+                }, {
+                    total: $scope.events.length,
+                    getData: function($defer, params) {
+                        var orderedData = params.sorting() ?
+                                $filter('orderBy')($scope.events, params.orderBy()) :
+                                $scope.events;
+                        var start = (params.page() - 1) * params.count();
+                        var stop = params.page() * params.count();
+                        var range = orderedData.slice(start, stop);
+                        $defer.resolve(range);
+                    }
+                });
+            }
 
         });
     }
