@@ -45,3 +45,9 @@ Per visualizzare e modificare i dati, utilizzate la comoda interfaccia di admin 
 http://localhost:8000/admin
 
 Potete accedere con nome utente 'admin' e password 'admin'
+
+Per provare l'applicazione potete autenticarvi come capi con queste credenziali:
+
+Codice utente: 0001-RIC
+Gruppo Scout: Fabriano 2
+Data di Nascita: 14/09/1991
