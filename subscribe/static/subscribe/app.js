@@ -48,8 +48,8 @@ EventSubscribeApp.controller('EventController', [
             var eid = $(dragEl).data('eventid');
             var sid = $(dropEl).data('slotid');
             var event = $scope.findEvent(eid);
+            event.timeslot = sid;
             if( confirm('Vuoi davvero iscriverti a '+event.name+'?')){
-                $scope.slotEvents[sid] = event;
                 $scope.subscribe(event);
             }
         };
@@ -75,6 +75,7 @@ EventSubscribeApp.controller('EventController', [
             var url = '/event/'+event.code+'/subscribe/';
             $http.post(url).success(function(res){
                 if( res.status === 'OK' ){
+                    $scope.slotEvents[event.timeslot] = event;
                     $scope.subscribedEvents.push(event);
                 }else{
                     $scope.showAlert(res.status,res.message);
@@ -94,12 +95,22 @@ EventSubscribeApp.controller('EventController', [
                 }
             });
         };
+        $scope.getEventsForTimeslot = function(timeslot){
+            return $scope.events.filter(function(e){
+                return e.timeslot === timeslot;
+            });
+        };
         $scope.getTableParams = function(id){
             return $scope.tableParamsSlots[id];
         };
         
         $http.get('/events/').success(function(data) {
-            $scope.events = data;
+             //Fake timeslot assignment wating for API update
+            $scope.events = data.map(function(e){
+                var slots = Object.keys($scope.slotEvents);
+                e.timeslot = slots[Math.round(Math.random()*2)];
+                return e;
+            });
             
             for( var s in $scope.slotEvents ){
                 $scope.tableParamsSlots[s] = new ngTableParams({
@@ -107,15 +118,17 @@ EventSubscribeApp.controller('EventController', [
                 }, {
                     total: $scope.events.length,
                     getData: function($defer, params) {
+                        var data = $scope.getEventsForTimeslot(params.timeslot);
                         var orderedData = params.sorting() ?
-                                $filter('orderBy')($scope.events, params.orderBy()) :
-                                $scope.events;
+                                $filter('orderBy')(data, params.orderBy()) :
+                                data;
                         var start = (params.page() - 1) * params.count();
                         var stop = params.page() * params.count();
                         var range = orderedData.slice(start, stop);
                         $defer.resolve(range);
                     }
                 });
+                $scope.tableParamsSlots[s].timeslot = s;
             }
 
         });
