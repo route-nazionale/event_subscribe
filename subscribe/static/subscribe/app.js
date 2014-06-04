@@ -23,7 +23,7 @@ EventSubscribeApp.controller('EventController', [
         $scope.reverse = false;
         $scope.selectedEvent = null;
         $scope.subscribedEvents = [];
-        $scope.slotEvents = {s0:null,s1:null,s2:null};
+        $scope.slotEvents = {};
         $scope.tableParamsSlots = {};
 
         $scope.removeSlotEvent = function(slotId, slotEvent){
@@ -100,37 +100,54 @@ EventSubscribeApp.controller('EventController', [
                 return e.timeslot === timeslot;
             });
         };
+        $scope.getEventById = function(happening_id){
+            for( var e in $scope.events ){
+                if( $scope.events[e].happening_id === happening_id ){
+                    return $scope.events[e];
+                }
+            }
+            return null;
+        };
         $scope.getTableParams = function(id){
             return $scope.tableParamsSlots[id];
         };
+        $scope.createTableParams = function(timeslot){
+            var params = new ngTableParams({
+                page: 1, count: 10, sorting: { name: 'asc' }
+            }, {
+                total: $scope.events.length,
+                getData: function($defer, params) {
+                    var data = $scope.getEventsForTimeslot(params.timeslot);
+                    var orderedData = params.sorting() ?
+                            $filter('orderBy')(data, params.orderBy()) :
+                            data;
+                    var start = (params.page() - 1) * params.count();
+                    var stop = params.page() * params.count();
+                    var range = orderedData.slice(start, stop);
+                    $defer.resolve(range);
+                }
+            });
+            params.timeslot = timeslot;
+            return params;
+        };
         
         $http.get('/events/').success(function(data) {
-             //Fake timeslot assignment wating for API update
-            $scope.events = data.map(function(e){
-                var slots = Object.keys($scope.slotEvents);
-                e.timeslot = slots[Math.round(Math.random()*2)];
-                return e;
-            });
+            $scope.events = data;
             
-            for( var s in $scope.slotEvents ){
-                $scope.tableParamsSlots[s] = new ngTableParams({
-                    page: 1, count: 10, sorting: { name: 'asc' }
-                }, {
-                    total: $scope.events.length,
-                    getData: function($defer, params) {
-                        var data = $scope.getEventsForTimeslot(params.timeslot);
-                        var orderedData = params.sorting() ?
-                                $filter('orderBy')(data, params.orderBy()) :
-                                data;
-                        var start = (params.page() - 1) * params.count();
-                        var stop = params.page() * params.count();
-                        var range = orderedData.slice(start, stop);
-                        $defer.resolve(range);
-                    }
-                });
-                $scope.tableParamsSlots[s].timeslot = s;
+            for( var e in $scope.events ){
+                var event = $scope.events[e];
+                if( !(event.timeslot in $scope.slotEvents) ){
+                    $scope.slotEvents[event.timeslot] = null;
+                    $scope.tableParamsSlots[event.timeslot] = $scope.createTableParams(event.timeslot);
+                }
             }
-
+            
+            $http.get('/myevents/').success(function(event_ids) {
+                for( var e in event_ids ){
+                    var event = $scope.getEventById(event_ids[e]);
+                    $scope.slotEvents[event.timeslot] = event;
+                }
+            });
         });
     }
 ]
