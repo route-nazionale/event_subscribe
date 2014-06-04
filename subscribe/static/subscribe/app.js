@@ -142,10 +142,9 @@ EventSubscribeApp.controller('EventController', [
                 }
             }
             
-            $http.get('/myevents/').success(function(event_ids) {
-                for( var e in event_ids ){
-                    var event = $scope.getEventById(event_ids[e]);
-                    $scope.slotEvents[event.timeslot] = event;
+            $http.get('/myevents/').success(function(events) {
+                for( var e in events ){
+                    $scope.slotEvents[events[e].timeslot] = events[e];
                 }
             });
         });
