@@ -72,7 +72,7 @@ EventSubscribeApp.controller('EventController', [
             }
         };
         $scope.subscribe = function(event){
-            var url = '/event/'+event.code+'/subscribe/';
+            var url = '/event/'+event.happening_id+'/subscribe/';
             $http.post(url).success(function(res){
                 if( res.status === 'OK' ){
                     $scope.slotEvents[event.timeslot] = event;
@@ -83,7 +83,7 @@ EventSubscribeApp.controller('EventController', [
             });
         };
         $scope.unsubscribe = function(event){
-            var url = '/event/'+event.code+'/unsubscribe/';
+            var url = '/event/'+event.happening_id+'/unsubscribe/';
             $http.post(url).success(function(res){
                 if( res.status === 'OK' ){
                     var id = $scope.subscribedEvents.indexOf(event);
