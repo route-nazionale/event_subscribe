@@ -1,6 +1,9 @@
 from django.contrib import admin
 
-from base.models import ScoutChief, District, Unit, Event, HeartBeat, EventHappening
+from base.models import (
+    ScoutChief, District, Unit, Event, 
+    HeartBeat, EventHappening, EventTimeSlot
+)
 
 class ScoutChiefAdmin(admin.ModelAdmin):
 
@@ -41,9 +44,14 @@ class HeartBeatAdmin(admin.ModelAdmin):
 
     list_display = ('__unicode__', 'code')
 
+class EventTimeSlotAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'name', 'dt_start', 'dt_stop')
+
 admin.site.register(ScoutChief, ScoutChiefAdmin)
 admin.site.register(District, DistrictAdmin)
 admin.site.register(Unit, UnitAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(EventHappening, EventHappeningAdmin)
 admin.site.register(HeartBeat, HeartBeatAdmin)
+admin.site.register(EventTimeSlot, EventTimeSlotAdmin)

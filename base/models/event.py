@@ -9,7 +9,7 @@ import query
 
 class EventTimeSlot(models.Model):
 
-    name = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=32, unique=True, blank=True, null=True)
     dt_start = models.DateTimeField()
     dt_stop = models.DateTimeField()
 
@@ -17,13 +17,18 @@ class EventTimeSlot(models.Model):
 
         db_table = "camp_eventtimeslots"
         ordering = ('dt_start',)
-        verbose_name = "slot temporale"
-        verbose_name_plural = "slot temporali"
+        verbose_name = "turno"
+        verbose_name_plural = "turni"
 
     def __unicode__(self):
-        return "%s alle %s" % (
+        return self.name or "%s alle %s" % (
             self.dt_start.strftime("%A %d/%m dalle %H:%M"), self.dt_stop.strftime("%H:%M")
         )
+
+    def save(self, *args, **kw):
+        if not self.name:
+            self.name = None
+        super(EventTimeSlot, self).save(*args, **kw)
 
 #--------------------------------------------------------------------------------
 
