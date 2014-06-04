@@ -10,10 +10,11 @@
                 <h4>Il tuo evento di<br>{{id}}</h4>
             </div>
             <div class="panel-body" data-slotid="{{id}}" x-lvl-drop-target="true" x-on-drop="dropped(dragEl, dropEl)">
-                <h4 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo turno</h4>
+                <h5 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo turno</h5>
                 <div style="pointer-events: none;" class="well" ng-show="slotEvent">
-                    <p>Partecipi già all'evento "{{slotEvent.name}}" in questo turno</p>
+                    <p>In questo turno partecipi già all'evento:</p>
                     <p style="text-align: center;">
+                        <span class="event label" ng-class="{lab: slotEvent.kind==='LAB', tav: slotEvent.kind==='TAV'}">{{slotEvent.name}}</span>
                         <button style="pointer-events: auto;" class="btn btn-xs btn-danger" ng-click="removeSlotEvent(id,slotEvent)" type="button">Unsubscribe</button>
                     </p>
                 </div>
