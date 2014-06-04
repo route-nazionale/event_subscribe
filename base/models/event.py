@@ -5,6 +5,8 @@ from django.db import models
 from base import Unit, Person, ScoutChief, District, HeartBeat
 import query
 
+import datetime
+
 #--------------------------------------------------------------------------------
 
 class EventTimeSlot(models.Model):
@@ -37,6 +39,33 @@ class EventHappening(models.Model):
     Through table for timeslot_set ManyToManyField
     """
 
+    FIELDS_TO_SERIALIZE = [
+        "id",
+        "timeslot",
+        "max_age",
+        "kind",
+        "state_subscription",
+        "state_chief",
+        "name",
+        "district", #added manually
+        "max_chiefs_seats",
+        "min_age",
+        "topic", #added manually
+        "max_boys_seats",
+        "state_activation",
+        "num",
+        "min_seats",
+        "seats_n_chiefs",
+        "seats_n_boys",
+        "seats_tot",
+        "state_handicap",
+        "description",
+        "code",            # this is a proprety
+        "n_seats",         # this is a proprety
+        "available_seats", # this is a proprety
+        "dt_start", "dt_stop",
+    ]
+
     timeslot = models.ForeignKey(EventTimeSlot)
     event = models.ForeignKey("Event")
 
@@ -66,6 +95,18 @@ class EventHappening(models.Model):
     def available_seats(self):
         return self.event.seats_tot - self.n_seats
 
+    def as_dict(self):
+        obj = {}
+        for field in self.FIELDS_TO_SERIALIZE:
+            v = getattr(self, field)
+            if isinstance(v, (models.Field, models.Model)):
+                v = unicode(v)
+            elif isinstance(v, datetime.datetime):
+                v = v.strftime("%s")
+            obj[field] = v
+        obj['happening_id'] = self.pk
+        return obj
+        
 #--------------------------------------------------------------------------------
 
 class EventPerson(models.Model):

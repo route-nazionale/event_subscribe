@@ -4,48 +4,25 @@ from django.db import models
 from base.models import EventHappening, Unit
 from base.views_support import HttpJSONResponse
 
-import json, datetime
 
 def events(request):
-    fields_to_serialize = [
-        "id",
-        "timeslot",
-        "max_age",
-        "kind",
-        "state_subscription",
-        "state_chief",
-        "name",
-        "district", #added manually
-        "max_chiefs_seats",
-        "min_age",
-        "topic", #added manually
-        "max_boys_seats",
-        "state_activation",
-        "num",
-        "min_seats",
-        "seats_n_chiefs",
-        "seats_n_boys",
-        "seats_tot",
-        "state_handicap",
-        "description",
-        "code",            # this is a proprety
-        "n_seats",         # this is a proprety
-        "available_seats", # this is a proprety
-        "dt_start", "dt_stop",
-    ]
     events = []
-    for event in EventHappening.objects.all():
-        obj = {}
-        for field in fields_to_serialize:
-            v = getattr(event, field)
-            if isinstance(v, (models.Field, models.Model)):
-                v = unicode(v)
-            elif isinstance(v, datetime.datetime):
-                v = v.strftime("%s")
-            obj[field] = v
-        obj['happening_id'] = event.pk
+    for eh in EventHappening.objects.all():
+        obj = eh.as_dict()
         events.append(obj)
     return HttpJSONResponse(events)
+
+def myevents(request):
+    events = []
+    #eh_qs = EventHappening.objects.distinct('timeslot')[:3] #DO NOT WORK ON SQLITE
+    my_first_eh = EventHappening.objects.all()[0]
+    eh_qs = EventHappening.objects.filter(pk=my_first_eh.pk) 
+    eh_qs |= EventHappening.objects.exclude(timeslot=my_first_eh.timeslot)
+    for eh in eh_qs[:2]:
+        obj = eh.as_dict()
+        events.append(obj)
+    return HttpJSONResponse(events)
+    
 
 def units(request):
     units = []
