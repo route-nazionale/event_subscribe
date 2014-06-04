@@ -7,12 +7,12 @@
     <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h4>Slot {{id}}</h4>
+                <h4>Il tuo evento di {{slotEvent}}</h4>
             </div>
             <div class="panel-body" data-slotid="{{id}}" x-lvl-drop-target="true" x-on-drop="dropped(dragEl, dropEl)">
-                <h4 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo slot temporale</h4>
+                <h4 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo turno</h4>
                 <div style="pointer-events: none;" class="well" ng-show="slotEvent">
-                    <p>Sei iscritto a  {{slotEvent.name}}</p>
+                    <p>Partecipi già all'evento "{{slotEvent.name}}" in questo turno</p>
                     <p style="text-align: center;">
                         <button style="pointer-events: auto;" class="btn btn-xs btn-danger" ng-click="removeSlotEvent(id,slotEvent)" type="button">Unsubscribe</button>
                     </p>
@@ -30,7 +30,7 @@
 <div class="row">
     <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h3>Eventi Slot {{id}}</h3>
-        <div class="well" ng-show="slotEvents[id]">Sei già iscritto ad un evento di questo slot</div>
+        <div class="well" ng-show="slotEvents[id]">Partecipi già ad un evento di questo turno</div>
         <div class="well" ng-show="getEventsForTimeslot(id).length===0">Non ci sono eventi in questo slot</div>
         <table id="events" ng-hide="slotEvents[id] || getEventsForTimeslot(id).length===0" ng-table="getTableParams(id)" class="table table-bordered" cellspacing="0" width="100%">
             <tbody>

@@ -35,10 +35,31 @@ class EventHappening(models.Model):
     timeslot = models.ForeignKey(EventTimeSlot)
     event = models.ForeignKey("Event")
 
+    seats_n_boys = models.IntegerField(blank=True, default=0)
+    seats_n_chiefs = models.IntegerField(blank=True, default=0)
+
     class Meta:
         db_table = "camp_eventhappenings"
         verbose_name = "evento"
         verbose_name_plural = "eventi"
+
+    def __getattr__(self, attr_name):
+
+        if attr_name in Event._meta.get_all_field_names() + ['code']:
+            rv = getattr(self.event, attr_name)
+        elif attr_name in EventTimeSlot._meta.get_all_field_names():
+            rv = getattr(self.timeslot, attr_name)
+        else:
+            rv = super(self.__class__, self).__getattribute__(attr_name)
+        return rv
+
+    @property
+    def n_seats(self):
+        return self.seats_n_boys + self.seats_n_chiefs
+
+    @property
+    def available_seats(self):
+        return self.event.seats_tot - self.n_seats
 
 #--------------------------------------------------------------------------------
 
@@ -113,8 +134,6 @@ class Event(models.Model):
 
     #--- constraints ---#
     seats_tot = models.IntegerField(blank=True)
-    seats_n_boys = models.IntegerField(blank=True)
-    seats_n_chiefs = models.IntegerField(blank=True)
 
     min_seats = models.IntegerField(blank=True, default=1)
     max_boys_seats = models.IntegerField(blank=True, default=30)
@@ -194,10 +213,3 @@ class Event(models.Model):
     def __unicode__(self):
         return self.name
 
-    @property
-    def n_seats(self):
-        return self.seats_n_boys + self.seats_n_chiefs
-
-    @property
-    def available_seats(self):
-        return self.seats_tot - self.n_seats
