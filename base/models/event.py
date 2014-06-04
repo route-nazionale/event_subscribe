@@ -77,6 +77,9 @@ class EventHappening(models.Model):
         verbose_name = "evento"
         verbose_name_plural = "eventi"
 
+    def __unicode__(self):
+        return "%s il turno %s" % (self.event, self.timeslot)
+
     def __getattr__(self, attr_name):
 
         if attr_name in Event._meta.get_all_field_names() + ['code']:

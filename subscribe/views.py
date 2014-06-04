@@ -4,8 +4,11 @@ from django.shortcuts import render, redirect, render_to_response
 from django.core.exceptions import PermissionDenied
 from django.core.context_processors import csrf
 from django.conf import settings
-from base.models import ScoutChief, Unit
+from django.shortcuts import get_object_or_404
+
+from base.models import ScoutChief, Unit, EventHappening
 from base.views_support import API_response, API_ERROR_response
+from subscribe.models import ScoutChiefSubscription
 
 from recaptcha.client import captcha
 
@@ -125,10 +128,32 @@ def logout(request):
 
     return redirect('/iscrizione-laboratori/')
 
-# subscribe and unsubscribe API view
-def event(request, event_code, action):
+# subscribe API view
+def event_subscribe(request, happening_id):
     if request.session.get('valid') == True:
         API_ERROR_response('non hai effettuato il login')
+
+    if request.method == "POST":
+        chief = ScoutChief.objects.get(code=request.session['chief_code'])
+        eh = get_object_or_404(EventHappening, pk=happening_id)
+        subscription = ScoutChiefSubscription(scout_chief=chief, event_happening=eh)
+        subscription.save()
+    else:
+        raise PermissionDenied
+
+    return API_response()
+
+def event_unsubscribe(request, happening_id):
+    if request.session.get('valid') == True:
+        API_ERROR_response('non hai effettuato il login')
+
+    if request.method == "POST":
+        chief = ScoutChief.objects.get(code=request.session['chief_code'])
+        eh = get_object_or_404(EventHappening, pk=happening_id)
+        subscription = get_object_or_404(ScoutChiefSubscription, scout_chief=chief, event_happening=eh)
+        subscription.delete()
+    else:
+        raise PermissionDenied
 
     return API_response()
 
