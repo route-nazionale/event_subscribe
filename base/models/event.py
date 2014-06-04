@@ -21,6 +21,7 @@ class EventTimeSlot(models.Model):
         verbose_name_plural = "slot temporali"
 
     def __unicode__(self):
+        return self.name
         return "%s alle %s" % (
             self.dt_start.strftime("%A %d/%m dalle %H:%M"), self.dt_stop.strftime("%H:%M")
         )
@@ -34,6 +35,17 @@ class EventHappening(models.Model):
 
     timeslot = models.ForeignKey(EventTimeSlot)
     event = models.ForeignKey("Event")
+
+    seats_n_boys = models.IntegerField(blank=True)
+    seats_n_chiefs = models.IntegerField(blank=True)
+
+    @property
+    def n_seats(self):
+        return self.seats_n_boys + self.seats_n_chiefs
+
+    @property
+    def available_seats(self):
+        return self.event.seats_tot - self.n_seats
 
     class Meta:
         db_table = "camp_eventhappenings"
@@ -113,8 +125,6 @@ class Event(models.Model):
 
     #--- constraints ---#
     seats_tot = models.IntegerField(blank=True)
-    seats_n_boys = models.IntegerField(blank=True)
-    seats_n_chiefs = models.IntegerField(blank=True)
 
     min_seats = models.IntegerField(blank=True, default=1)
     max_boys_seats = models.IntegerField(blank=True, default=30)
@@ -194,10 +204,3 @@ class Event(models.Model):
     def __unicode__(self):
         return self.name
 
-    @property
-    def n_seats(self):
-        return self.seats_n_boys + self.seats_n_chiefs
-
-    @property
-    def available_seats(self):
-        return self.seats_tot - self.n_seats
