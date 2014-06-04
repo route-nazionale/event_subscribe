@@ -22,7 +22,7 @@ class ScoutChiefSubscription(models.Model):
         verbose_name_plural = "iscrizioni eventi"
 
     def __unicode__(self):
-        return "%s - %s" % (self.scout_chief, self.event)
+        return "%s - %s" % (self.scout_chief, self.event_happening)
 
     def clean(self):
         """
@@ -31,14 +31,18 @@ class ScoutChiefSubscription(models.Model):
         raises ValidationError if not valid
         """
 
-        n_subscriptions = ScoutChief.object.filter(
+        subscriptions = ScoutChiefSubscription.objects.filter(
             scout_chief=self.scout_chief
-        ).count()
+        )
+        n_subscriptions = subscriptions.count()
 
         if n_subscriptions >= self.MAX_SUBSCRIPTIONS:
             raise ValidationError('Non è possibile iscriversi a più di 3 eventi')
 
-        #TODO: check no eventi sovrapposti
+        #check no eventi sovrapposti
+        if subscriptions.filter(event_happening__timeslot=self.event_happening.timeslot).count():
+            raise ValidationError('Sei già iscritto ad un evento di questo turno')
+
         #TODO: check che ci siano posti liberi
         
 
