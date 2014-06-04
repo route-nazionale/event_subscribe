@@ -21,7 +21,6 @@ class EventTimeSlot(models.Model):
         verbose_name_plural = "slot temporali"
 
     def __unicode__(self):
-        return self.name
         return "%s alle %s" % (
             self.dt_start.strftime("%A %d/%m dalle %H:%M"), self.dt_stop.strftime("%H:%M")
         )
@@ -36,8 +35,23 @@ class EventHappening(models.Model):
     timeslot = models.ForeignKey(EventTimeSlot)
     event = models.ForeignKey("Event")
 
-    seats_n_boys = models.IntegerField(blank=True)
-    seats_n_chiefs = models.IntegerField(blank=True)
+    seats_n_boys = models.IntegerField(blank=True, default=0)
+    seats_n_chiefs = models.IntegerField(blank=True, default=0)
+
+    class Meta:
+        db_table = "camp_eventhappenings"
+        verbose_name = "evento"
+        verbose_name_plural = "eventi"
+
+    def __getattr__(self, attr_name):
+
+        if attr_name in Event._meta.get_all_field_names() + ['code']:
+            rv = getattr(self.event, attr_name)
+        elif attr_name in EventTimeSlot._meta.get_all_field_names():
+            rv = getattr(self.timeslot, attr_name)
+        else:
+            rv = super(self.__class__, self).__getattribute__(attr_name)
+        return rv
 
     @property
     def n_seats(self):
@@ -46,11 +60,6 @@ class EventHappening(models.Model):
     @property
     def available_seats(self):
         return self.event.seats_tot - self.n_seats
-
-    class Meta:
-        db_table = "camp_eventhappenings"
-        verbose_name = "evento"
-        verbose_name_plural = "eventi"
 
 #--------------------------------------------------------------------------------
 
