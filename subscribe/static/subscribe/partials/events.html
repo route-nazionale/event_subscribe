@@ -7,7 +7,7 @@
     <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h4>Il tuo evento di {{slotEvent.timeslot}}</h4>
+                <h4>Il tuo evento di<br>{{id}}</h4>
             </div>
             <div class="panel-body" data-slotid="{{id}}" x-lvl-drop-target="true" x-on-drop="dropped(dragEl, dropEl)">
                 <h4 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo turno</h4>
@@ -41,13 +41,13 @@
                     <td data-title="'Sottocampo'" sortable="'district'">{{event.district}}</td>
                     <td data-title="'Strada di coraggio'" sortable="'heartbeat'">{{event.heartbeat}}</td>
                     <td data-title="'Dettagli evento'" style="white-space: nowrap;">
+                        <span class="label label-info" ng-show="event.state_handicap === 'ENABLED'" title="Evento accessibile anche per disabili">D</span>
+                        <span class="label label-info" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>
+                        <span class="label label-info" ng-show="event.state_chief === 'DISABLED'" title="Evento per soli ragazzi">&#571;</span>
                         <span data-toggle="modal" data-target="#event-details" ng-click="selectEvent(event);
                                                 " class="btn btn-xs btn-default">Details</span>
-                        <span class="label label-default" ng-show="event.state_handicap === 'ENABLED'" title="Evento accessibile anche per disabili">D</span>
-                        <span class="label label-default" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>
-                        <span class="label label-default" ng-show="event.state_chief === 'DISABLED'" title="Evento per soli ragazzi">&#571;</span>
-                        <span class="label label-success" ng-show="!subscribedEvent(event)" ng-click="subscribe(event)">Subscribe</span>
-                        <span class="label label-danger" ng-show="subscribedEvent(event)" ng-click="unsubscribe(event)">Unsubscribe</span>
+                        <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event)" ng-click="subscribe(event)">Subscribe</span>
+                        <span class="btn btn-xs btn-danger" ng-show="subscribedEvent(event)" ng-click="unsubscribe(event)">Unsubscribe</span>
                     </td>
                 </tr>
             </tbody>
