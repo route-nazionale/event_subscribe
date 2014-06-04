@@ -43,11 +43,11 @@
                     <td data-title="'Dettagli evento'" style="white-space: nowrap;">
                         <span data-toggle="modal" data-target="#event-details" ng-click="selectEvent(event);
                                                 " class="btn btn-xs btn-default">Details</span>
-                        <span class="btn btn-xs btn-default" ng-show="event.state_handicap === 'ENABLED'" title="Evento accessibile anche per disabili">D</span>
-                        <span class="btn btn-xs btn-default" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>
-                        <span class="btn btn-xs btn-default" ng-show="event.state_chief === 'DISABLED'" title="Evento per soli ragazzi">&#571;</span>
-                        <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event)" ng-click="subscribe(event)">Subscribe</span>
-                        <span class="btn btn-xs btn-danger" ng-show="subscribedEvent(event)" ng-click="unsubscribe(event)">Unsubscribe</span>
+                        <span class="label label-default" ng-show="event.state_handicap === 'ENABLED'" title="Evento accessibile anche per disabili">D</span>
+                        <span class="label label-default" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>
+                        <span class="label label-default" ng-show="event.state_chief === 'DISABLED'" title="Evento per soli ragazzi">&#571;</span>
+                        <span class="label label-success" ng-show="!subscribedEvent(event)" ng-click="subscribe(event)">Subscribe</span>
+                        <span class="label label-danger" ng-show="subscribedEvent(event)" ng-click="unsubscribe(event)">Unsubscribe</span>
                     </td>
                 </tr>
             </tbody>
