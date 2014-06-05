@@ -5,7 +5,7 @@ from django.db import models
 from base import Unit, Person, ScoutChief, District, HeartBeat
 import query
 
-import datetime
+import datetime, types
 
 #--------------------------------------------------------------------------------
 
@@ -23,9 +23,12 @@ class EventTimeSlot(models.Model):
         verbose_name_plural = "turni"
 
     def __unicode__(self):
-        return self.name or "%s alle %s" % (
-            self.dt_start.strftime("%A %d/%m dalle %H:%M"), self.dt_stop.strftime("%H:%M")
-        )
+        rv = self.name
+        if not rv:
+            start = self.dt_start.strftime("%A %d/%m dalle %H:%M").decode('utf-8')
+            stop = self.dt_stop.strftime(u"%H:%M")
+            rv = u"%s alle %s" % (start, stop)
+        return rv
 
     def save(self, *args, **kw):
         if not self.name:
