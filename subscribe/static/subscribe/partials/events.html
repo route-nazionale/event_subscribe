@@ -45,7 +45,7 @@
                         <span class="label label-info" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>
                         <span class="label label-info" ng-show="event.state_chief === 'DISABLED'" title="Evento per soli ragazzi">&#571;</span>
                         <span data-toggle="modal" data-target="#event-details" ng-click="selectEvent(event);
-                                                " class="btn btn-xs btn-default">Details</span>
+                                                " class="btn btn-xs btn-default">Dettagli</span>
                         <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event)" ng-click="subscribe(event)">Iscriviti</span>
                         <span class="btn btn-xs btn-danger" ng-show="subscribedEvent(event)" ng-click="unsubscribe(event)">Cancellati</span>
                     </td>
