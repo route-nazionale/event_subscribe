@@ -12,18 +12,6 @@ def events(request):
         events.append(obj)
     return HttpJSONResponse(events)
 
-def myevents(request):
-    events = []
-    #eh_qs = EventHappening.objects.distinct('timeslot')[:3] #DO NOT WORK ON SQLITE
-    my_first_eh = EventHappening.objects.all()[0]
-    eh_qs = EventHappening.objects.filter(pk=my_first_eh.pk) 
-    eh_qs |= EventHappening.objects.exclude(timeslot=my_first_eh.timeslot)
-    for eh in eh_qs[:2]:
-        obj = eh.as_dict()
-        events.append(obj)
-    return HttpJSONResponse(events)
-    
-
 def units(request):
     units = []
     for unit in Unit.objects.all():

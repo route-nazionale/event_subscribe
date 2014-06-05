@@ -7,7 +7,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 
 from base.models import ScoutChief, Unit, EventHappening
-from base.views_support import API_response, API_ERROR_response
+from base.views_support import API_response, API_ERROR_response, HttpJSONResponse
 from subscribe.models import ScoutChiefSubscription
 
 from recaptcha.client import captcha
@@ -156,4 +156,16 @@ def event_unsubscribe(request, happening_id):
         raise PermissionDenied
 
     return API_response()
+
+#--------------------------------------------------------------------------------
+
+def myevents(request):
+
+    chief_code = request.session['chief_code']
+    scout_chief = get_object_or_404(ScoutChief, code=chief_code)
+    eh_qs = EventHappening.objects.filter(
+        scoutchiefsubscription__scout_chief=scout_chief
+    )
+    return HttpJSONResponse(map(lambda x: x.as_dict(), eh_qs))
+    
 
