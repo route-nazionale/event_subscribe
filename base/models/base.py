@@ -33,6 +33,9 @@ class ScoutChief(models.Model):
     name = models.CharField(max_length=32, verbose_name="nome")
     surname = models.CharField(max_length=32, verbose_name="cognome")
     birthday = models.DateField(verbose_name="data di nascita");
+    is_spalla = models.BooleanField(default=False, verbose_name=u"è un capo spalla",
+        help_text=u"questo capo verrà iscritto dalla 'pattuglia eventi' con criteri supersonici"
+    )
 
     class Meta:
 
@@ -41,7 +44,7 @@ class ScoutChief(models.Model):
         verbose_name_plural = "capi scout"
 
     def __unicode__(self):
-        return "%s - %s %s" % (self.scout_unit, self.name, self.surname)
+        return u"%s - %s %s" % (self.scout_unit, self.name, self.surname)
 
 #--------------------------------------------------------------------------------
 
