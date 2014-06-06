@@ -45,12 +45,12 @@
             <table id="events" ng-hide="slotEvents[id] || getEventsForTimeslot(id).length === 0" ng-table="getTableParams(id)" class="table table-bordered" cellspacing="0" width="100%">
                 <tbody>
                     <tr class="event" ng-class="{lab: event.kind === 'LAB', tav: event.kind === 'TAV'}" ng-repeat="event in $data" data-eventid="{{event.num}}" x-lvl-draggable="true">
-                        <td data-title="'Nome evento'" sortable="'name'">{{event.name}}</td>
+                        <td data-title="'Nome'" sortable="'name'">{{event.name}}</td>
                         <td data-title="'Iscrizioni capi'" sortable="'seats_n_chiefs'">{{event.seats_n_chiefs}}/{{event.max_chiefs_seats}}</td>
                         <td data-title="'Iscrizioni ragazzi'" sortable="'seats_n_boys'">{{event.seats_n_boys}}/{{event.max_boys_seats}}</td>
                         <td data-title="'Sottocampo'" sortable="'district'" filter="{ 'district': 'text' }">{{event.district}}</td>
                         <td data-title="'Strada di coraggio'" sortable="'heartbeat'">{{event.heartbeat}}</td>
-                        <td data-title="'Dettagli evento'" style="white-space: nowrap;">
+                        <td data-title="'Dettagli'" style="white-space: nowrap;">
                             <span class="label label-info" ng-show="event.state_handicap === 'ENABLED'" title="Evento accessibile anche per disabili">D</span>
                             <span class="label label-info" ng-show="event.min_age > 1" title="Età minima">{{event.min_age}}+</span>
                             <span class="label label-info" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>

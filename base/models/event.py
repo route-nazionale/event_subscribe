@@ -50,10 +50,10 @@ class EventHappening(models.Model):
         "state_subscription",
         "state_chief",
         "name",
-        "district", #added manually
+        "district",
         "max_chiefs_seats",
         "min_age",
-        "topic", #added manually
+        "heartbeat",
         "max_boys_seats",
         "state_activation",
         "num",
@@ -81,11 +81,11 @@ class EventHappening(models.Model):
         verbose_name_plural = "eventi"
 
     def __unicode__(self):
-        return "%s il turno %s" % (self.event, self.timeslot)
+        return u"%s il turno %s" % (self.event, self.timeslot)
 
     def __getattr__(self, attr_name):
 
-        if attr_name in Event._meta.get_all_field_names() + ['code']:
+        if attr_name in Event._meta.get_all_field_names() + ['code', 'heartbeat']:
             rv = getattr(self.event, attr_name)
         elif attr_name in EventTimeSlot._meta.get_all_field_names():
             rv = getattr(self.timeslot, attr_name)
@@ -111,6 +111,8 @@ class EventHappening(models.Model):
                 v = v.strftime("%s")
             obj[field] = v
         obj['happening_id'] = self.pk
+        # override name
+        obj['name'] = unicode(self.event)
         return obj
         
 #--------------------------------------------------------------------------------
@@ -176,6 +178,11 @@ class Event(models.Model):
     kind = models.CharField(max_length=32, choices=EVENT_KIND_CHOICES, default=EVENT_LAB)
     district = models.ForeignKey(District)
     topic = models.ForeignKey(HeartBeat, verbose_name="strada di coraggio")
+    @property
+    def heartbeat(self):
+        #DEPRECATED "topic"
+        return self.topic
+
     num = models.IntegerField(verbose_name="codice numerico")
 
     @property
@@ -263,5 +270,5 @@ class Event(models.Model):
         #?TOASK )
 
     def __unicode__(self):
-        return self.name
+        return u"%s - %s" % (self.code, self.name)
 
