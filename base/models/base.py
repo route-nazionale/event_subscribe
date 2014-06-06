@@ -2,6 +2,8 @@
 
 from django.db import models
 
+import datetime
+
 class Unit(models.Model):
 
     name = models.CharField(max_length=128, primary_key=True)
@@ -45,6 +47,10 @@ class ScoutChief(models.Model):
 
     def __unicode__(self):
         return u"%s - %s %s" % (self.scout_unit, self.name, self.surname)
+
+    @property
+    def age(self):
+        return datetime.date.today().year - self.birthday.year
 
 #--------------------------------------------------------------------------------
 

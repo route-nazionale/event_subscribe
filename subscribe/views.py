@@ -118,7 +118,7 @@ def choose(request):
     if not request.session.get('valid'):
         return redirect('/iscrizione-laboratori/')
     else:
-        chief = ScoutChief.objects.get(code=request.session['chief_code'])
+        chief = get_object_or_404(ScoutChief, code=request.session['chief_code'])
         c = {}
         c.update(csrf(request))
         c['chief'] = {}
