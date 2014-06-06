@@ -35,15 +35,15 @@
                 background-color: #ddd;
                 opacity: .5;
             }
-            
+
             .event.lab {
                 background-color: #FFEB99;
             }
-            
+
             .event.tav {
                 background-color: #E0C2FF;
             }
-            
+
             .label.event.tav,
             .label.event.lab {
                 color: #212121;
@@ -59,6 +59,39 @@
                 cursor: move;
                 /*border:1px solid black;*/
             }
+            html, body { height: 100%;}
+            .fillable {
+                display: -moz-box;
+                display: -webkit-flexbox;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: -moz-flex;
+                display: flex;
+                -webkit-flex-direction: column;
+                -moz-flex-direction: column;
+                -ms-flex-direction: column;
+                flex-direction: column;
+            }
+            .filler {
+                -moz-box-flex: 1;
+                -webkit-flex: 1;
+                -moz-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex; 
+                -webkit-flex-direction: row;
+                -moz-flex-direction: row;
+                -ms-flex-direction: row;
+                flex-direction: row;
+            }
+            
+            #event-details label {
+                min-width: 150px;
+            }
         </style>
     </head>
     <body>
@@ -69,7 +102,7 @@
         <div class="container">
             <div class="alert alert-info">Benvenuto <strong>{{chief.name}} {{chief.surname}}</strong> ({{chief.code}}) del gruppo <strong>{{ chief.group}}</strong></div>
         </div>
-        <div class="container" ng-view></div>
+        <div class="container fillable" style="height: calc(100% - 152px);" ng-view></div>
         <script type="text/javascript" src="/static/subscribe/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="/static/subscribe/jquery.cookie.js"></script>
         <!-- Bootstrap js -->
