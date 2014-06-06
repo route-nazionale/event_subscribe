@@ -48,41 +48,41 @@ def validate(request):
 
         # check scout_unit
         if not scout_unit:
-            return API_ERROR_response("Devi inserire il gruppo scout")
+            return API_ERROR_response(u"Devi inserire il gruppo scout")
         # check if unit is valid
         if not Unit.objects.filter(name=scout_unit):
-            return API_ERROR_response("Il gruppo scout che hai inserito non esiste")
+            return API_ERROR_response(u"Il gruppo scout che hai inserito non esiste")
 
         # check AGESCI code
         if not code:
-            return API_ERROR_response("Devi inserire il codice socio")
+            return API_ERROR_response(u"Devi inserire il codice socio")
         # check if ScoutChief code is valid
         try:
           chief = ScoutChief.objects.get(code=code)
         except ScoutChief.DoesNotExist:
-            return API_ERROR_response("Il codice socio che hai inserito non esiste")
+            return API_ERROR_response(u"Il codice socio che hai inserito non esiste")
         # check if ScoutChief is in the correct Unit
         if chief.scout_unit.name != scout_unit:
-            return API_ERROR_response("Il codice che hai fornito risulta censito in un altro gruppo")
+            return API_ERROR_response(u"Il codice che hai fornito risulta censito in un altro gruppo")
 
         # check birthday
         if not gg or not mm or not aaaa:
-            return API_ERROR_response("Devi inserire la data di nascita")
+            return API_ERROR_response(u"Devi inserire la data di nascita")
 
         try:
             birthday = date(int(aaaa), int(mm), int(gg))
         except ValueError:
-            return API_ERROR_response("Devi inserire una data di nascita valida (es: 24/09/1991)")
+            return API_ERROR_response(u"Devi inserire una data di nascita valida (es: 24/09/1991)")
 
         if chief.birthday != birthday:
-            return API_ERROR_response("La data di nascita inserita non corrisponde con quella del codice socio")
+            return API_ERROR_response(u"La data di nascita inserita non corrisponde con quella del codice socio")
 
         # check captcha
         if not recaptcha_challenge_field:
-            return API_ERROR_response("RECAPTCHA non inizializzato correttamente")
+            return API_ERROR_response(u"RECAPTCHA non inizializzato correttamente")
 
         if not recaptcha_response_field:
-            return API_ERROR_response("Devi inserire il codice che leggi nell immagine")
+            return API_ERROR_response(u"Devi inserire il codice che leggi nell immagine")
 
         # talk to the reCAPTCHA service
         response = captcha.submit(
@@ -94,7 +94,7 @@ def validate(request):
         # see if the user correctly entered CAPTCHA information
         # and handle it accordingly.
         if not response.is_valid:
-            return API_ERROR_response("Il codice che hai ricopiato non è corretto")
+            return API_ERROR_response(u"Il codice che hai ricopiato non è corretto")
 
         # chief is valid
         request.session['valid'] = True
@@ -131,7 +131,7 @@ def logout(request):
 # subscribe API view
 def event_subscribe(request, happening_id):
     if request.session.get('valid') == True:
-        API_ERROR_response('non hai effettuato il login')
+        API_ERROR_response(u'non hai effettuato il login')
 
     if request.method == "POST":
         chief = ScoutChief.objects.get(code=request.session['chief_code'])
@@ -145,7 +145,7 @@ def event_subscribe(request, happening_id):
 
 def event_unsubscribe(request, happening_id):
     if request.session.get('valid') == True:
-        API_ERROR_response('non hai effettuato il login')
+        API_ERROR_response(u'non hai effettuato il login')
 
     if request.method == "POST":
         chief = ScoutChief.objects.get(code=request.session['chief_code'])
