@@ -55,7 +55,7 @@ class ScoutChiefSubscription(models.Model):
         eh.save()
         return rv
 
-    @transaction.commit_on_success
+    @transaction.atomic
     def delete(self):
         if self.is_locked:
             raise ValidationError(u"%s è vincolato a %s: non è possibile eliminarlo" % (
