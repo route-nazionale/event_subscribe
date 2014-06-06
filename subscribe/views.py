@@ -59,10 +59,10 @@ def validate(request):
 
         # check captcha
         if not recaptcha_challenge_field:
-            return API_ERROR_response(u"RECAPTCHA non inizializzato correttamente")
+            return API_ERROR_response(u"RECAPTCHA non inizializzato correttamente. Prego contattare %s" % settings.SUPPORT_EMAIL)
 
         if not recaptcha_response_field:
-            return API_ERROR_response(u"Devi inserire il codice che leggi nell immagine")
+            return API_ERROR_response(u"Devi inserire il codice che leggi nell'immagine")
 
         # talk to the reCAPTCHA service
         response = captcha.submit(
@@ -114,7 +114,8 @@ def validate(request):
 
 # validated chief view and subscribe to events
 def choose(request):
-    if not 'valid' in request.session or not request.session['valid']:
+
+    if not request.session.get('valid'):
         return redirect('/iscrizione-laboratori/')
     else:
         chief = ScoutChief.objects.get(code=request.session['chief_code'])
@@ -139,7 +140,7 @@ def logout(request):
 def event_subscribe(request, happening_id):
 
     if request.method == "POST":
-        if request.session.get('valid') == True:
+        if not request.session.get('valid'):
             rv = API_ERROR_response(u'non hai effettuato il login')
         else:
             chief = ScoutChief.objects.get(code=request.session['chief_code'])
@@ -163,7 +164,7 @@ def event_subscribe(request, happening_id):
 def event_unsubscribe(request, happening_id):
 
     if request.method == "POST":
-        if request.session.get('valid') == True:
+        if not request.session.get('valid'):
             rv = API_ERROR_response(u'non hai effettuato il login')
         else:
             chief = ScoutChief.objects.get(code=request.session['chief_code'])
