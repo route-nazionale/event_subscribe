@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-from django.db import models
+from django.db import models, transaction
 from django.core.exceptions import ValidationError
 
 from base.models import ScoutChief, EventHappening
@@ -49,11 +49,21 @@ class ScoutChiefSubscription(models.Model):
 
     def save(self, *args, **kw):
         self.full_clean()
-        return super(ScoutChiefSubscription, self).save(*args, **kw)
+        eh = self.event_happening
+        rv = super(ScoutChiefSubscription, self).save(*args, **kw)
+        eh.seats_n_chiefs += 1
+        eh.save()
+        return rv
 
+    @transaction.commit_on_success
     def delete(self):
         if self.is_locked:
             raise ValidationError(u"%s è vincolato a %s: non è possibile eliminarlo" % (
                 self.scout_chief, self.event_happening
             ))
-        return super(ScoutChiefSubscription, self).delete()
+
+        eh = self.event_happening
+        rv = super(ScoutChiefSubscription, self).delete()
+        eh.seats_n_chiefs -= 1
+        eh.save()
+        return rv
