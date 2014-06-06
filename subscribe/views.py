@@ -197,10 +197,24 @@ def myevents(request):
         )
     else:
 
+        my_subscriptions = ScoutChiefSubscription.objects.filter(scout_chief=scout_chief)
+        # Save the "is_locked" value for each EventHappening
+        EH_LOCKINGSTATE_MAP = {}
+        map(lambda x: EH_LOCKINGSTATE_MAP.update(
+            { x.event_happening.pk : x.is_locked }
+        ), my_subscriptions)
+
         eh_qs = EventHappening.objects.filter(
-            scoutchiefsubscription__scout_chief=scout_chief
+            scoutchiefsubscription=my_subscriptions
         )
-        rv = HttpJSONResponse(map(lambda x: x.as_dict(), eh_qs))
+        # Serialize event happenings bound to chief
+        eh_list_of_dicts = map(lambda x: x.as_dict(), eh_qs)
+
+        # Add the lockingstate key to dict
+        for el in eh_list_of_dicts:
+            el['is_locked'] = EH_LOCKINGSTATE_MAP[el['happening_id']]
+
+        rv = HttpJSONResponse(eh_list_of_dicts)
 
     return rv
     
