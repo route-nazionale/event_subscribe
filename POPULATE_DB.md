@@ -111,6 +111,21 @@ Happenings: camp_eventhappenings
  * `seats_n_boys`: numero dei ragazzi iscritti;
  * `seats_n_chiefs`: numero dei capi iscritti. **ATTENZIONE** questo equivale al numero delle iscrizioni riferite all''happening nella tabella subscriptions. **ATTENZIONE** forma normale non rispettata. **ATTENZIONE** settarlo a mano!
 
+Iscrizioni: subscriptions
+-------------------------
+
+* Nome convenzionale: iscrizione
+* Descrizione: relazione molti a molti tra camp_eventhappenings e scout_chiefs
+* Modello: [ScoutChiefSubscription](https://github.com/route-nazionale/event_subscribe/blob/master/subscribe/models.py)
+
+* Campi:
+
+  * `scout_chief`: relazione esterna scout_chiefs;
+  * `event_happening`: relazione esterna camp_eventhappenings;
+  * `is_locked` : booleano (django default = false) indica se è cancellabile
+  * `subscribed_on` : data di iscrizione (django default = now() quando crea il record)
+  * `unsubscribed_on`: IGNORATO. al momento della cancellazione da un evento si cancella il record;
+
 Animatori: camp_eventhappeningpeople
 ------------------------------------
 
@@ -128,4 +143,5 @@ Animatori: camp_eventhappeningpeople
 * TODO city: città di provenienza
 * TODO description: descrizione del personaggio
 * TODO event
+
 
