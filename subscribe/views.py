@@ -46,9 +46,39 @@ def validate(request):
         recaptcha_challenge_field = request.POST.get('recaptcha_challenge_field')
         recaptcha_response_field = request.POST.get('recaptcha_response_field')
 
-        # check scout_unit
+        #STEP 1. SANITIZE ALL INPUT DATA!
+        if not gg or not mm or not aaaa:
+            return API_ERROR_response(u"Devi inserire la data di nascita")
+
+        try:
+            birthday = date(int(aaaa), int(mm), int(gg))
+        except ValueError:
+            return API_ERROR_response(u"Devi inserire una data di nascita valida (es: 24/09/1991)")
         if not scout_unit:
             return API_ERROR_response(u"Devi inserire il gruppo scout")
+
+        # check captcha
+        if not recaptcha_challenge_field:
+            return API_ERROR_response(u"RECAPTCHA non inizializzato correttamente")
+
+        if not recaptcha_response_field:
+            return API_ERROR_response(u"Devi inserire il codice che leggi nell immagine")
+
+        # talk to the reCAPTCHA service
+        response = captcha.submit(
+            recaptcha_challenge_field,
+            recaptcha_response_field,
+            settings.RECAPTCHA_PRIVATE_KEY,
+            request.META['REMOTE_ADDR'],
+        )
+
+        # see if the user correctly entered CAPTCHA information
+        # and handle it accordingly.
+        if not response.is_valid:
+            return API_ERROR_response(u"Il codice che hai ricopiato non è corretto")
+
+        # STEP 2. Query db for extended info
+
         # check if unit is valid
         if not Unit.objects.filter(name=scout_unit):
             return API_ERROR_response(u"Il gruppo scout che hai inserito non esiste")
@@ -66,35 +96,12 @@ def validate(request):
             return API_ERROR_response(u"Il codice che hai fornito risulta censito in un altro gruppo")
 
         # check birthday
-        if not gg or not mm or not aaaa:
-            return API_ERROR_response(u"Devi inserire la data di nascita")
-
-        try:
-            birthday = date(int(aaaa), int(mm), int(gg))
-        except ValueError:
-            return API_ERROR_response(u"Devi inserire una data di nascita valida (es: 24/09/1991)")
-
         if chief.birthday != birthday:
             return API_ERROR_response(u"La data di nascita inserita non corrisponde con quella del codice socio")
 
-        # check captcha
-        if not recaptcha_challenge_field:
-            return API_ERROR_response(u"RECAPTCHA non inizializzato correttamente")
-
-        if not recaptcha_response_field:
-            return API_ERROR_response(u"Devi inserire il codice che leggi nell immagine")
-
-        # talk to the reCAPTCHA service
-        response = captcha.submit(
-            recaptcha_challenge_field,
-            recaptcha_response_field,
-            settings.RECAPTCHA_PRIVATE_KEY,
-            request.META['REMOTE_ADDR'],)
-
-        # see if the user correctly entered CAPTCHA information
-        # and handle it accordingly.
-        if not response.is_valid:
-            return API_ERROR_response(u"Il codice che hai ricopiato non è corretto")
+        # check if chief is_spalla
+        if chief.is_spalla:
+            return API_ERROR_response(u"Risulti essere un capo spalla, verrai iscritto dalla Pattuglia Eventi. Per info %s" % settings.SUPPORT_EMAIL)
 
         # chief is valid
         request.session['valid'] = True
