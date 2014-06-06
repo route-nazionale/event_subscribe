@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from django.shortcuts import render, redirect, render_to_response
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.context_processors import csrf
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -137,32 +137,53 @@ def logout(request):
 
 # subscribe API view
 def event_subscribe(request, happening_id):
-    if request.session.get('valid') == True:
-        API_ERROR_response(u'non hai effettuato il login')
 
     if request.method == "POST":
-        chief = ScoutChief.objects.get(code=request.session['chief_code'])
-        eh = get_object_or_404(EventHappening, pk=happening_id)
-        subscription = ScoutChiefSubscription(scout_chief=chief, event_happening=eh)
-        subscription.save()
+        if request.session.get('valid') == True:
+            rv = API_ERROR_response(u'non hai effettuato il login')
+        else:
+            chief = ScoutChief.objects.get(code=request.session['chief_code'])
+            if chief.is_spalla:
+                rv = API_ERROR_response(
+                    u"Sei un capo spalla, come sei arrivato fin qui? Prego contattare %s" % settings.SUPPORT_EMAIL
+                )
+            else:
+                eh = get_object_or_404(EventHappening, pk=happening_id)
+                subscription = ScoutChiefSubscription(scout_chief=chief, event_happening=eh)
+                try:
+                    subscription.save()
+                except ValidationError as e:
+                    rv = API_ERROR_response(unicode(e))
+                rv = API_response()
     else:
         raise PermissionDenied
 
-    return API_response()
+    return rv
 
 def event_unsubscribe(request, happening_id):
-    if request.session.get('valid') == True:
-        API_ERROR_response(u'non hai effettuato il login')
 
     if request.method == "POST":
-        chief = ScoutChief.objects.get(code=request.session['chief_code'])
-        eh = get_object_or_404(EventHappening, pk=happening_id)
-        subscription = get_object_or_404(ScoutChiefSubscription, scout_chief=chief, event_happening=eh)
-        subscription.delete()
+        if request.session.get('valid') == True:
+            rv = API_ERROR_response(u'non hai effettuato il login')
+        else:
+            chief = ScoutChief.objects.get(code=request.session['chief_code'])
+            if chief.is_spalla:
+                rv = API_ERROR_response(
+                    u"Sei un capo spalla, come sei arrivato fin qui? Prego contattare %s" % settings.SUPPORT_EMAIL
+                )
+            else:
+                eh = get_object_or_404(EventHappening, pk=happening_id)
+                subscription = get_object_or_404(ScoutChiefSubscription, scout_chief=chief, event_happening=eh)
+                try:
+                    subscription.delete()
+                except ValidationError as e:
+                    rv = API_ERROR_response(unicode(e))
+                else:
+                    rv = API_response()
     else:
         raise PermissionDenied
 
-    return API_response()
+    return rv
 
 #--------------------------------------------------------------------------------
 
@@ -170,9 +191,17 @@ def myevents(request):
 
     chief_code = request.session['chief_code']
     scout_chief = get_object_or_404(ScoutChief, code=chief_code)
-    eh_qs = EventHappening.objects.filter(
-        scoutchiefsubscription__scout_chief=scout_chief
-    )
-    return HttpJSONResponse(map(lambda x: x.as_dict(), eh_qs))
+    if scout_chief.is_spalla:
+        rv = API_ERROR_response(
+            u"Sei un capo spalla, come sei arrivato fin qui? Prego contattare %s" % settings.SUPPORT_EMAIL
+        )
+    else:
+
+        eh_qs = EventHappening.objects.filter(
+            scoutchiefsubscription__scout_chief=scout_chief
+        )
+        rv = HttpJSONResponse(map(lambda x: x.as_dict(), eh_qs))
+
+    return rv
     
 
