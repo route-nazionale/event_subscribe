@@ -115,6 +115,7 @@ EventSubscribeApp.controller('EventController', [
         $scope.heartbeatFilters = {};
         $scope.handicapFilters = {};
         $scope.chiefonlyFilters = {};
+        $scope.kindFilters = {};
         $scope.createTableParams = function(timeslot) {
             var params = new ngTableParams({
                 page: 1, count: 25, 
@@ -141,10 +142,12 @@ EventSubscribeApp.controller('EventController', [
                 var heartbeatFilter = $scope.heartbeatFilters[timeslot];
                 var handicapFitler = $scope.handicapFilters[timeslot];
                 var chiefonlyFilter = $scope.chiefonlyFilters[timeslot];
+                var kindFilter = $scope.kindFilters[timeslot];
                 if( !districtFilter 
                     && !heartbeatFilter 
                     && !handicapFitler 
-                    && !chiefonlyFilter ){
+                    && !chiefonlyFilter 
+                    && !kindFilter ){
                     return data;
                 }
                 for( var d in data ){
@@ -155,19 +158,25 @@ EventSubscribeApp.controller('EventController', [
                         }
                     }
                     if( heartbeatFilter ){
-                        if( data[d].heartbeat && data[d].heartbeat.match(new RegExp(districtFilter)) ){
+                        if( data[d].heartbeat && data[d].heartbeat.match(new RegExp(heartbeatFilter)) ){
                             filtered.push(data[d]);
                             continue;
                         }
                     }
                     if( handicapFitler ){
-                        if( data[d].heartbeat && data[d].state_handicap === 'ENABLED' ){
+                        if( data[d].state_handicap === 'ENABLED' ){
                             filtered.push(data[d]);
                             continue;
                         }
                     }
                     if( chiefonlyFilter ){
-                        if( data[d].state_chief && data[d].state_chief === 'RESERVED' ){
+                        if( data[d].state_chief === 'RESERVED' ){
+                            filtered.push(data[d]);
+                            continue;
+                        }
+                    }
+                    if( kindFilter ){
+                        if( data[d].kind.match(new RegExp(kindFilter)) ){
                             filtered.push(data[d]);
                             continue;
                         }
