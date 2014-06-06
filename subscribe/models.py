@@ -43,8 +43,12 @@ class ScoutChiefSubscription(models.Model):
         #check no eventi sovrapposti
         if subscriptions.filter(event_happening__timeslot=self.event_happening.timeslot).count():
             raise ValidationError(u'Sei già iscritto ad un evento di questo turno')
-
-        #TODO: check che ci siano posti liberi
+        
+        #check che ci siano posti liberi
+        if not self.event_happening.available_seats:
+            raise ValidationError(
+                u"Posti esauriti per l'evento %s, si prega di ricaricare la pagina" % self.event_happening
+            )
         
 
     def save(self, *args, **kw):
