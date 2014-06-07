@@ -9,7 +9,6 @@ Premessa
 --------
 
 DEFAULT
-^^^^^^^
 
 Django gestisce i default a livello di codice,
 non di database. Quindi se di seguito leggete ''default=''
@@ -19,7 +18,6 @@ Se vi trovate comodi per l''importazione potete alterare a mano
 i default delle colonne nel db.
 
 TIMEZONE
-^^^^^^^^
 
 Non so qual è il formato data di MySQL per le date con timezone,
 ma per Django è importante usare quello. In postgres ad esempio è 

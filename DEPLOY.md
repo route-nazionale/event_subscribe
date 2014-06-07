@@ -2,7 +2,7 @@
 Istruzioni per il DEPLOY
 ========================
 
-Assiestamento
+Assestamento
 -------------
 
 - Si va sul server di deploy <nome server>
