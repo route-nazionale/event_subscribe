@@ -79,7 +79,8 @@ NOTE
 
 Ho installato un po'' di pacchetti
 
-$ sudo apt-get install python-pip ipython vim python-mysqldb ipython-doc python-distribute libapache2-mod-wsgi git
+$ sudo apt-get install python-pip ipython vim python-mysqldb ipython-doc python-distribute libapache2-mod-wsgi git libmysqlclient-dev
+
 
 e seguendo la guida
 
