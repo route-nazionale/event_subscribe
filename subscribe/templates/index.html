@@ -193,7 +193,37 @@
       var prevmm = "";
       var prevaaaa = "";
 
+      window.sendForm = function sendFrom(){
+        var data = $('form').serialize();
+        $.ajax({
+          type: "POST",
+          url: '/validate-chief/',
+          data: data,
+          success: function(data){
+            console.log(data);
+            if(data.status == 'ERROR') {
+              alert(data.message);
+            }
+            if(data.status == 'OK') {
+              window.location.href = '/scelta-laboratori/'
+            }
+          },
+          error: function(data){
+            alert('Si è verificato un errore. Prova a ricaricare la pagina. Se il problema persiste contatta {{ support_email }}');
+            console.log(data)
+          },
+          dataType: 'json'
+        });
+      }
+
       $(document).ready(function(){
+
+        // ENTER button send the form
+        $(document).keypress(function (e) {
+          if (e.which == 13) {
+            sendForm();            
+          }
+        });
 
         $('#gg').keypress(function(e) {
           if($('#gg').val().length<=1){
@@ -259,28 +289,7 @@
         'json');
 
         // Send click trigger
-        $('#send').click(function(){
-          var data = $('form').serialize();
-          $.ajax({
-            type: "POST",
-            url: '/validate-chief/',
-            data: data,
-            success: function(data){
-              console.log(data);
-              if(data.status == 'ERROR') {
-                alert(data.message);
-              }
-              if(data.status == 'OK') {
-                window.location.href = '/scelta-laboratori/'
-              }
-            },
-            error: function(data){
-              alert('Si è verificato un errore. Prova a ricaricare la pagina. Se il problema persiste contatta {{ support_email }}');
-              console.log(data)
-            },
-            dataType: 'json'
-          });
-        });
+        $('#send').click(sendForm);
       });
     </script>
   </body>
