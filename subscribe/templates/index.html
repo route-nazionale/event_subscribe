@@ -203,6 +203,7 @@
             console.log(data);
             if(data.status == 'ERROR') {
               alert(data.message);
+              Recaptcha.reload();
             }
             if(data.status == 'OK') {
               window.location.href = '/scelta-laboratori/'
