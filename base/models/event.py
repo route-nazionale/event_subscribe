@@ -172,6 +172,10 @@ class Event(models.Model):
 
     name = models.CharField(max_length=128, unique=True)
     description = models.TextField(blank=True)
+    
+    # generic data describing the event
+    source = models.TextField(max_length=255, blank=True, null=True)
+    
     timeslot_set = models.ManyToManyField(EventTimeSlot, through=EventHappening)
 
     #--- code parts (i.e: LAB-A30123 or TAV-B20001 ---#
