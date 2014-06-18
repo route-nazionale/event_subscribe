@@ -17,11 +17,13 @@ import json
 
 # simple redirect to landing page
 def index(request):
+    check_registrations_open()
     return redirect('/iscrizione-laboratori/')
 
 # landing page: chief validate through AGESCI code, unit name and birthday
 def subscribe(request):
 
+    check_registrations_open()
     # if user is logged, redirect to event choose view
     if request.session.get('valid') == True:
         return redirect('/scelta-laboratori/')
@@ -35,6 +37,7 @@ def subscribe(request):
 
 # API view, used to validate chief
 def validate(request):
+    check_registrations_open()
     if request.method == 'POST':
 
         # get POST data
@@ -115,6 +118,7 @@ def validate(request):
 # validated chief view and subscribe to events
 def choose(request):
 
+    check_registrations_open()
     if not request.session.get('valid'):
         return redirect('/iscrizione-laboratori/')
     else:
@@ -130,6 +134,7 @@ def choose(request):
 
 # logout view
 def logout(request):
+    check_registrations_open()
     if 'valid' in request.session:
         request.session['valid'] = False
         request.session['chief_code'] = None
@@ -138,6 +143,7 @@ def logout(request):
 
 # subscribe API view
 def event_subscribe(request, happening_id):
+    check_registrations_open()
 
     if request.method == "POST":
         if not request.session.get('valid'):
@@ -162,6 +168,7 @@ def event_subscribe(request, happening_id):
     return rv
 
 def event_unsubscribe(request, happening_id):
+    check_registrations_open()
 
     if request.method == "POST":
         if not request.session.get('valid'):
@@ -189,6 +196,7 @@ def event_unsubscribe(request, happening_id):
 #--------------------------------------------------------------------------------
 
 def myevents(request):
+    check_registrations_open()
 
     chief_code = request.session['chief_code']
     scout_chief = get_object_or_404(ScoutChief, code=chief_code)
@@ -220,3 +228,7 @@ def myevents(request):
     return rv
     
 
+        
+def check_registrations_open():
+    if not settings.REGISTRATIONS_OPEN:
+        raise PermissionDenied
