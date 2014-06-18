@@ -170,7 +170,7 @@ class Event(models.Model):
         (EVENT_TAV, 'tavola rotonda'),
     )
 
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(max_length=128, unique=False)
     description = models.TextField(blank=True)
     
     # generic data describing the event
