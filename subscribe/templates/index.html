@@ -200,7 +200,6 @@
           url: '/validate-chief/',
           data: data,
           success: function(data){
-            console.log(data);
             if(data.status == 'ERROR') {
               alert(data.message);
               Recaptcha.reload();
@@ -211,7 +210,6 @@
           },
           error: function(data){
             alert('Si è verificato un errore. Prova a ricaricare la pagina. Se il problema persiste contatta {{ support_email }}');
-            console.log(data)
           },
           dataType: 'json'
         });
