@@ -1,6 +1,7 @@
 jQuery.event.props.push('dataTransfer');
 
-var EventSubscribeApp = angular.module('EventSubscribeApp', ['ngRoute', 'ngTable', 'lvl.directives.dragdrop']);
+//var EventSubscribeApp = angular.module('EventSubscribeApp', ['ngRoute', 'ngTable', 'lvl.directives.dragdrop']);
+var EventSubscribeApp = angular.module('EventSubscribeApp', ['ngRoute', 'ngTable']);
 EventSubscribeApp.config([
     '$routeProvider',
     function($routeProvider) {

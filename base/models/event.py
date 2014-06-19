@@ -274,5 +274,6 @@ class Event(models.Model):
         #?TOASK )
 
     def __unicode__(self):
-        return u"%s - %s" % (self.code, self.name)
+        #return u"%s - %s" % (self.code, self.name)
+        return self.name
 

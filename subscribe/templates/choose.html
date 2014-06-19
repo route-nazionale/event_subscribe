@@ -21,6 +21,57 @@
 
 
         <style  type="text/css">
+    
+            .buttt {
+              position: relative;
+              bottom: 15px;
+            }
+            .panel-heading {
+              padding-top: 1px;
+              padding-bottom: 1px;
+            }
+          
+            h5.ng-binding {
+              margin-top: 6px;
+              margin-bottom: 2px;
+              text-align: center;
+            }
+
+            .alert {
+              margin-bottom: 10px; 
+              padding: 1px 15px;
+            }
+
+            .logout {
+              margin-right: 5px;
+              margin-top: 5px;
+            }
+  
+            .panel-info {
+              margin-bottom: 10px;
+            }
+
+            .panel-body {
+              padding: 0px;
+            }
+
+            .panel-body h5 {
+              text-align: center;
+            }
+
+            .panel-body div {
+              margin-bottom: 0px;
+            }
+
+            .panel-body .btn-danger {
+              position: relative;
+              top: 6px;
+            }
+
+            td {
+              padding: 4px 8px !important;
+            }
+
             .lvl-over {
                 /* applied to a drop target when a draggable object is over it */
                 border: 2px dashed black !important;
@@ -37,7 +88,7 @@
             }
 
             .event.lab {
-                background-color: #FFEB99;
+                background-color: #F2F5F7;
             }
 
             .event.tav {
@@ -97,10 +148,7 @@
         </style>
     </head>
     <body>
-        <div class="well">
-            Ora puoi iscriverti agli eventi della route. Non c'è un bottone "SALVA", quando hai terminato puoi semplicemente chiudere la pagina.
-            <a class="btn btn-info pull-right" href="/logout">Esci</a>
-        </div>
+        <a class="btn btn-info pull-right logout" href="/logout">Esci</a>
         <div class="container">
             <div class="alert alert-info">Benvenuto <strong>{{chief.name}} {{chief.surname}}</strong> ({{chief.code}}) del gruppo <strong>{{ chief.group}}</strong></div>
         </div>

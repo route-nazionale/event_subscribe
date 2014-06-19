@@ -7,7 +7,7 @@
     <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h5 style="font-weight: bold;">Il tuo evento di<br>{{id}}</h5>
+                <h5 style="font-weight: bold;">Il tuo evento di {{id}}</h5>
             </div>
             <div class="panel-body" data-slotid="{{id}}" x-lvl-drop-target="true" x-on-drop="dropped(dragEl, dropEl)">
                 <h5 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo turno</h5>
@@ -23,11 +23,11 @@
 </div>
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom: 0.5em;">
-        <div class="event tav label">Gli eventi in violetto sono TAVOLE ROTONDE</div>
-        <div class="event lab label">Gli eventi in giallo sono LABORATORI</div>
+        <div class="event tav label">Gli eventi in verde sono TAVOLE ROTONDE</div>
+        <div class="event lab label">Gli eventi in azzurro sono LABORATORI</div>
     </div>
 </div>
-<div class="row filler" style="overflow: auto;">
+<div class="row filler">
     <div style="display: block; width: 100%;">
         <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h4>
@@ -35,7 +35,7 @@
             </h4>
             <p>
                 Filtri:
-                <input type="text" ng-keyup="tableParamsSlots[id].reload()" style="width: 200px;" ng-model="districtFilters[id]" placeholder="Ricerca per sottocampo">
+                <input type="text" ng-keyup="tableParamsSlots[id].reload()" style="width: 200px;" ng-model="districtFilters[id]" placeholder="Ricerca per quartiere">
                 <input type="text" ng-keyup="tableParamsSlots[id].reload()" style="width: 240px;" ng-model="heartbeatFilters[id]" placeholder="Ricerca per strada di coraggio">
                 Tipologia:
                 <select ng-change="tableParamsSlots[id].reload()" ng-model="kindFilters[id]">
@@ -54,13 +54,13 @@
                         <td data-title="'Nome'" sortable="'name'">{{event.name}}</td>
                         <td data-title="'Iscrizioni capi'" sortable="'seats_n_chiefs'">{{event.seats_n_chiefs}}/{{event.max_chiefs_seats}}</td>
                         <td data-title="'Iscrizioni ragazzi'" sortable="'seats_n_boys'">{{event.seats_n_boys}}/{{event.max_boys_seats}}</td>
-                        <td data-title="'Sottocampo'" sortable="'district'" filter="{ 'district': 'text' }">{{event.district}}</td>
-                        <td data-title="'Strada di coraggio'" sortable="'heartbeat'">{{event.heartbeat}}</td>
+                        <td data-title="'Quartiere'" sortable="'district'" filter="{ 'district': 'text' }">{{event.district}}</td>
+                        <td data-title="'Strada di coraggio'" sortable="'heartbeat'" style="width: 130px;">{{event.heartbeat}}</td>
                         <td data-title="'Dettagli'" style="white-space: nowrap;">
                             <span data-toggle="modal" data-target="#event-details" ng-click="selectEvent(event);
                                   " class="btn btn-xs btn-default">Dettagli</span>
                             <span class="btn btn-xs btn-danger" ng-show="subscribedEvent(event) && !event.is_locked" ng-click="unsubscribe(event)">Cancellati</span>
-                            <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event) && !event.is_locked" ng-click="subscribe(event)">Iscriviti</span>
+                            <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event) && !event.is_locked" ng-click="subscribe(event)" style="display: none;">Iscriviti</span>
                             <span class="label label-info" ng-show="event.state_handicap === 'ENABLED'" title="Evento accessibile anche per disabili">D</span>
                             <span class="label label-info" ng-show="event.min_age > 1" title="Età minima">{{event.min_age}}+</span>
                             <span class="label label-info" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>
@@ -81,6 +81,14 @@
                     {{selectedEvent.name}}
                 </h4>
             </div>
+            <div class="modal-header">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <button class="btn btn-success btn-block buttt" data-dismiss="modal" ng-show="!subscribedEvent(selectedEvent)" ng-click="subscribe(selectedEvent)">Iscriviti</button>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 buttt">
+                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
             <div class="modal-body">
                 <div class="well">
                     <p>
@@ -100,7 +108,7 @@
                         {{selectedEvent.heartbeat}}
                     </p>
                     <p>
-                        <label>Sottocampo</label>
+                        <label>Quartiere</label>
                         {{selectedEvent.district}}
                     </p>
                     <p>
@@ -135,14 +143,6 @@
                     <p>
                         <label>Codice dell'evento</label>{{selectedEvent.code}}
                     </p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <button class="btn btn-success btn-block" data-dismiss="modal" ng-show="!subscribedEvent(selectedEvent)" ng-click="subscribe(selectedEvent)">Iscriviti</button>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Chiudi</button>
                 </div>
             </div>
         </div>
