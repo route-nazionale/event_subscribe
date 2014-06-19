@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.db import models
 
 from base.models import EventHappening, Unit, Event, ScoutChief
-from base.views_support import HttpJSONResponse
+from base.views_support import HttpJSONResponse, API_ERROR_response
 
 
 def events(request):
