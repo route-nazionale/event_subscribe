@@ -30,6 +30,16 @@ DATABASES = {
     }
 }
 
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#        'LOCATION': 'cache_table',
+#    }
+#}
+
+# tune as needed
+CACHE_EXPIRE_TIME = 60 #seconds
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 

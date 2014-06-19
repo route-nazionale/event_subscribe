@@ -156,12 +156,18 @@ def event_subscribe(request, happening_id):
                 )
             else:
                 eh = get_object_or_404(EventHappening, pk=happening_id)
-                subscription = ScoutChiefSubscription(scout_chief=chief, event_happening=eh)
-                try:
-                    subscription.save()
-                except ValidationError as e:
-                    rv = API_ERROR_response(unicode(e))
-                rv = API_response()
+                # check scout_chief age
+                if eh.event.min_age > chief.age:
+                    rv = API_ERROR_RESPONSE(
+                        u"Non puoi iscriverti a questo evento perchè devi avere almeno % anni" % eh.event.min_age
+                    )
+                else:
+                    subscription = ScoutChiefSubscription(scout_chief=chief, event_happening=eh)
+                    try:
+                        subscription.save()
+                    except ValidationError as e:
+                        rv = API_ERROR_response(unicode(e))
+                    rv = API_response()
     else:
         raise PermissionDenied
 

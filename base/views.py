@@ -4,7 +4,10 @@ from django.db import models
 from base.models import EventHappening, Unit, Event, ScoutChief
 from base.views_support import HttpJSONResponse, API_ERROR_response
 
+from django.views.decorators.cache import cache_page
+from django.conf import settings
 
+@cache_page(settings.CACHE_EXPIRE_TIME) # seconds
 def events(request):
     """
     Return all subscriptable events.
@@ -16,13 +19,9 @@ def events(request):
         rv = API_ERROR_response(u'non hai effettuato il login')
     else:
 
-        chief = get_object_or_404(ScoutChief, code=request.session['chief_code'])
-
         events = []
-        # Restrict by age
-        eh_qs = EventHappening.objects.filter(event__min_age__lte=chief.age)
         # Restrict to those enabled or reserved for chiefs
-        eh_qs = eh_qs.filter(event__state_chief__in=(Event.STATE_ENABLED, Event.STATE_RESERVED))
+        eh_qs = EventHappening.objects.filter(event__state_chief__in=(Event.STATE_ENABLED, Event.STATE_RESERVED))
         # Restrict to those actives
         eh_qs = eh_qs.filter(event__state_activation=Event.ACTIVATION_ACTIVE)
         # Restrict to those open for subscription
@@ -33,6 +32,7 @@ def events(request):
             if eh.available_seats:
                 obj = eh.as_dict()
                 events.append(obj)
+        
         rv = HttpJSONResponse(events)
 
     return rv
