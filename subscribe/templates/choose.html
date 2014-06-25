@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="it" ng-app="EventSubscribeApp">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="it" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="EventSubscribeApp"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="it" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="EventSubscribeApp"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="it" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="EventSubscribeApp"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="it" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="EventSubscribeApp"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,14 +15,23 @@
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+          <script src="/static/subscribe/json2.js"></script>
+          <script>
+            document.createElement('ng-include');
+            document.createElement('ng-pluralize');
+            document.createElement('ng-view');
+
+            // Optionally these for CSS
+            document.createElement('ng:include');
+            document.createElement('ng:pluralize');
+            document.createElement('ng:view');
+          </script>
         <![endif]-->
 
         <!-- Bootstrap css-->
         <link rel="stylesheet" href="/static/subscribe/bootstrap.min.css">
         <link rel="stylesheet" href="/static/subscribe/dataTables.bootstrap.css">
         <link rel="stylesheet" href="/static/subscribe/ng-table.min.css">
-
-
         <style  type="text/css">
     
             .buttt {
@@ -154,13 +166,46 @@
         </div>
         <div class="container fillable" style="height: calc(100% - 152px);" ng-view></div>
         <script type="text/javascript" src="/static/subscribe/jquery-1.11.0.min.js"></script>
+        <!--[if lt IE 9]>
+        <script type="text/javascript">
+            var buttons = '<div style="text-align: center">Consigliamo di verificare l\'aggiornamento del proprio browser<br>o di installare uno dei seguenti:<br>';
+            buttons += '<a class="btn btn-default" style="margin: 1em;" target="_blank" href="https://www.google.com/chrome/browser/"><img height="60" src="https://www.google.com/chrome/assets/common/images/chrome_logo_2x.png" alt="Google Chrome"></a>';
+            buttons += '<a class="btn btn-default" style="margin: 1em;" target="_blank" href="https://www.mozilla.org/firefox"><img height="60" src="http://mozorg.cdn.mozilla.net/media/img/firefox/new/header-firefox.png?2013-06" alt="Mozilla Firefox"></a>';
+            buttons += '<a class="btn btn-default" style="margin: 1em; font-size: 1em; font-weight: bold;" target="_blank" href="http://windows.microsoft.com/it-it/internet-explorer/download-ie‎"><img height="60" src="http://blog.smartbear.com/wp-content/uploads/2013/09/Internet_Explorer_10_logo.svg_.png" alt="Internet Explorer 10/11">Internet Explorer 10</a>';
+            buttons += '</div>';
+            var message = $('<div><span style="font-size: 6em">:(</span><br>Siamo spiacenti,<br>per poter accedere al software di iscrizione agli eventi<br>è necessario utilizzare un browser aggiornato.'+buttons+'</div>');
+            message.css({
+                margin: '0 auto',
+                fontSize: '2em',
+                display: 'inline-block',
+                width: '70%'
+            });
+            var overlay = $('<div>');
+            overlay.css({
+                color: 'white',
+                backgroundColor: '#060047',
+                opacity: 1,
+                position: 'fixed',
+                top: '0px',
+                bottom: '0px',
+                left: '0px',
+                right: '0px',
+                zIndex: 1000,
+                textAlign: 'center'
+            });
+            overlay.append(message);
+            overlay.appendTo('body');
+        </script>
+        <![endif]-->
         <script type="text/javascript" src="/static/subscribe/jquery.cookie.js"></script>
         <!-- Bootstrap js -->
         <script type="text/javascript" src="/static/subscribe/bootstrap.min.js"></script>
         <!--        <script type="text/javascript" src="//cdn.datatables.net/1.10-dev/js/jquery.dataTables.min.js"></script>
                 <script type="text/javascript" src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>-->
-        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular.min.js"></script>
-        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular-route.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/angular-1.2.18/angular.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/angular-1.2.18/angular-route.min.js"></script>
+<!--        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular.min.js"></script>
+        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular-route.min.js"></script>-->
         <!--
         <script type="text/javascript" src="/static/subscribe/lvl-uuid.js"></script>
         <script type="text/javascript" src="/static/subscribe/lvl-drag-drop.js"></script>
