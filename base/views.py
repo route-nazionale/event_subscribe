@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.db import models
 
 from base.models import EventHappening, Unit, Event, ScoutChief
@@ -7,13 +7,17 @@ from base.views_support import HttpJSONResponse, API_ERROR_response
 from django.views.decorators.cache import cache_page
 from django.conf import settings
 
+from django.db import connection, reset_queries
+
+
 @cache_page(settings.CACHE_EXPIRE_TIME) # seconds
 def events(request):
     """
     Return all subscriptable events.
 
     """
-
+    reset_queries()
+    '''
     #NOTE: weird login check... as usual unfortunately
     if not request.session.get('valid'):
         rv = API_ERROR_response(u'non hai effettuato il login')
@@ -34,8 +38,12 @@ def events(request):
                 events.append(obj)
         
         rv = HttpJSONResponse(events)
+    '''
+    a = EventHappening.objects.all()
+    for q in connection.queries:
+        print q
 
-    return rv
+    return HttpResponse(a)
 
 
 def units(request):
