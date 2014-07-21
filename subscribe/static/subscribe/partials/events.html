@@ -36,16 +36,16 @@
             </h4>
             <p>
                 Filtri:
-                <input type="text" ng-keyup="tableParamsSlots[id].reload()" style="width: 200px;" ng-model="districtFilters[id]" placeholder="Ricerca per quartiere">
-                <input type="text" ng-keyup="tableParamsSlots[id].reload()" style="width: 240px;" ng-model="heartbeatFilters[id]" placeholder="Ricerca per strada di coraggio">
+                <input type="text" ng-keyup="reload()" style="width: 200px;" ng-model="districtFilters[id]" placeholder="Ricerca per quartiere">
+                <input type="text" ng-keyup="reload()" style="width: 240px;" ng-model="heartbeatFilters[id]" placeholder="Ricerca per strada di coraggio">
                 Tipologia:
-                <select ng-change="tableParamsSlots[id].reload()" ng-model="kindFilters[id]">
+                <select ng-change="reload()" ng-model="kindFilters[id]">
                     <option value="">TUTTI</option>
                     <option value="TAV">TAVOLA ROTONDA</option>
                     <option value="LAB">LABORATORIO</option>
                 </select>
-                <label><input type="checkbox" ng-change="tableParamsSlots[id].reload()" ng-model="handicapFilters[id]">Solo eventi per disabili</label>
-                <label><input type="checkbox" ng-change="tableParamsSlots[id].reload()" ng-model="chiefonlyFilters[id]">Solo eventi per soli capi</label>
+                <label><input type="checkbox" ng-change="reload()" ng-model="handicapFilters[id]">Solo eventi per disabili</label>
+                <label><input type="checkbox" ng-change="reload()" ng-model="chiefonlyFilters[id]">Solo eventi per soli capi</label>
             </p>
             <div class="well" ng-show="slotEvents[id]">Partecipi già ad un evento di questo turno</div>
             <div class="well" ng-show="getEventsForTimeslot(id).length === 0">Non ci sono eventi in questo slot</div>

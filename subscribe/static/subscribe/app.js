@@ -77,6 +77,7 @@ EventSubscribeApp.controller('EventController', [
         };
         $scope.reload = function() {
             for (var s in $scope.tableParamsSlots) {
+                $scope.tableParamsSlots[s].page(1);
                 $scope.tableParamsSlots[s].reload();
             }
         };
