@@ -13,7 +13,8 @@
                 <h5 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo turno</h5>
                 <div style="pointer-events: none;" class="well" ng-show="slotEvent">
                     <p style="text-align: center;">
-                        <span class="event label" ng-class="{lab: slotEvent.kind === 'LAB', tav: slotEvent.kind === 'TAV'}">{{slotEvent.name}}</span>
+                        <span class="event label" style="white-space: normal;"
+                              ng-class="{lab: slotEvent.kind === 'LAB', tav: slotEvent.kind === 'TAV'}">{{slotEvent.name}}</span><br>
                         <button style="pointer-events: auto;" ng-show="!event.is_locked" class="btn btn-xs btn-danger" ng-click="removeSlotEvent(id, slotEvent)" type="button">Cancellati</button>
                     </p>
                 </div>
