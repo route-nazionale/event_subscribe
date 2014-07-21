@@ -25,6 +25,7 @@ EventSubscribeApp.controller('EventController', [
         $scope.selectedEvent = null;
         $scope.subscribedEvents = [];
         $scope.slotEvents = {};
+        $scope.timeslots = [];
         $scope.tableParamsSlots = {};
 
         $scope.removeSlotEvent = function(slotId, slotEvent) {
@@ -32,6 +33,13 @@ EventSubscribeApp.controller('EventController', [
                 $scope.slotEvents[slotId] = null;
                 $scope.unsubscribe(slotEvent);
             }
+        };
+        $scope.getSlotEvents = function() {
+            var events = [];
+            angular.forEach($scope.timeslots,function(info){
+                events.push($scope.slotEvents[info.timeslot]);
+            });
+            return events;
         };
         $scope.getSlotEvent = function(slotId) {
             var e = $scope.slotEvents[slotId];
@@ -192,6 +200,7 @@ EventSubscribeApp.controller('EventController', [
                 var event = $scope.events[e];
                 if (!(event.timeslot in $scope.slotEvents)) {
                     $scope.slotEvents[event.timeslot] = null;
+                    $scope.timeslots.push( { index: parseInt(event.dt_start), timeslot: event.timeslot } );
                     $scope.districtFilters[event.timeslot] = '';
                     $scope.heartbeatFilters[event.timeslot] = '';
                     $scope.handicapFilters[event.timeslot] = '';
@@ -199,6 +208,10 @@ EventSubscribeApp.controller('EventController', [
                     $scope.tableParamsSlots[event.timeslot] = $scope.createTableParams(event.timeslot);
                 }
             }
+            
+            $scope.timeslots.sort(function(a,b){
+                return a.index - b.index;
+            });
 
             $http.get('/myevents/').success(function(events) {
                 for (var e in events) {
