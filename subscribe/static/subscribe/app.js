@@ -154,35 +154,31 @@ EventSubscribeApp.controller('EventController', [
                 }
                 for( var d in data ){
                     if( districtFilter ){
-                        if( data[d].district.match(new RegExp(districtFilter)) ){
-                            filtered.push(data[d]);
+                        if( !data[d].district.match(new RegExp(districtFilter)) ){
                             continue;
                         }
                     }
                     if( heartbeatFilter ){
-                        if( data[d].heartbeat && data[d].heartbeat.match(new RegExp(heartbeatFilter)) ){
-                            filtered.push(data[d]);
+                        if( !data[d].heartbeat || !data[d].heartbeat.match(new RegExp(heartbeatFilter)) ){
                             continue;
                         }
                     }
                     if( handicapFitler ){
-                        if( data[d].state_handicap === 'ENABLED' ){
-                            filtered.push(data[d]);
+                        if( data[d].state_handicap !== 'ENABLED' ){
                             continue;
                         }
                     }
                     if( chiefonlyFilter ){
-                        if( data[d].state_chief === 'RESERVED' ){
-                            filtered.push(data[d]);
+                        if( data[d].state_chief !== 'RESERVED' ){
                             continue;
                         }
                     }
                     if( kindFilter ){
-                        if( data[d].kind.match(new RegExp(kindFilter)) ){
-                            filtered.push(data[d]);
+                        if( !data[d].kind.match(new RegExp(kindFilter)) ){
                             continue;
                         }
                     }
+                    filtered.push(data[d]);
                 }
                 return filtered;
             };
