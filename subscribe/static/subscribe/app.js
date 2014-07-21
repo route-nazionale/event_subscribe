@@ -133,7 +133,7 @@ EventSubscribeApp.controller('EventController', [
                     var start = (params.page() - 1) * params.count();
                     var stop = params.page() * params.count();
                     var range = orderedData.slice(start, stop);
-                    params.total(range.length);
+                    params.total(orderedData.length);
                     $defer.resolve(range);
                 }
             });
