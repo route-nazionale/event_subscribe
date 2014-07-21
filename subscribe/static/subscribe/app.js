@@ -15,8 +15,8 @@ EventSubscribeApp.config([
           });
     }]);
 EventSubscribeApp.controller('EventController', [
-    '$scope', '$http', '$filter', 'ngTableParams',
-    function($scope, $http, $filter, ngTableParams) {
+    '$scope', '$http', '$filter', '$timeout', 'ngTableParams',
+    function($scope, $http, $filter, $timeout, ngTableParams) {
         $http.defaults.headers.post = {'X-CSRFToken': CSRF_TOKEN};
         $scope.events = [];
         $scope.order = 'name';
@@ -117,6 +117,7 @@ EventSubscribeApp.controller('EventController', [
         $scope.handicapFilters = {};
         $scope.chiefonlyFilters = {};
         $scope.kindFilters = {};
+        $scope.loaded = false;
         $scope.createTableParams = function(timeslot) {
             var params = new ngTableParams({
                 page: 1, count: 25, 
@@ -207,6 +208,7 @@ EventSubscribeApp.controller('EventController', [
                 for (var e in events) {
                     $scope.slotEvents[events[e].timeslot] = events[e];
                 }
+                $scope.loaded = true;
             });
         });
     }

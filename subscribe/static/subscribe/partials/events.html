@@ -3,7 +3,7 @@
     <strong>{{alert.title}}</strong><br>
     {{alert.message}}
 </div>
-<div class="row">
+<div ng-if="loaded" class="row">
     <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -21,13 +21,13 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div ng-if="loaded" class="row">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom: 0.5em;">
         <div class="event tav label">Gli eventi in verde sono TAVOLE ROTONDE</div>
         <div class="event lab label">Gli eventi in azzurro sono LABORATORI</div>
     </div>
 </div>
-<div class="row filler">
+<div ng-if="loaded" class="row filler">
     <div style="display: block; width: 100%;">
         <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h4>
@@ -72,7 +72,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="event-details" tabindex="-1" role="dialog" aria-hidden="true">
+<div ng-if="loaded" class="modal fade" id="event-details" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -148,4 +148,12 @@
         </div>
     </div>
 </div>
-
+<div ng-if="!loaded" class="row" style="margin-top: 30%;">
+    <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <h3>Il caricamento dei dai necessari può richiedere un po' di tempo.</h3>
+        <h3 style="text-align: center;">Attendere prego...        </h3>
+        <p style="text-align: center;">
+            <img src="/static/subscribe/loading.gif" width="150" alt="">
+        </p>
+    </div>
+</div>
