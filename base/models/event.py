@@ -104,10 +104,7 @@ class EventHappening(models.Model):
     
     @property
     def available_chief_seats(self):
-        if self.seats_n_chiefs => self.event.max_chiefs_seats
-            return False
-        else:
-            return True
+        return self.seats_n_chiefs < self.event.max_chiefs_seats
 
     def as_dict(self):
         obj = {}
