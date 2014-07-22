@@ -84,6 +84,10 @@ EventSubscribeApp.controller('EventController', [
             }
         };
         $scope.subscribe = function(event) {
+            if( event.seats_n_chiefs >= event.max_chiefs_seats ){
+                alert('Non è più possibile iscriversi a questo evento.\nI posti sono esauriti.');
+                return;
+            }
             var url = '/event/' + event.happening_id + '/subscribe/';
             $http.post(url).success(function(res) {
                 if (res.status === 'OK') {
