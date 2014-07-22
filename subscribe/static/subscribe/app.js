@@ -129,6 +129,7 @@ EventSubscribeApp.controller('EventController', [
         $scope.heartbeatFilters = {};
         $scope.handicapFilters = {};
         $scope.chiefonlyFilters = {};
+        $scope.printcodeFilters = {};
         $scope.kindFilters = {};
         $scope.loaded = false;
         $scope.createTableParams = function(timeslot) {
@@ -158,21 +159,28 @@ EventSubscribeApp.controller('EventController', [
                 var handicapFitler = $scope.handicapFilters[timeslot];
                 var chiefonlyFilter = $scope.chiefonlyFilters[timeslot];
                 var kindFilter = $scope.kindFilters[timeslot];
+                var printcodeFilter = $scope.printcodeFilters[timeslot];
                 if( !districtFilter 
                     && !heartbeatFilter 
                     && !handicapFitler 
                     && !chiefonlyFilter 
+                    && !printcodeFilter 
                     && !kindFilter ){
                     return data;
                 }
                 for( var d in data ){
                     if( districtFilter ){
-                        if( !data[d].district.match(new RegExp(districtFilter)) ){
+                        if( !data[d].district.match(new RegExp(districtFilter,'i')) ){
+                            continue;
+                        }
+                    }
+                    if( printcodeFilter ){
+                        if( !data[d].print_code || !data[d].print_code.match(new RegExp(printcodeFilter,'i')) ){
                             continue;
                         }
                     }
                     if( heartbeatFilter ){
-                        if( !data[d].heartbeat || !data[d].heartbeat.match(new RegExp(heartbeatFilter)) ){
+                        if( !data[d].heartbeat || !data[d].heartbeat.match(new RegExp(heartbeatFilter,'i')) ){
                             continue;
                         }
                     }
@@ -187,7 +195,7 @@ EventSubscribeApp.controller('EventController', [
                         }
                     }
                     if( kindFilter ){
-                        if( !data[d].kind.match(new RegExp(kindFilter)) ){
+                        if( !data[d].kind.match(new RegExp(kindFilter,'i')) ){
                             continue;
                         }
                     }
@@ -210,6 +218,7 @@ EventSubscribeApp.controller('EventController', [
                     $scope.heartbeatFilters[event.timeslot] = '';
                     $scope.handicapFilters[event.timeslot] = '';
                     $scope.chiefonlyFilters[event.timeslot] = '';
+                    $scope.printcodeFilters[event.timeslot] = '';
                     $scope.tableParamsSlots[event.timeslot] = $scope.createTableParams(event.timeslot);
                 }
                 if( $scope.districts.indexOf(event.district)<0 ){
