@@ -45,7 +45,7 @@ class ScoutChiefSubscription(models.Model):
             raise ValidationError(u'Sei già iscritto ad un evento di questo turno')
         
         #check che ci siano posti liberi
-        if not self.event_happening.available_seats:
+        if not self.event_happening.available_chief_seats:
             raise ValidationError(
                 u"Posti esauriti per l'evento %s, si prega di ricaricare la pagina" % self.event_happening
             )

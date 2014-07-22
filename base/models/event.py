@@ -101,6 +101,13 @@ class EventHappening(models.Model):
     @property
     def available_seats(self):
         return self.event.seats_tot - self.n_seats
+    
+    @property
+    def available_chief_seats(self):
+        if self.seats_n_chiefs => self.event.max_chiefs_seats
+            return False
+        else:
+            return True
 
     def as_dict(self):
         obj = {}
