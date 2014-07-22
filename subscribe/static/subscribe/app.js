@@ -25,12 +25,20 @@ EventSubscribeApp.controller('EventController', [
         $scope.selectedEvent = null;
         $scope.subscribedEvents = [];
         $scope.slotEvents = {};
+        $scope.timeslots = [];
         $scope.tableParamsSlots = {};
 
         $scope.removeSlotEvent = function(slotId, slotEvent) {
             if (confirm('Vuoi davvero cancellare la tua iscrizione a ' + slotEvent.name + '?')) {
                 $scope.slotEvents[slotId] = null;
                 $scope.unsubscribe(slotEvent);
+            }
+        };
+        $scope.getTimeslotById = function(id){
+            for(var v in $scope.timeslots){
+                if( $scope.timeslots[v].timeslot === id ){
+                    return $scope.timeslots[v];
+                }
             }
         };
         $scope.getSlotEvent = function(slotId) {
@@ -69,6 +77,7 @@ EventSubscribeApp.controller('EventController', [
         };
         $scope.reload = function() {
             for (var s in $scope.tableParamsSlots) {
+                $scope.tableParamsSlots[s].page(1);
                 $scope.tableParamsSlots[s].reload();
             }
         };
@@ -77,6 +86,7 @@ EventSubscribeApp.controller('EventController', [
             $http.post(url).success(function(res) {
                 if (res.status === 'OK') {
                     $scope.slotEvents[event.timeslot] = event;
+                    $scope.getTimeslotById(event.timeslot).event = event;
                     $scope.subscribedEvents.push(event);
                 } else {
                     $scope.showAlert(res.status, res.message);
@@ -90,6 +100,7 @@ EventSubscribeApp.controller('EventController', [
                     var id = $scope.subscribedEvents.indexOf(event);
                     if (id >= 0) {
                         $scope.subscribedEvents.splice(id, 1);
+                        $scope.getTimeslotById(event.timeslot).event = null;
                     }
                 } else {
                     $scope.showAlert(res.status, res.message);
@@ -192,6 +203,7 @@ EventSubscribeApp.controller('EventController', [
                 var event = $scope.events[e];
                 if (!(event.timeslot in $scope.slotEvents)) {
                     $scope.slotEvents[event.timeslot] = null;
+                    $scope.timeslots.push( { index: parseInt(event.dt_start), timeslot: event.timeslot, event: null } );
                     $scope.districtFilters[event.timeslot] = '';
                     $scope.heartbeatFilters[event.timeslot] = '';
                     $scope.handicapFilters[event.timeslot] = '';
@@ -199,10 +211,16 @@ EventSubscribeApp.controller('EventController', [
                     $scope.tableParamsSlots[event.timeslot] = $scope.createTableParams(event.timeslot);
                 }
             }
+            
+            $scope.timeslots.sort(function(a,b){
+                return a.index - b.index;
+            });
 
             $http.get('/myevents/').success(function(events) {
                 for (var e in events) {
                     $scope.slotEvents[events[e].timeslot] = events[e];
+                    $scope.subscribedEvents.push(events[e]);
+                    $scope.getTimeslotById(events[e].timeslot).event = events[e];
                 }
                 $scope.loaded = true;
             });

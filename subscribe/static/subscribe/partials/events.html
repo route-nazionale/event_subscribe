@@ -4,18 +4,18 @@
     {{alert.message}}
 </div>
 <div ng-if="loaded" class="row">
-    <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    <div ng-repeat="timeslot in timeslots" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h5 style="font-weight: bold;">Il tuo evento di {{id}}</h5>
+                <h5 style="font-weight: bold;">Il tuo evento di {{timeslot.timeslot}}</h5>
             </div>
-            <div class="panel-body" data-slotid="{{id}}" x-lvl-drop-target="true" x-on-drop="dropped(dragEl, dropEl)">
-                <h5 style="pointer-events: none;" ng-hide="slotEvent">Non sei iscritto a nessun evento in questo turno</h5>
-                <div style="pointer-events: none;" class="well" ng-show="slotEvent">
+            <div class="panel-body" data-slotid="{{timeslot.timeslot}}" x-lvl-drop-target="true" x-on-drop="dropped(dragEl, dropEl)">
+                <h5 style="pointer-events: none;" ng-hide="timeslot.event">Non sei iscritto a nessun evento in questo turno</h5>
+                <div style="pointer-events: none;" class="well" ng-show="timeslot.event.timeslot">
                     <p style="text-align: center;">
-                        <span class="event label" style="white-space: normal;"
-                              ng-class="{lab: slotEvent.kind === 'LAB', tav: slotEvent.kind === 'TAV'}">{{slotEvent.name}}</span><br>
-                        <button style="pointer-events: auto;" ng-show="!event.is_locked" class="btn btn-xs btn-danger" ng-click="removeSlotEvent(id, slotEvent)" type="button">Cancellati</button>
+                        <span class="event label" style="white-space: normal; color: black;"
+                              ng-class="{lab: slotEvent.kind === 'LAB', tav: timeslot.event.kind === 'TAV'}">{{timeslot.event.name}}</span><br>
+                        <button style="pointer-events: auto;" ng-show="!event.is_locked" class="btn btn-xs btn-danger" ng-click="removeSlotEvent(timeslot.timeslot, timeslot.event)" type="button">Cancellati</button>
                     </p>
                 </div>
             </div>
@@ -30,26 +30,26 @@
 </div>
 <div ng-if="loaded" class="row filler">
     <div style="display: block; width: 100%;">
-        <div ng-repeat="(id, slotEvent) in slotEvents" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div ng-repeat="timeslot in timeslots" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h4>
-                Eventi disponibili {{id}}
+                Eventi disponibili {{timeslot.timeslot}}
             </h4>
             <p>
                 Filtri:
-                <input type="text" ng-keyup="tableParamsSlots[id].reload()" style="width: 200px;" ng-model="districtFilters[id]" placeholder="Ricerca per quartiere">
-                <input type="text" ng-keyup="tableParamsSlots[id].reload()" style="width: 240px;" ng-model="heartbeatFilters[id]" placeholder="Ricerca per strada di coraggio">
+                <input type="text" ng-keyup="reload()" style="width: 200px;" ng-model="districtFilters[timeslot.timeslot]" placeholder="Ricerca per quartiere">
+                <input type="text" ng-keyup="reload()" style="width: 240px;" ng-model="heartbeatFilters[timeslot.timeslot]" placeholder="Ricerca per strada di coraggio">
                 Tipologia:
-                <select ng-change="tableParamsSlots[id].reload()" ng-model="kindFilters[id]">
+                <select ng-change="reload()" ng-model="kindFilters[timeslot.timeslot]">
                     <option value="">TUTTI</option>
                     <option value="TAV">TAVOLA ROTONDA</option>
                     <option value="LAB">LABORATORIO</option>
                 </select>
-                <label><input type="checkbox" ng-change="tableParamsSlots[id].reload()" ng-model="handicapFilters[id]">Solo eventi per disabili</label>
-                <label><input type="checkbox" ng-change="tableParamsSlots[id].reload()" ng-model="chiefonlyFilters[id]">Solo eventi per soli capi</label>
+                <label><input type="checkbox" ng-change="reload()" ng-model="handicapFilters[timeslot.timeslot]">Solo eventi per disabili</label>
+                <label><input type="checkbox" ng-change="reload()" ng-model="chiefonlyFilters[timeslot.timeslot]">Solo eventi per soli capi</label>
             </p>
-            <div class="well" ng-show="slotEvents[id]">Partecipi già ad un evento di questo turno</div>
-            <div class="well" ng-show="getEventsForTimeslot(id).length === 0">Non ci sono eventi in questo slot</div>
-            <table id="events" ng-hide="slotEvents[id] || getEventsForTimeslot(id).length === 0" ng-table="getTableParams(id)" class="table table-bordered" cellspacing="0" width="100%">
+            <div class="well" ng-show="timeslot.event">Partecipi già ad un evento di questo turno</div>
+            <div class="well" ng-show="getEventsForTimeslot(timeslot.timeslot).length === 0">Non ci sono eventi in questo slot</div>
+            <table id="events" ng-hide="timeslot.event || getEventsForTimeslot(timeslot.timeslot).length === 0" ng-table="getTableParams(timeslot.timeslot)" class="table table-bordered" cellspacing="0" width="100%">
                 <tbody>
                     <tr class="event" ng-class="{lab: event.kind === 'LAB', tav: event.kind === 'TAV'}" ng-repeat="event in $data" data-eventid="{{event.num}}" x-lvl-draggable="true">
                         <td data-title="'Nome'" sortable="'name'">{{event.name}}</td>
