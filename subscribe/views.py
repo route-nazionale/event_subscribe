@@ -6,11 +6,13 @@ from django.core.context_processors import csrf
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 
-from base.models import ScoutChief, Unit, EventHappening
+from base.models import ScoutChief, Unit, EventHappening, Rover, Event
 from base.views_support import API_response, API_ERROR_response, HttpJSONResponse
 from subscribe.models import ScoutChiefSubscription
 
 from recaptcha.client import captcha
+
+from xhtml2pdf import pisa
 
 from datetime import *
 import json
@@ -233,7 +235,70 @@ def myevents(request):
 
     return rv
     
+def get_rover_list(request):
+    check_registrations_open()
+    
+    if not request.session.get('valid'):
+        return redirect('/iscrizione-laboratori/')
+    else:
+        
+        chief = get_object_or_404(
+            ScoutChief, code=request.session['chief_code']
+        )
+        
+        rovers = Rover.objects.filter(
+            vclan_id__nome=chief.scout_unit
+        ).prefetch_related(Event)
 
+        res = []
+        for r in rovers:
+            r.append(
+                (r.nome + " " + r.cognome, 
+                    "8 mattina", 
+                    r.turno1.name, r.turno1.print_code,r.turno1.topic.name
+                )
+            )
+            r.append(
+                ("", 
+                    "8 pomeriggio", 
+                    r.turno2.name, r.turno2.print_code,r.turno2.topic.name
+                )
+            )
+            r.append(
+                ("", 
+                    "9 mattina", 
+                    r.turno3.name, r.turno3.print_code,r.turno3.topic.name
+                )
+            )
+
+
+        c.update(csrf(request))
+        c['chief'] = {}
+        c['chief']['code'] = chief.code
+        c['chief']['name'] = chief.name
+        c['chief']['surname'] = chief.surname
+        c['chief']['group'] = chief.scout_unit.name
+        c['res'] = res
+        
+        context = Context(c)
+        template = get_template('rover_list_pdf.html')
+        html = template.render(context)
+
+        result = StringIO.StringIO()
+
+        pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")),
+                                            dest=result,
+                                            encoding='UTF-8')
+        if not pdf.err:
+
+            filename = 'Lista_Laboratori_Clan'+chief.scout_unit.name+'.pdf'
+
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
+            response.write(result.getvalue())
+        return response
+
+    return HttpResponse('Errore durante la generazione del PDF<pre>%s</pre>' % escape(html))
         
 def check_registrations_open():
     if not settings.REGISTRATIONS_OPEN:

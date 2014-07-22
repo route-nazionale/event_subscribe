@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^event/(?P<happening_id>\d+)/unsubscribe/$', 'subscribe.views.event_unsubscribe', name='event'),
     url(r'^units/', 'base.views.units', name='units'),
     url(r'^validate-chief/', 'subscribe.views.validate', name='validate'),
+    url(r'^rover-list/', 'subscribe.views.get_rover_list', name='rover-list'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="utf-8">
+  <head>
+    <style>
+
+      @page {
+        size: a4 landscape;
+        margin:2cm;
+        border:0px;
+        -pdf-frame-border: 0;
+      }
+
+      h1 {
+        font-size: 25pt;
+      }
+
+      table {
+/*
+        margin-left: auto;
+        margin-right: auto;
+*/
+      }
+      td, th {
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: black;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-left-width: 1px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        padding-top: 4px;
+        padding-left: 2px;
+      }
+
+     </style>
+  </head>
+  <body style="border:0px">
+    <img src="http://eventi.rn2014.it/static/subscribe/logoroute.png" 
+      style="float:left" />
+    <h1 style="font-size:20pt; float:left">RN2014 - Elenco iscrizioni ai laboratori</h1>
+    <h2>Gruppo:{{ chief.group }}<h2>
+    <h3>Capo:{{ chief.name }} {{chief.surname}} ({{ chief.code}})</h3>
+    <table class="pure-table pure-table-bordered" style="margin: 20px auto;">
+      <thead>
+        <th>Rover/Scolta</th>
+        <th>Turno</th>
+        <th>Nome Lab</th>
+        <th>Codice Stampa</th>
+        <th>Strada di coraggio</th>
+      </thead>
+      <tbody>
+        {% for r in res %}
+        <tr>
+          <td>{{ r.1 }}</td>
+          <td>{{ r.2 }}</td>
+          <td>{{ r.3 }}</td>
+          <td>{{ r.4 }}</td>
+          <td>{{ r.5 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p style="font-size:9px">AGESCI Route Nazionale 2014. Per informazioni sulla generazione di questo documento scrivere a supporto@rn2014.it</p>
+  </body>
+</html>

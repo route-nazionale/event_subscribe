@@ -160,9 +160,17 @@
         </style>
     </head>
     <body>
-        <a class="btn btn-info pull-right logout" href="/logout">Esci</a>
+        
         <div class="container">
-            <div class="alert alert-info">Benvenuto <strong>{{chief.name}} {{chief.surname}}</strong> ({{chief.code}}) del gruppo <strong>{{ chief.group}}</strong></div>
+            <div class="alert alert-info">Benvenuto <strong>{{chief.name}} {{chief.surname}}</strong> ({{chief.code}}) del gruppo <strong>{{ chief.group}}</strong>
+            
+             
+            </div>
+        <div style="float:right; margin:0px 0px 10px 0px">
+                <a class="btn btn-warning" href="/rover-list">Dove sono iscritti i ragazzi 
+                    del mio clan?</a>
+                <a class="btn btn-info logout" href="/logout" >Esci</a>
+        </div>
         </div>
         <div class="container fillable" style="height: calc(100% - 152px);" ng-view></div>
         <script type="text/javascript" src="/static/subscribe/jquery-1.11.0.min.js"></script>
