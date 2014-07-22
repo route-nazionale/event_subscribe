@@ -63,7 +63,8 @@ class EventHappening(models.Model):
         "seats_tot",
         "state_handicap",
         "description",
-        "code",            # this is a proprety
+        "code",
+	"print_code",
         "n_seats",         # this is a proprety
         "available_seats", # this is a proprety
         "dt_start", "dt_stop",
@@ -276,6 +277,7 @@ class Event(models.Model):
         #?TOASK )
 
     def __unicode__(self):
-        #return u"%s - %s" % (self.code, self.name)
+        #DA ABILITARE SE CODICE DI STAMPA NEL NOME (coerente con event_manager)
+	# return u"%s - %s" % (self.print_code, self.name)
         return self.name
 
