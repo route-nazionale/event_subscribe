@@ -1,10 +1,12 @@
 #-*- coding: utf-8 -*-
 
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect, render_to_response, HttpResponse
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.context_processors import csrf
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.template.loader import get_template
+from django.template.context import Context
 
 from base.models import ScoutChief, Unit, EventHappening, Rover, Event
 from base.views_support import API_response, API_ERROR_response, HttpJSONResponse
@@ -16,6 +18,7 @@ from xhtml2pdf import pisa
 
 from datetime import *
 import json
+import StringIO
 
 # simple redirect to landing page
 def index(request):
@@ -25,7 +28,7 @@ def index(request):
 # landing page: chief validate through AGESCI code, unit name and birthday
 def subscribe(request):
 
-    check_registrations_open()
+    #check_registrations_open()
     # if user is logged, redirect to event choose view
     if request.session.get('valid') == True:
         return redirect('/scelta-laboratori/')
@@ -39,7 +42,7 @@ def subscribe(request):
 
 # API view, used to validate chief
 def validate(request):
-    check_registrations_open()
+    #check_registrations_open()
     if request.method == 'POST':
 
         # get POST data
@@ -120,7 +123,7 @@ def validate(request):
 # validated chief view and subscribe to events
 def choose(request):
 
-    check_registrations_open()
+    #check_registrations_open()
     if not request.session.get('valid'):
         return redirect('/iscrizione-laboratori/')
     else:
@@ -136,7 +139,7 @@ def choose(request):
 
 # logout view
 def logout(request):
-    check_registrations_open()
+    #check_registrations_open()
     if 'valid' in request.session:
         request.session['valid'] = False
         request.session['chief_code'] = None
@@ -145,7 +148,7 @@ def logout(request):
 
 # subscribe API view
 def event_subscribe(request, happening_id):
-    check_registrations_open()
+    #check_registrations_open()
 
     if request.method == "POST":
         if not request.session.get('valid'):
@@ -176,7 +179,7 @@ def event_subscribe(request, happening_id):
     return rv
 
 def event_unsubscribe(request, happening_id):
-    check_registrations_open()
+    #check_registrations_open()
 
     if request.method == "POST":
         if not request.session.get('valid'):
@@ -204,7 +207,7 @@ def event_unsubscribe(request, happening_id):
 #--------------------------------------------------------------------------------
 
 def myevents(request):
-    check_registrations_open()
+    #check_registrations_open()
 
     chief_code = request.session['chief_code']
     scout_chief = get_object_or_404(ScoutChief, code=chief_code)
@@ -236,7 +239,7 @@ def myevents(request):
     return rv
     
 def get_rover_list(request):
-    check_registrations_open()
+    #check_registrations_open()
     
     if not request.session.get('valid'):
         return redirect('/iscrizione-laboratori/')
@@ -248,39 +251,41 @@ def get_rover_list(request):
         
         rovers = Rover.objects.filter(
             vclan_id__nome=chief.scout_unit
-        ).prefetch_related(Event)
+        ).order_by('vclan')
+
+	#.prefetch_related(Event)
 
         res = []
         for r in rovers:
-            r.append(
+            res.append(
                 (r.nome + " " + r.cognome, 
                     "8 mattina", 
                     r.turno1.name, r.turno1.print_code,r.turno1.topic.name
                 )
             )
-            r.append(
+            res.append(
                 ("", 
                     "8 pomeriggio", 
                     r.turno2.name, r.turno2.print_code,r.turno2.topic.name
                 )
             )
-            r.append(
+            res.append(
                 ("", 
                     "9 mattina", 
                     r.turno3.name, r.turno3.print_code,r.turno3.topic.name
                 )
             )
 
-
-        c.update(csrf(request))
-        c['chief'] = {}
-        c['chief']['code'] = chief.code
-        c['chief']['name'] = chief.name
-        c['chief']['surname'] = chief.surname
-        c['chief']['group'] = chief.scout_unit.name
-        c['res'] = res
+	con = {}
+        # c.update(csrf(request))
+        con['chief'] = {}
+        con['chief']['code'] = chief.code
+        con['chief']['name'] = chief.name
+        con['chief']['surname'] = chief.surname
+        con['chief']['group'] = chief.scout_unit.name
+        con['res'] = res
         
-        context = Context(c)
+        context = Context(con)
         template = get_template('rover_list_pdf.html')
         html = template.render(context)
 

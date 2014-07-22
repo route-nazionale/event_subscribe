@@ -189,11 +189,13 @@ class Event(models.Model):
 
     num = models.IntegerField(verbose_name="codice numerico")
 
-    @property
-    def code(self):
-        return "%s-%s%s%s" % (
-            self.kind, self.district.code, self.topic.code, self.num
-        )
+    #@property
+    #def code(self):
+    #    return "%s-%s%s%s" % (
+    #        self.kind, self.district.code, self.topic.code, self.num
+    #    )
+    code = models.CharField(max_length=64, unique=True)
+    print_code = models.CharField(max_length=50, null=True)
 
     #--- constraints ---#
     seats_tot = models.IntegerField(blank=True)
