@@ -1,295 +1,332 @@
 <!DOCTYPE html>
 <html lang="it">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>AGESCI Route Nazionale 2014</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>AGESCI Route Nazionale 2014</title>
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="/static/subscribe/html5shiv.js"></script>
-      <script src="/static/subscribe/respond.min.js"></script>
-    <![endif]-->
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="/static/subscribe/html5shiv.js"></script>
+          <script src="/static/subscribe/respond.min.js"></script>
+        <![endif]-->
 
-    <!-- Bootstrap css-->
-    <link rel="stylesheet" href="/static/subscribe/bootstrap.min.css">
+        <!-- Bootstrap css-->
+        <link rel="stylesheet" href="/static/subscribe/bootstrap.min.css">
 
-    <style>
+        <style>
 
-      body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #eee;
-      }
-
-      .form-signin {
-        max-width: 400px;
-        padding: 15px;
-        margin: 0 auto;
-      }
-      .form-signin .form-signin-heading,
-      .form-signin .checkbox {
-        margin-bottom: 10px;
-      }
-      .form-signin .checkbox {
-        font-weight: normal;
-      }
-      .form-signin .form-control {
-        position: relative;
-        font-size: 16px;
-        height: auto;
-        padding: 10px;
-        -webkit-box-sizing: border-box;
-         -moz-box-sizing: border-box;
-            box-sizing: border-box;
-      }
-      .form-signin .form-control:focus {
-        z-index: 2;
-      }
-      .form-signin input[type="text"] {
-        margin-bottom: 5px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-      .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-      }
-
-      /* Typeahead style */
-      .typeahead,
-      .tt-query,
-      .tt-hint {
-        width:370px;
-      }
-
-      .typeahead {
-        background-color: #fff;
-      }
-
-      .typeahead:focus {
-        border: 2px solid #0097cf;
-      }
-
-      .tt-query {
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-         -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-      }
-
-      .tt-hint {
-        color: #999
-      }
-
-      .tt-dropdown-menu {
-        width: 370px;
-        margin-top: 12px;
-        padding: 8px 0;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        -webkit-border-radius: 8px;
-         -moz-border-radius: 8px;
-            border-radius: 8px;
-        -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-         -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-            box-shadow: 0 5px 10px rgba(0,0,0,.2);
-      }
-
-      .tt-suggestion {
-        padding: 3px 20px;
-        font-size: 15px;
-        line-height: 24px;
-      }
-
-      .tt-suggestion.tt-cursor {
-        color: #fff;
-        background-color: #0097cf;
-
-      }
-
-      .tt-suggestion p {
-        margin: 0;
-      }
-
-      .gist {
-        font-size: 14px;
-      }
-    </style>
-
-  </head>
-  <body>
-
-  <div class="container">
-    <div style="text-align:center">
-      <img src="/static/subscribe/logoroute.png" style="width:200px;">
-      <h1>Iscrizione eventi</h1>
-    </div>
-    <div class="alert alert-danger" id="errormessage" style="display:none;text-align:center;">
-      Prima di procedere con le iscrizioni finali devi aver terminato il saldo delle quote di iscrizione
-    </div>
-    <form class="form-signin" role="form" method="post" action="">
-      {% csrf_token %}
-      <label>Gruppo scout</label>
-      <div id="remote">
-        <input class="typeahead form-control" id="gruppo" name="scout-unit" type="text" placeholder="Gruppo scout" value="" required>
-      </div>
-      <label>Codice socio</label>
-      <input type="text" id="cs" name="code" class="form-control" placeholder="Codice socio" value="" required>
-      <label>Data di nascita</label>
-      <div class="row">
-        <div class="col-xs-3">
-          <input type="text" id="gg" name="gg" class="form-control" placeholder="gg" value="" required>
-        </div>
-         <div class="col-xs-1">
-           <span style="font-size:20pt;line-height:40px;">/</span>
-         </div>
-        <div class="col-xs-3">
-          <input type="text" id="mm" name="mm" class="form-control" placeholder="mm" value="" required>
-        </div>
-         <div class="col-xs-1">
-           <span style="font-size:20pt;line-height:40px;">/</span>
-         </div>
-        <div class="col-xs-4">
-          <input type="text" id="aaaa" name="aaaa" class="form-control" placeholder="aaaa" value="" required>
-        </div>
-      </div>
-      <label>Ricopia il testo che leggi nell'immagine</label>
-      <div style="text-align:center;margin:10px auto;">
-        <!-- RECAPTCHA -->
-        <script type="text/javascript"
-           src="http://www.google.com/recaptcha/api/challenge?k={{ recaptcha_public_key }}">
-        </script>
-        <noscript>
-           <iframe src="http://www.google.com/recaptcha/api/noscript?k={{ recaptcha_public_key }}"
-               height="300" width="500" frameborder="0"></iframe><br>
-           <textarea name="recaptcha_challenge_field" rows="3" cols="40">
-           </textarea>
-           <input type="hidden" name="recaptcha_response_field"
-               value="manual_challenge">
-        </noscript>
-      </div>
-    </form>
-    <button id="send" class="btn btn-lg btn-primary btn-block" type="submit" style="max-width: 400px; margin: 0 auto;">Valida nell'archivio AGESCI</button>
-  </div>
-
-
-    <!-- jquery js -->
-    <script src="/static/subscribe/jquery-1.11.0.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="/static/subscribe/bootstrap.min.js"></script>
-    <!-- typeahead -->
-    <script src="/static/subscribe/typeahead.bundle.min.js"></script>
-
-
-    <script>
-      // birthday form logic
-      var counter = 0;
-      var prevgg = "";
-      var prevmm = "";
-      var prevaaaa = "";
-
-      window.sendForm = function sendFrom(){
-        var data = $('form').serialize();
-        $.ajax({
-          type: "POST",
-          url: '/validate-chief/',
-          data: data,
-          success: function(data){
-            if(data.status == 'ERROR') {
-              alert(data.message);
-              Recaptcha.reload();
+            body {
+                padding-top: 40px;
+                padding-bottom: 40px;
+                background-color: #eee;
             }
-            if(data.status == 'OK') {
-              window.location.href = '/scelta-laboratori/'
+
+            .form-signin {
+                max-width: 400px;
+                padding: 15px;
+                margin: 0 auto;
             }
-          },
-          error: function(data){
+            .form-signin .form-signin-heading,
+            .form-signin .checkbox {
+                margin-bottom: 10px;
+            }
+            .form-signin .checkbox {
+                font-weight: normal;
+            }
+            .form-signin .form-control {
+                position: relative;
+                font-size: 16px;
+                height: auto;
+                padding: 10px;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            .form-signin .form-control:focus {
+                z-index: 2;
+            }
+            .form-signin input[type="text"] {
+                margin-bottom: 5px;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+
+            /* Typeahead style */
+            .typeahead,
+            .tt-query,
+            .tt-hint {
+                width:370px;
+            }
+
+            .typeahead {
+                background-color: #fff;
+            }
+
+            .typeahead:focus {
+                border: 2px solid #0097cf;
+            }
+
+            .tt-query {
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+                -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            }
+
+            .tt-hint {
+                color: #999
+            }
+
+            .tt-dropdown-menu {
+                width: 370px;
+                margin-top: 12px;
+                padding: 8px 0;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                border-radius: 8px;
+                -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+                -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+                box-shadow: 0 5px 10px rgba(0,0,0,.2);
+            }
+
+            .tt-suggestion {
+                padding: 3px 20px;
+                font-size: 15px;
+                line-height: 24px;
+            }
+
+            .tt-suggestion.tt-cursor {
+                color: #fff;
+                background-color: #0097cf;
+
+            }
+
+            .tt-suggestion p {
+                margin: 0;
+            }
+
+            .gist {
+                font-size: 14px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div style="text-align:center">
+                        <img src="/static/subscribe/logoroute.png" alt="" style="width:200px;">
+                        <h1>Iscrizione eventi</h1>
+                    </div>
+                    <div class="alert alert-danger" id="errormessage" style="display:none;text-align:center;">
+                        Prima di procedere con le iscrizioni finali devi aver terminato il saldo delle quote di iscrizione
+                    </div>
+                    <form class="form-signin" role="form" method="post" action="">
+                        {% csrf_token %}
+                        <label>Gruppo scout</label>
+                        <div id="remote">
+                            <input class="typeahead form-control" id="gruppo" name="scout-unit" type="text" placeholder="Gruppo scout" value="" required>
+                        </div>
+                        <label>Codice socio</label>
+                        <input type="text" id="cs" name="code" class="form-control" placeholder="Codice socio" value="" required>
+                        <label>Data di nascita</label>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <input type="text" id="gg" name="gg" class="form-control" placeholder="gg" value="" required>
+                            </div>
+                            <div class="col-xs-1">
+                                <span style="font-size:20pt;line-height:40px;">/</span>
+                            </div>
+                            <div class="col-xs-3">
+                                <input type="text" id="mm" name="mm" class="form-control" placeholder="mm" value="" required>
+                            </div>
+                            <div class="col-xs-1">
+                                <span style="font-size:20pt;line-height:40px;">/</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <input type="text" id="aaaa" name="aaaa" class="form-control" placeholder="aaaa" value="" required>
+                            </div>
+                        </div>
+                        <label>Ricopia il testo che leggi nell'immagine</label>
+                        <div style="text-align:center;margin:10px auto;">
+                            <!-- RECAPTCHA -->
+                            <script type="text/javascript"
+                                    src="http://www.google.com/recaptcha/api/challenge?k={{ recaptcha_public_key }}">
+                            </script>
+                            <noscript>
+                            <iframe src="http://www.google.com/recaptcha/api/noscript?k={{ recaptcha_public_key }}"
+                                    height="300" width="500" frameborder="0"></iframe><br>
+                            <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+                            </textarea>
+                            <input type="hidden" name="recaptcha_response_field"
+                                   value="manual_challenge">
+                            </noscript>
+                        </div>
+                    </form>
+                    <button id="send" class="btn btn-lg btn-primary btn-block" type="submit" style="max-width: 400px; margin: 0 auto;">Valida nell'archivio AGESCI</button>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                    <h4 class="alert alert-info" style="text-align: center; margin: 0px 20px;">
+                        Guida step-by-step<br>per iscriversi agli eventi del campo fisso, laboratori e tavole rotonde.
+                    </h4>
+                    <ol class="list-group" style="list-style: decimal; margin: 0px 20px;">
+                        <li class="list-group-item">
+                            1. Accedere all’iscrizione tramite <a href="http://eventi.rn2014.it/iscrizione-laboratori/">http://eventi.rn2014.it/iscrizione-laboratori/</a>, inserire le informazioni richieste (in maiuscolo il nome del gruppo, digitando le iniziali si attiva il completamento automatico) ed accedere.
+                        </li>
+                        <li class="list-group-item list-group-item-danger">
+                            2. Una volta all’interno della pagina ed atteso che le informazioni sa   potraii   scaricare la  lista dei laboratori e delle tavole rotonde a cui sono stati assegnati i tuoi ragazzi, cliccando in alto a destra..
+                        </li>
+                        <li class="list-group-item">
+                            3. Troverai anche la lista di tutti i laboratori e le tavole rotonde del campo: la pagina è divisa in tre sezioni successive, una per ogni momento previsto per i laboratori: venerdì 8 mattina, venerdì 8 pomeriggio, sabato 9 mattina. Alla fine di ogni sezione troverai l’indicazione di pagina (1, 2, 3, ...) per scorrere tutti gli eventi proposti.
+                        </li>
+                        <li class="list-group-item">
+                            4. I 5 filtri proposti (il primo non è particolarmente interessante ai fini dell’iscrizione, ma è importante per trovare il laboratorio o la tavola rotonda al campo) ti permetteranno di selezionare gli eventi che ti interessano: i primi tre permettono tramite menù a tendina di scegliere il quartiere, la strada di coraggio e la tipologia di evento; gli ultimi due tramite una spunta mostrano o meno solo gli eventi per disabili e solo gli eventi per soli capi.
+                        </li>
+                        <li class="list-group-item">
+                            5. Hai la possibilità di ordinare l’elenco degli eventi scelti in base al codice di stampa, titolo, iscrizioni di capi e ragazzi, quartiere e strada di coraggio cliccando sulla doppia freccia a lato del titolo della colonna corrispondente.
+                        </li>
+                        <li class="list-group-item">
+                            6. Controlla che il laboratorio a cui sei interessato non sia già completo guardando la colonna “Iscrizioni capi”: x/y significa che ci sono già x persone iscritte su un totale di y posti. 
+                        </li>
+                        <li class="list-group-item">
+                            7. Clicca sul pulsante “Dettagli” sotto alla colonna “Dettagli”: si aprirà una finestra con le varie informazioni del laboratorio, in alto a sinistra troverai un pulsante verde “iscriviti”, che devi cliccare per iscriverti al laboratorio.
+                        </li>
+                        <li class="list-group-item">
+                            8. Tornando alla schermata iniziale controlla che il laboratorio da te scelto sia stato registrato in alto nel riquadro “Il tuo evento di Venerdì 8 mattina” e ripeti le operazioni dal punto 5 per venerdì pomeriggio e sabato mattina.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- jquery js -->
+        <script src="/static/subscribe/jquery-1.11.0.min.js"></script>
+        <!-- Bootstrap js -->
+        <script src="/static/subscribe/bootstrap.min.js"></script>
+        <!-- typeahead -->
+        <script src="/static/subscribe/typeahead.bundle.min.js"></script>
+
+
+        <script>
+// birthday form logic
+var counter = 0;
+var prevgg = "";
+var prevmm = "";
+var prevaaaa = "";
+
+window.sendForm = function sendFrom() {
+    var data = $('form').serialize();
+    $.ajax({
+        type: "POST",
+        url: '/validate-chief/',
+        data: data,
+        success: function(data) {
+            if (data.status == 'ERROR') {
+                alert(data.message);
+                Recaptcha.reload();
+            }
+            if (data.status == 'OK') {
+                window.location.href = '/scelta-laboratori/'
+            }
+        },
+        error: function(data) {
             alert('Si è verificato un errore. Prova a ricaricare la pagina. Se il problema persiste contatta {{ support_email }}');
-          },
-          dataType: 'json'
-        });
-      }
+        },
+        dataType: 'json'
+    });
+}
 
-      $(document).ready(function(){
+$(document).ready(function() {
 
-        // ENTER button send the form
-        $(document).keypress(function (e) {
-          if (e.which == 13) {
-            sendForm();            
-          }
-        });
+    // ENTER button send the form
+    $(document).keypress(function(e) {
+        if (e.which == 13) {
+            sendForm();
+        }
+    });
 
-        $('#gg').keypress(function(e) {
-          if($('#gg').val().length<=1){
+    $('#gg').keypress(function(e) {
+        if ($('#gg').val().length <= 1) {
             prevgg = $('#gg').val();
             counter++;
-            if(counter==2){
-              $('#mm').focus();
-              counter = 0;
+            if (counter == 2) {
+                $('#mm').focus();
+                counter = 0;
             }
-          }else{
+        } else {
             $('#gg').val(prevgg);
             $('#mm').focus();
             counter = 0;
-          }
-        });
+        }
+    });
 
-        $('#mm').keypress(function(e) {
-          if($('#mm').val().length<=1){
+    $('#mm').keypress(function(e) {
+        if ($('#mm').val().length <= 1) {
             prevmm = $('#mm').val();
             counter++;
-            if(counter==2){
-              $('#aaaa').focus();
-              counter = 0;
+            if (counter == 2) {
+                $('#aaaa').focus();
+                counter = 0;
             }
-          }else{
+        } else {
             $('#mm').val(prevmm);
             $('#aaaa').focus();
             counter = 0;
-          }
-        });
+        }
+    });
 
-        $('#aaaa').keypress(function(e) {
-          if($('#aaaa').val().length<=3){
+    $('#aaaa').keypress(function(e) {
+        if ($('#aaaa').val().length <= 3) {
             prevaaaa = $('#aaaa').val();
-          }else{
+        } else {
             $('#aaaa').val(prevaaaa);
-          }
-        });
+        }
+    });
 
-        // typeahead initialitation
-        $.get('/units', function(data){
-          // constructs the suggestion engine
-          var units = new Bloodhound({
+    // typeahead initialitation
+    $.get('/units', function(data) {
+        // constructs the suggestion engine
+        var units = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: $.map(data, function(state) { return { value: state }; })
-          });
+            local: $.map(data, function(state) {
+                return {value: state};
+            })
+        });
 
-          // kicks off the loading/processing of `local` and `prefetch`
-          units.initialize();
+        // kicks off the loading/processing of `local` and `prefetch`
+        units.initialize();
 
-          $('input[name="scout-unit"]').typeahead({
+        $('input[name="scout-unit"]').typeahead({
             hint: true,
             highlight: true,
             minLength: 1
-          },
-          {
+        },
+        {
             name: 'units',
             displayKey: 'value',
             source: units.ttAdapter()
-          });
-        },
-        'json');
+        });
+    },
+            'json');
 
-        // Send click trigger
-        $('#send').click(sendForm);
-      });
-    </script>
-  </body>
+    // Send click trigger
+    $('#send').click(sendForm);
+});
+        </script>
+    </body>
 </html>
