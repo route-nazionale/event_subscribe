@@ -36,14 +36,24 @@
             </h4>
             <p>
                 Filtri:
-                <input type="text" ng-keyup="reload()" style="width: 200px;" ng-model="districtFilters[timeslot.timeslot]" placeholder="Ricerca per quartiere">
-                <input type="text" ng-keyup="reload()" style="width: 240px;" ng-model="heartbeatFilters[timeslot.timeslot]" placeholder="Ricerca per strada di coraggio">
+<!--                <input type="text" ng-keyup="reload()" style="width: 200px;" ng-model="districtFilters[timeslot.timeslot]" placeholder="Ricerca per quartiere">
+                <input type="text" ng-keyup="reload()" style="width: 240px;" ng-model="heartbeatFilters[timeslot.timeslot]" placeholder="Ricerca per strada di coraggio">-->
+                Quartiere:
+                <select ng-change="reload()" ng-model="districtFilters[timeslot.timeslot]">
+                    <option value="">TUTTI</option>
+                    <option ng-repeat="district in districts" value="{{district}}">{{district}}</option>
+                </select>
+                Strada di coraggio:
+                <select ng-change="reload()" ng-model="heartbeatFilters[timeslot.timeslot]">
+                    <option value="">TUTTE</option>
+                    <option ng-repeat="heartbeat in heartbeats" value="{{heartbeat}}">{{heartbeat}}</option>
+                </select>
                 Tipologia:
                 <select ng-change="reload()" ng-model="kindFilters[timeslot.timeslot]">
                     <option value="">TUTTI</option>
                     <option value="TAV">TAVOLA ROTONDA</option>
                     <option value="LAB">LABORATORIO</option>
-                </select>
+                </select><br>
                 <label><input type="checkbox" ng-change="reload()" ng-model="handicapFilters[timeslot.timeslot]">Solo eventi per disabili</label>
                 <label><input type="checkbox" ng-change="reload()" ng-model="chiefonlyFilters[timeslot.timeslot]">Solo eventi per soli capi</label>
             </p>
@@ -52,7 +62,8 @@
             <table id="events" ng-hide="timeslot.event || getEventsForTimeslot(timeslot.timeslot).length === 0" ng-table="getTableParams(timeslot.timeslot)" class="table table-bordered" cellspacing="0" width="100%">
                 <tbody>
                     <tr class="event" ng-class="{lab: event.kind === 'LAB', tav: event.kind === 'TAV'}" ng-repeat="event in $data" data-eventid="{{event.num}}" x-lvl-draggable="true">
-                        <td data-title="'Nome'" sortable="'name'">{{event.name}}</td>
+                        <td data-title="'Codice Stampa'" sortable="'print_code'">{{event.print_code}}</td>
+                        <td data-title="'Titolo'" sortable="'name'">{{event.name}}</td>
                         <td data-title="'Iscrizioni capi'" sortable="'seats_n_chiefs'">{{event.seats_n_chiefs}}/{{event.max_chiefs_seats}}</td>
                         <td data-title="'Iscrizioni ragazzi'" sortable="'seats_n_boys'">{{event.seats_n_boys}}/{{event.max_boys_seats}}</td>
                         <td data-title="'Quartiere'" sortable="'district'" filter="{ 'district': 'text' }">{{event.district}}</td>

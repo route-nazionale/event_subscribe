@@ -27,6 +27,8 @@ EventSubscribeApp.controller('EventController', [
         $scope.slotEvents = {};
         $scope.timeslots = [];
         $scope.tableParamsSlots = {};
+        $scope.heartbeats = [];
+        $scope.districts = [];
 
         $scope.removeSlotEvent = function(slotId, slotEvent) {
             if (confirm('Vuoi davvero cancellare la tua iscrizione a ' + slotEvent.name + '?')) {
@@ -209,6 +211,12 @@ EventSubscribeApp.controller('EventController', [
                     $scope.handicapFilters[event.timeslot] = '';
                     $scope.chiefonlyFilters[event.timeslot] = '';
                     $scope.tableParamsSlots[event.timeslot] = $scope.createTableParams(event.timeslot);
+                }
+                if( $scope.districts.indexOf(event.district)<0 ){
+                    $scope.districts.push(event.district);
+                }
+                if( $scope.heartbeats.indexOf(event.heartbeat)<0 ){
+                    $scope.heartbeats.push(event.heartbeat);
                 }
             }
             
