@@ -293,6 +293,9 @@ $(document).ready(function() {
     });
 
     $('#aaaa').keypress(function(e) {
+        if (e.which === 13) {
+            return;
+        }
         if ($('#aaaa').val().length <= 3) {
             prevaaaa = $('#aaaa').val();
         } else {
