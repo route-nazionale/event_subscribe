@@ -144,19 +144,19 @@
                         <label>Data di nascita</label>
                         <div class="row">
                             <div class="col-xs-3">
-                                <input type="text" id="gg" name="gg" class="form-control" placeholder="gg" value="" required>
+                                <input type="text" id="gg" name="gg" class="form-control" placeholder="gg" maxlength="2" pattern="[0-9]+" value="" required>
                             </div>
                             <div class="col-xs-1">
                                 <span style="font-size:20pt;line-height:40px;">/</span>
                             </div>
                             <div class="col-xs-3">
-                                <input type="text" id="mm" name="mm" class="form-control" placeholder="mm" value="" required>
+                                <input type="text" id="mm" name="mm" class="form-control" placeholder="mm" maxlength="2" pattern="[0-9]+" value="" required>
                             </div>
                             <div class="col-xs-1">
                                 <span style="font-size:20pt;line-height:40px;">/</span>
                             </div>
                             <div class="col-xs-4">
-                                <input type="text" id="aaaa" name="aaaa" class="form-control" placeholder="aaaa" value="" required>
+                                <input type="text" id="aaaa" name="aaaa" class="form-control" placeholder="aaaa" maxlength="4" pattern="[0-9]+" value="" required>
                             </div>
                         </div>
                         <label>Ricopia il testo che leggi nell'immagine</label>
@@ -259,47 +259,6 @@ $(document).ready(function() {
     $(document).keypress(function(e) {
         if (e.which == 13) {
             sendForm();
-        }
-    });
-
-    $('#gg').keypress(function(e) {
-        if ($('#gg').val().length <= 1) {
-            prevgg = $('#gg').val();
-            counter++;
-            if (counter == 2) {
-                $('#mm').focus();
-                counter = 0;
-            }
-        } else {
-            $('#gg').val(prevgg);
-            $('#mm').focus();
-            counter = 0;
-        }
-    });
-
-    $('#mm').keypress(function(e) {
-        if ($('#mm').val().length <= 1) {
-            prevmm = $('#mm').val();
-            counter++;
-            if (counter == 2) {
-                $('#aaaa').focus();
-                counter = 0;
-            }
-        } else {
-            $('#mm').val(prevmm);
-            $('#aaaa').focus();
-            counter = 0;
-        }
-    });
-
-    $('#aaaa').keypress(function(e) {
-        if (e.which === 13) {
-            return;
-        }
-        if ($('#aaaa').val().length <= 3) {
-            prevaaaa = $('#aaaa').val();
-        } else {
-            $('#aaaa').val(prevaaaa);
         }
     });
 
