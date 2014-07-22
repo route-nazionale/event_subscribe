@@ -33,55 +33,55 @@
         <link rel="stylesheet" href="/static/subscribe/dataTables.bootstrap.css">
         <link rel="stylesheet" href="/static/subscribe/ng-table.min.css">
         <style  type="text/css">
-    
+
             .buttt {
-              position: relative;
-              bottom: 15px;
+                position: relative;
+                bottom: 15px;
             }
             .panel-heading {
-              padding-top: 1px;
-              padding-bottom: 1px;
+                padding-top: 1px;
+                padding-bottom: 1px;
             }
-          
+
             h5.ng-binding {
-              margin-top: 6px;
-              margin-bottom: 2px;
-              text-align: center;
+                margin-top: 6px;
+                margin-bottom: 2px;
+                text-align: center;
             }
 
             .alert {
-              margin-bottom: 10px; 
-              padding: 1px 15px;
+                margin-bottom: 10px; 
+                padding: 1px 15px;
             }
 
             .logout {
-              margin-right: 5px;
-              margin-top: 5px;
+                margin-right: 5px;
+                margin-top: 5px;
             }
-  
+
             .panel-info {
-              margin-bottom: 10px;
+                margin-bottom: 10px;
             }
 
             .panel-body {
-              padding: 0px;
+                padding: 0px;
             }
 
             .panel-body h5 {
-              text-align: center;
+                text-align: center;
             }
 
             .panel-body div {
-              margin-bottom: 0px;
+                margin-bottom: 0px;
             }
 
             .panel-body .btn-danger {
-              position: relative;
-              top: 6px;
+                position: relative;
+                top: 6px;
             }
 
             td {
-              padding: 4px 8px !important;
+                padding: 4px 8px !important;
             }
 
             .lvl-over {
@@ -153,26 +153,72 @@
                 -ms-flex-direction: row;
                 flex-direction: row;
             }
-            
+
             #event-details label {
                 min-width: 150px;
             }
         </style>
     </head>
     <body>
-        
+
         <div class="container">
             <div class="alert alert-info">Benvenuto <strong>{{chief.name}} {{chief.surname}}</strong> ({{chief.code}}) del gruppo <strong>{{ chief.group}}</strong>
-            
-             
+
+
             </div>
-        <div style="float:right; margin:0px 0px 10px 0px">
-                <a class="btn btn-warning logout" href="/rover-list">Dove sono iscritti i ragazzi 
-                    del mio clan?</a>
-                <a class="btn btn-info logout" href="/logout" >Esci</a>
-        </div>
+            <div style="float:right; margin:0px 0px 10px 0px">
+                <a href="#" class="btn btn-danger logout" data-toggle="modal" data-target="#guide">
+                    Guida alle iscrizioni
+                </a>
+                <a class="btn btn-warning logout" href="/rover-list">
+                    Dove sono iscritti i ragazzi del mio clan?
+                </a>
+                <a class="btn btn-info logout" href="/logout" 
+                   >Esci
+                </a>
+            </div>
         </div>
         <div class="container fillable" style="height: calc(100% - 152px);" ng-view></div>
+        <div class="modal fade" id="guide" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="min-width: 50%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title alert alert-info" style="text-align: center; margin: 0px 20px;">
+                            Guida step-by-step<br>per iscriversi agli eventi del campo fisso, laboratori e tavole rotonde.
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <ol class="list-group" style="list-style: decimal; margin: 0px 20px;">
+                            <li class="list-group-item">
+                                1. Accedere all’iscrizione tramite <a href="http://eventi.rn2014.it/iscrizione-laboratori/">http://eventi.rn2014.it/iscrizione-laboratori/</a>, inserire le informazioni richieste (in maiuscolo il nome del gruppo, digitando le iniziali si attiva il completamento automatico) ed accedere.
+                            </li>
+                            <li class="list-group-item list-group-item-danger">
+                                2. Una volta all’interno della pagina ed atteso che le informazioni sa   potraii   scaricare la  lista dei laboratori e delle tavole rotonde a cui sono stati assegnati i tuoi ragazzi, cliccando in alto a destra..
+                            </li>
+                            <li class="list-group-item">
+                                3. Troverai anche la lista di tutti i laboratori e le tavole rotonde del campo: la pagina è divisa in tre sezioni successive, una per ogni momento previsto per i laboratori: venerdì 8 mattina, venerdì 8 pomeriggio, sabato 9 mattina. Alla fine di ogni sezione troverai l’indicazione di pagina (1, 2, 3, ...) per scorrere tutti gli eventi proposti.
+                            </li>
+                            <li class="list-group-item">
+                                4. I 5 filtri proposti (il primo non è particolarmente interessante ai fini dell’iscrizione, ma è importante per trovare il laboratorio o la tavola rotonda al campo) ti permetteranno di selezionare gli eventi che ti interessano: i primi tre permettono tramite menù a tendina di scegliere il quartiere, la strada di coraggio e la tipologia di evento; gli ultimi due tramite una spunta mostrano o meno solo gli eventi per disabili e solo gli eventi per soli capi.
+                            </li>
+                            <li class="list-group-item">
+                                5. Hai la possibilità di ordinare l’elenco degli eventi scelti in base al codice di stampa, titolo, iscrizioni di capi e ragazzi, quartiere e strada di coraggio cliccando sulla doppia freccia a lato del titolo della colonna corrispondente.
+                            </li>
+                            <li class="list-group-item">
+                                6. Controlla che il laboratorio a cui sei interessato non sia già completo guardando la colonna “Iscrizioni capi”: x/y significa che ci sono già x persone iscritte su un totale di y posti. 
+                            </li>
+                            <li class="list-group-item">
+                                7. Clicca sul pulsante “Dettagli” sotto alla colonna “Dettagli”: si aprirà una finestra con le varie informazioni del laboratorio, in alto a sinistra troverai un pulsante verde “iscriviti”, che devi cliccare per iscriverti al laboratorio.
+                            </li>
+                            <li class="list-group-item">
+                                8. Tornando alla schermata iniziale controlla che il laboratorio da te scelto sia stato registrato in alto nel riquadro “Il tuo evento di Venerdì 8 mattina” e ripeti le operazioni dal punto 5 per venerdì pomeriggio e sabato mattina.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script type="text/javascript" src="/static/subscribe/jquery-1.11.0.min.js"></script>
         <!--[if lt IE 9]>
         <script type="text/javascript">
@@ -212,8 +258,8 @@
                 <script type="text/javascript" src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>-->
         <script type="text/javascript" src="/static/subscribe/angular-1.2.18/angular.min.js"></script>
         <script type="text/javascript" src="/static/subscribe/angular-1.2.18/angular-route.min.js"></script>
-<!--        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular.min.js"></script>
-        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular-route.min.js"></script>-->
+        <!--        <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular.min.js"></script>
+                <script type="text/javascript" src="/static/subscribe/angular-1.3.0-beta.10/angular-route.min.js"></script>-->
         <!--
         <script type="text/javascript" src="/static/subscribe/lvl-uuid.js"></script>
         <script type="text/javascript" src="/static/subscribe/lvl-drag-drop.js"></script>
@@ -221,13 +267,13 @@
         <script type="text/javascript" src="/static/subscribe/ng-table.min.js"></script>
         <script type="text/javascript" src="/static/subscribe/app.js"></script>
         <script type="text/javascript">
-                var CSRF_TOKEN = '{{ csrftoken }}' || $.cookie('csrftoken');
-                var CHIEF = {
-                    name: '{{chief.name}}',
-                    surname: '{{chief.surname}}',
-                    code: '{{chief.code}}',
-                    group: '{{ chief.group}}'
-                };
+                            var CSRF_TOKEN = '{{ csrftoken }}' || $.cookie('csrftoken');
+                            var CHIEF = {
+                                name: '{{chief.name}}',
+                                surname: '{{chief.surname}}',
+                                code: '{{chief.code}}',
+                                group: '{{ chief.group}}'
+                            };
         </script>
     </body>
 </html>
