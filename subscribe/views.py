@@ -165,8 +165,13 @@ def event_subscribe(request, happening_id):
                 eh = get_object_or_404(EventHappening, pk=happening_id)
                 # check scout_chief age
                 if eh.event.min_age > chief.age:
-                    rv = API_ERROR_RESPONSE(
+                    rv = API_ERROR_response(
                         u"Non puoi iscriverti a questo evento perchè devi avere almeno % anni" % eh.event.min_age
+                    )
+                # check district
+                if eh.event.district != chief.quartier and eh.event.kind == 'LAB':
+                    rv = API_ERROR_response(
+                        u"Non puoi iscriverti ad un evento diverso dal tuo quartiere"
                     )
                 else:
                     subscription = ScoutChiefSubscription(scout_chief=chief, event_happening=eh)
