@@ -34,6 +34,7 @@
         <link rel="stylesheet" href="/static/subscribe/ng-table.min.css">
         <style  type="text/css">
 
+
             .buttt {
                 position: relative;
                 bottom: 15px;
@@ -162,10 +163,18 @@
     <body>
 
         <div class="container">
-            <div class="alert alert-info">Benvenuto <strong>{{chief.name}} {{chief.surname}}</strong> ({{chief.code}}) del gruppo <strong>{{ chief.group}}. </strong>Sei stato assegnato al <strong>{{chief.quartier}}</strong>.
-
-
+            <div class="alert alert-info">Benvenuto <strong>{{chief.name}} {{chief.surname}}</strong> ({{chief.code}}) del gruppo <strong>{{ chief.group}}. </strong>Sei stato assegnato al <strong>{{chief.quartier}}</strong>. 
             </div>
+
+            {% if chief.is_spalla %}
+            <style>
+            #eventi {
+              display: none !important; */
+            }
+            </style>
+            <div class="alert alert-danger">Risulti iscritto come capo spalla, quindi puoi solo visualizzare gli eventi ai quali sei stato assegnato e scaricare la lista degli eventi a cui i ragazzi del tuo clan sono iscritti.</div>
+            {% endif %}
+
             <div style="float:right; margin:0px 0px 10px 0px">
                 <a href="#" class="btn btn-danger logout" data-toggle="modal" data-target="#guide">
                     Guida alle iscrizioni
@@ -270,13 +279,17 @@
         <script type="text/javascript" src="/static/subscribe/ng-table.min.js"></script>
         <script type="text/javascript" src="/static/subscribe/app.js"></script>
         <script type="text/javascript">
-                            var CSRF_TOKEN = '{{ csrftoken }}' || $.cookie('csrftoken');
-                            var CHIEF = {
-                                name: '{{chief.name}}',
-                                surname: '{{chief.surname}}',
-                                code: '{{chief.code}}',
-                                group: '{{ chief.group}}'
-                            };
+          var CSRF_TOKEN = '{{ csrftoken }}' || $.cookie('csrftoken');
+          var CHIEF = {
+              name: '{{chief.name}}',
+              surname: '{{chief.surname}}',
+              code: '{{chief.code}}',
+              group: '{{ chief.group}}',
+              is_spalla: '{{ chief.is_spalla }}'
+          };
+
+        
+
         </script>
     </body>
 </html>

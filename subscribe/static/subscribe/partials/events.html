@@ -29,7 +29,7 @@
     </div>
 </div>
 <div ng-if="loaded" class="row filler">
-    <div style="display: block; width: 100%;">
+    <div style="display: block; width: 100%;" id="eventi">
         <div ng-repeat="timeslot in timeslots" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h4>
                 Eventi disponibili {{timeslot.timeslot}}
@@ -161,7 +161,7 @@
         </div>
     </div>
 </div>
-<div ng-if="!loaded" class="row" style="margin-top: 30%;">
+<div id="loading" ng-if="!loaded" class="row" style="margin-top: 0%;">
     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-8 col-md-8 col-sm-8 col-xs-8">
         <h3>Il caricamento dei dati necessari può richiedere un po' di tempo.</h3>
         <h3 style="text-align: center;">Attendere prego...        </h3>

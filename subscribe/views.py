@@ -109,8 +109,8 @@ def validate(request):
             return API_ERROR_response(u"La data di nascita inserita non corrisponde con quella del codice socio")
 
         # check if chief is_spalla
-        if chief.is_spalla:
-            return API_ERROR_response(u"Risulti essere un capo spalla, verrai iscritto dalla Pattuglia Eventi. Per info %s" % settings.SUPPORT_EMAIL)
+        #if chief.is_spalla:
+        #    return API_ERROR_response(u"Risulti essere un capo spalla, verrai iscritto dalla Pattuglia Eventi. Per info %s" % settings.SUPPORT_EMAIL)
 
         # chief is valid
         request.session['valid'] = True
@@ -137,6 +137,7 @@ def choose(request):
         c['chief']['surname'] = chief.surname
         c['chief']['group'] = chief.scout_unit
         c['chief']['quartier'] = chief.quartier.name
+        c['chief']['is_spalla'] = chief.is_spalla
         return render_to_response('choose.html', c)
 
 # logout view
@@ -218,7 +219,8 @@ def myevents(request):
 
     chief_code = request.session['chief_code']
     scout_chief = get_object_or_404(ScoutChief, code=chief_code)
-    if scout_chief.is_spalla:
+    #if scout_chief.is_spalla:
+    if False:
         rv = API_ERROR_response(
             u"Sei un capo spalla, come sei arrivato fin qui? Prego contattare %s" % settings.SUPPORT_EMAIL
         )

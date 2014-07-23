@@ -211,6 +211,7 @@ EventSubscribeApp.controller('EventController', [
         };
 
         $http.get('/events/').success(function(data) {
+
             $scope.events = data;
 
             for (var e in $scope.events) {
