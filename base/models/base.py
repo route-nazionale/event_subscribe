@@ -30,7 +30,7 @@ class ScoutChief(models.Model):
     code = models.CharField(max_length=128, unique=True,
         verbose_name="codice censimento"
     )
-    scout_unit = models.ForeignKey(Unit)
+    scout_unit = models.CharField(max_length=512, db_column="scout_unit_id")
 
     name = models.CharField(max_length=32, verbose_name="nome")
     surname = models.CharField(max_length=32, verbose_name="cognome")
@@ -38,6 +38,8 @@ class ScoutChief(models.Model):
     is_spalla = models.BooleanField(default=False, verbose_name=u"è un capo spalla",
         help_text=u"questo capo verrà iscritto dalla 'pattuglia eventi' con criteri supersonici"
     )
+
+    quartier = models.ForeignKey("District", to_field="num", db_column="quartier")
 
     class Meta:
 
@@ -89,6 +91,7 @@ class District(models.Model):
 
     code = models.CharField(max_length=8, primary_key=True)
     name = models.CharField(max_length=128, unique=True)
+    num = models.IntegerField(unique=True)
 
     class Meta:
 

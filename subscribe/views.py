@@ -100,7 +100,8 @@ def validate(request):
         except ScoutChief.DoesNotExist:
             return API_ERROR_response(u"Il codice socio che hai inserito non esiste")
         # check if ScoutChief is in the correct Unit
-        if chief.scout_unit.name != scout_unit:
+        #if chief.scout_unit.name != scout_unit:
+        if chief.scout_unit != scout_unit:
             return API_ERROR_response(u"Il codice che hai fornito risulta censito in un altro gruppo")
 
         # check birthday
@@ -134,7 +135,8 @@ def choose(request):
         c['chief']['code'] = chief.code
         c['chief']['name'] = chief.name
         c['chief']['surname'] = chief.surname
-        c['chief']['group'] = chief.scout_unit.name
+        c['chief']['group'] = chief.scout_unit
+        c['chief']['quartier'] = chief.quartier.name
         return render_to_response('choose.html', c)
 
 # logout view
@@ -282,7 +284,7 @@ def get_rover_list(request):
         con['chief']['code'] = chief.code
         con['chief']['name'] = chief.name
         con['chief']['surname'] = chief.surname
-        con['chief']['group'] = chief.scout_unit.name
+        con['chief']['group'] = chief.scout_unit
         con['res'] = res
         
         context = Context(con)
@@ -296,7 +298,8 @@ def get_rover_list(request):
                                             encoding='UTF-8')
         if not pdf.err:
 
-            filename = 'Lista_Laboratori_Clan'+chief.scout_unit.name+'.pdf'
+            filename = 'Lista_Laboratori_Clan'+chief.scout_unit+'.pdf'
+            #filename = 'Lista_Laboratori_Clan.pdf'
 
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
