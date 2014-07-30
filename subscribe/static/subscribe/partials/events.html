@@ -73,7 +73,7 @@
                             <span data-toggle="modal" data-target="#event-details" ng-click="selectEvent(event);
                                   " class="btn btn-xs btn-default">Dettagli</span>
                             <span class="btn btn-xs btn-danger" ng-show="subscribedEvent(event) && !event.is_locked" ng-click="unsubscribe(event)">Cancellati</span>
-                            <span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event) && !event.is_locked" ng-click="subscribe(event)" style="display: none;">Iscriviti</span>
+                            <!--<span class="btn btn-xs btn-success" ng-show="!subscribedEvent(event) && !event.is_locked" ng-click="subscribe(event)" style="display: none;">Iscriviti</span>-->
                             <span class="label label-info" ng-show="event.state_handicap === 'ENABLED'" title="Evento accessibile anche per disabili">D</span>
                             <span class="label label-info" ng-show="event.min_age > 1" title="Età minima">{{event.min_age}}+</span>
                             <span class="label label-info" ng-show="event.state_chief === 'RESERVED'" title="Evento per soli capi">C</span>
@@ -96,7 +96,7 @@
             </div>
             <div class="modal-header">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <button class="btn btn-success btn-block buttt" data-dismiss="modal" ng-show="!subscribedEvent(selectedEvent)" ng-click="subscribe(selectedEvent)">Iscriviti</button>
+                    <!--<button class="btn btn-success btn-block buttt" data-dismiss="modal" ng-show="!subscribedEvent(selectedEvent)" ng-click="subscribe(selectedEvent)">Iscriviti</button>-->
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 buttt">
                     <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Chiudi</button>
